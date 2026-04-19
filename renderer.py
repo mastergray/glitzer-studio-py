@@ -1,7 +1,7 @@
 """Scene renderer — orchestrates dazzle, glitch-maker, and ffmpeg per scene.
 
 Each scene produces a temp video segment. After all scenes render, segments
-are concatenated with the original audio into the final MP4.
+are concatenated with the original audio. Global post is applied last.
 """
 from __future__ import annotations
 import os
@@ -10,150 +10,213 @@ import time
 from pathlib import Path
 
 
-def _run(cmd: list[str], label: str, **kwargs):
-    """Run a subprocess, printing the command on failure."""
-    result = subprocess.run(cmd, capture_output=True, text=True, **kwargs)
+def _run(cmd: list[str], label: str):
+    result = subprocess.run(cmd, capture_output=True, text=True)
     if result.returncode != 0:
-        print(f'[{label}] FAILED: {" ".join(cmd[:6])}...')
+        print(f'[{label}] FAILED: {" ".join(cmd[:8])}...')
         if result.stderr:
             print(result.stderr[:500])
         raise SystemExit(f'{label} failed with exit code {result.returncode}')
-    return result
 
 
-def render_scene(scene: dict, timeline: dict, filter_registry: dict,
-                 scene_audio: str) -> str:
-    """Render a single scene → temp MP4 path.
+def _render_dazzle(visuals: dict, scene_audio: str, out_path: str,
+                   settings: dict, tools: dict):
+    """Invoke dazzle-video-maker to generate visuals."""
+    cmd = [
+        'python3', os.path.join(tools['dazzle'], 'render.py'),
+        scene_audio, out_path,
+        '--mode', 'fixed',
+        '--effects', *visuals['effects'],
+        '--scale', str(settings.get('scale', 6)),
+        '--fps', str(settings.get('fps', 60)),
+        '--crf', str(settings.get('crf', 23)),
+        '--ffmpeg', tools['ffmpeg'],
+        '--ffprobe', tools['ffprobe'],
+        '--no-profile',
+    ]
 
-    Pipeline: source → [glitch-maker] → [ffmpeg filters] → temp segment.
-    """
-    tools = timeline['tools']
-    temp_dir = timeline.get('temp_dir', '/tmp/glitzle')
-    os.makedirs(temp_dir, exist_ok=True)
+    palette = visuals.get('palette')
+    if palette:
+        cmd.extend(['--palette', palette])
 
-    sid = scene['id']
-    start = scene['start_sec']
-    end = scene['end_sec']
-    duration = end - start
-    palette = scene.get('palette', timeline.get('palette', 'rainbow'))
+    seed = settings.get('seed')
+    if seed is not None:
+        cmd.extend(['--seed', str(seed)])
 
-    # --- Phase 1: Generate source ---
-    src = scene['source']
-    stype = src['type']
-    source_path = os.path.join(temp_dir, f'scene_{sid}_source.mp4')
+    # Dazzle post effects.
+    post_entries = visuals.get('post', [])
+    if post_entries:
+        post_names = []
+        for entry in post_entries:
+            if isinstance(entry, str):
+                post_names.append(entry)
+            else:
+                post_names.append(entry['id'])
+        cmd.extend(['--post', *post_names])
 
-    ffmpeg_bin = tools.get('ffmpeg', 'ffmpeg')
-    ffprobe_bin = tools.get('ffprobe', 'ffprobe')
+        # Post effect params: --{effect_id}-{prop} value
+        for entry in post_entries:
+            if isinstance(entry, dict) and entry.get('props'):
+                eid = entry['id']
+                for prop, val in entry['props'].items():
+                    cmd.extend([f'--{eid}-{prop}', str(val)])
 
-    if stype == 'dazzle':
-        dazzle_dir = tools['dazzle']
-        cmd = [
-            'python3', os.path.join(dazzle_dir, 'render.py'),
-            scene_audio, source_path,
-            '--mode', 'fixed',
-            '--effects', *src['effects'],
-            '--palette', palette,
-            '--scale', str(timeline.get('scale', 6)),
-            '--fps', str(timeline.get('fps', 60)),
-            '--crf', str(timeline.get('crf', 23)),
-            '--ffmpeg', ffmpeg_bin,
-            '--ffprobe', ffprobe_bin,
-            '--no-profile',
-        ]
-        if src.get('post'):
-            cmd.extend(['--post', *src['post']])
-        # Pass post params if specified
-        for key, val in src.get('post_params', {}).items():
-            cmd.extend([f'--{key}', str(val)])
+    return cmd
 
-        print(f'  [scene {sid}] dazzle: {src["effects"]}', end='')
-        if src.get('post'):
-            print(f' post={src["post"]}', end='')
-        print(f' palette={palette}')
-        _run(cmd, f'scene {sid} dazzle')
 
-    elif stype == 'video':
-        # Trim the source video to the scene duration.
-        video_path = src['path']
-        video_start = src.get('start_sec', start)
-        cmd = [
-            ffmpeg_bin, '-y', '-v', 'error',
-            '-ss', str(video_start), '-t', str(duration),
-            '-i', video_path, '-c', 'copy', source_path,
-        ]
-        print(f'  [scene {sid}] video: {video_path} [{video_start:.1f}s +{duration:.1f}s]')
-        _run(cmd, f'scene {sid} video trim')
+def _render_glitch(entry: dict, input_path: str, out_path: str,
+                   audio_path: str, tools: dict):
+    """Invoke glitch-maker for a single glitch effect."""
+    cmd = [
+        'python3', os.path.join(tools['glitch_maker'], 'render.py'),
+        input_path, out_path,
+        '--audio', audio_path,
+        '--effects', entry['id'],
+        '--ffmpeg', tools['ffmpeg'],
+        '--ffprobe', tools['ffprobe'],
+        '--no-profile',
+    ]
 
-    # --- Phase 2: Glitch-maker post-processing ---
-    post = scene.get('post')
-    if post:
-        gm_dir = tools['glitch_maker']
-        post_path = os.path.join(temp_dir, f'scene_{sid}_post.mp4')
+    # Effect props.
+    for prop, val in entry.get('props', {}).items():
+        # Map prop names to glitch-maker CLI flags.
+        # Convention: effect-specific flags are --{prefix}-{prop}
+        # but some are direct (e.g., --effects tear --tear-count-pct 10)
+        flag = f'--{_effect_flag_prefix(entry["id"])}-{prop.replace("_", "-")}'
+        cmd.extend([flag, str(val)])
 
-        cmd = [
-            'python3', os.path.join(gm_dir, 'render.py'),
-            source_path, post_path,
-            '--audio', scene_audio,
-            '--ffmpeg', ffmpeg_bin,
-            '--ffprobe', ffprobe_bin,
-            '--no-profile',
-        ]
+    # Accumulate settings.
+    acc = entry.get('accumulate', {})
+    if acc.get('enabled'):
+        cmd.append('--accumulate')
+        if 'bleed' in acc:
+            cmd.extend(['--accumulate-bleed', str(acc['bleed'])])
+        if 'reset_sec' in acc:
+            cmd.extend(['--accumulate-reset-sec', str(acc['reset_sec'])])
 
-        if post.get('recipe'):
-            cmd.extend(['--config', os.path.join(gm_dir, 'recipes', post['recipe'] + '.json')])
-        elif post.get('effects'):
-            effect_names = [e['name'] if isinstance(e, dict) else e for e in post['effects']]
-            cmd.extend(['--effects', *effect_names])
+    return cmd
 
-        if post.get('accumulate'):
-            cmd.append('--accumulate')
-            if 'bleed' in post:
-                cmd.extend(['--accumulate-bleed', str(post['bleed'])])
-            if 'reset_sec' in post:
-                cmd.extend(['--accumulate-reset-sec', str(post['reset_sec'])])
 
-        print(f'  [scene {sid}] glitch-maker: {post.get("recipe") or "custom"}')
-        _run(cmd, f'scene {sid} glitch-maker')
-        source_path = post_path
+def _effect_flag_prefix(effect_id: str) -> str:
+    """Map glitch-maker effect names to their CLI flag prefixes."""
+    prefixes = {
+        'tear': 'tear',
+        'pixel_sort': 'psort',
+        'pixel_scramble': 'pscramble',
+        'jpeg_corrupt': 'jpeg',
+        'chromatic': 'chroma',
+        'databend': 'databend',
+        'channel_swap': 'cswap',
+        'bit_crush': 'bcrush',
+        'invert_blocks': 'invert',
+        'slitscan': 'slitscan',
+        'warp': 'warp',
+        'noise': 'noise',
+        'clip_cut': 'clip-cut',
+    }
+    return prefixes.get(effect_id, effect_id)
 
-    # --- Phase 3: FFmpeg filters ---
-    filt = scene.get('filters')
-    if filt:
-        # Resolve recipe slug → filter chain
-        if filt in filter_registry:
-            filter_chain = filter_registry[filt]['filter_chain']
-        else:
-            filter_chain = filt  # raw ffmpeg filter string
 
-        filter_path = os.path.join(temp_dir, f'scene_{sid}_filtered.mp4')
-        cmd = [
-            ffmpeg_bin, '-y', '-v', 'error',
-            '-i', source_path,
-            '-vf', filter_chain,
-            '-c:a', 'copy',
-            filter_path,
-        ]
-        print(f'  [scene {sid}] ffmpeg filter: {filt}')
-        _run(cmd, f'scene {sid} ffmpeg filter')
-        source_path = filter_path
-
-    return source_path
+def _render_filter(filter_id: str, filter_chain: str, input_path: str,
+                   out_path: str, tools: dict):
+    """Apply an ffmpeg filter chain."""
+    cmd = [
+        tools['ffmpeg'], '-y', '-v', 'error',
+        '-i', input_path,
+        '-vf', filter_chain,
+        '-c:a', 'copy',
+        out_path,
+    ]
+    return cmd
 
 
 def trim_audio(ffmpeg: str, audio_path: str, start: float, duration: float,
                out_path: str):
-    """Extract a segment of audio for a scene."""
     cmd = [ffmpeg, '-y', '-v', 'error',
            '-ss', str(start), '-t', str(duration),
-           '-i', audio_path,
-           '-c', 'copy', out_path]
+           '-i', audio_path, '-c', 'copy', out_path]
     _run(cmd, 'audio trim')
+
+
+def render_scene(scene: dict, timeline: dict, filter_library: dict,
+                 tools: dict, temp_dir: str) -> str:
+    """Render a single scene → temp MP4 path."""
+    sid = scene['id']
+    settings = timeline.get('settings', {})
+    audio = timeline['audio']
+    start = scene['start_sec']
+    end = scene['end_sec']
+    duration = end - start
+
+    # Trim audio for this scene.
+    scene_audio = os.path.join(temp_dir, f'scene_{sid}_audio.wav')
+    trim_audio(tools['ffmpeg'], audio, start, duration, scene_audio)
+
+    video = scene['video']
+    current_path = os.path.join(temp_dir, f'scene_{sid}_source.mp4')
+
+    # Phase 1: Dazzle visuals.
+    visuals = video['visuals']
+    cmd = _render_dazzle(visuals, scene_audio, current_path, settings, tools)
+    effects_str = ', '.join(visuals['effects'])
+    post_str = ''
+    if visuals.get('post'):
+        names = [e if isinstance(e, str) else e['id'] for e in visuals['post']]
+        post_str = f' post={names}'
+    pal_str = f' palette={visuals.get("palette", "rainbow")}'
+    print(f'  [scene {sid}] dazzle: [{effects_str}]{post_str}{pal_str}')
+    _run(cmd, f'scene {sid} dazzle')
+
+    # Phase 2: Post-processing chain (glitch + filter in order).
+    step = 0
+    for entry in video.get('post', []):
+        step += 1
+        next_path = os.path.join(temp_dir, f'scene_{sid}_post_{step}.mp4')
+
+        if entry['type'] == 'glitch':
+            cmd = _render_glitch(entry, current_path, next_path, scene_audio, tools)
+            acc_str = ' +accumulate' if entry.get('accumulate', {}).get('enabled') else ''
+            print(f'  [scene {sid}] glitch: {entry["id"]}{acc_str}')
+            _run(cmd, f'scene {sid} glitch:{entry["id"]}')
+            current_path = next_path
+
+        elif entry['type'] == 'filter':
+            chain = filter_library[entry['id']]['filter_chain']
+            cmd = _render_filter(entry['id'], chain, current_path, next_path, tools)
+            print(f'  [scene {sid}] filter: {entry["id"]}')
+            _run(cmd, f'scene {sid} filter:{entry["id"]}')
+            current_path = next_path
+
+    return current_path
+
+
+def apply_post_chain(post_chain: list, input_path: str, audio_path: str,
+                     filter_library: dict, tools: dict, temp_dir: str) -> str:
+    """Apply the global post-processing chain to the concatenated video."""
+    current_path = input_path
+    for i, entry in enumerate(post_chain):
+        next_path = os.path.join(temp_dir, f'global_post_{i}.mp4')
+
+        if entry['type'] == 'glitch':
+            cmd = _render_glitch(entry, current_path, next_path, audio_path, tools)
+            acc_str = ' +accumulate' if entry.get('accumulate', {}).get('enabled') else ''
+            print(f'  [global] glitch: {entry["id"]}{acc_str}')
+            _run(cmd, f'global glitch:{entry["id"]}')
+            current_path = next_path
+
+        elif entry['type'] == 'filter':
+            chain = filter_library[entry['id']]['filter_chain']
+            cmd = _render_filter(entry['id'], chain, current_path, next_path, tools)
+            print(f'  [global] filter: {entry["id"]}')
+            _run(cmd, f'global filter:{entry["id"]}')
+            current_path = next_path
+
+    return current_path
 
 
 def concatenate(ffmpeg: str, segments: list[str], audio_path: str,
                 out_path: str, crf: int = 23):
     """Concatenate scene segments + mux with full audio → final MP4."""
-    # Write concat list file
     concat_file = os.path.join(os.path.dirname(segments[0]), 'concat.txt')
     with open(concat_file, 'w') as f:
         for seg in segments:

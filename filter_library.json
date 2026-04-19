@@ -1,0 +1,1102 @@
+{
+  "classic_afterimage_retinal_burn": {
+    "name": "1. Classic Afterimage / Retinal Burn",
+    "filter_chain": "split[live][ghost];[ghost]negate,lagfun=decay=0.97[afterimage];[live][afterimage]blend=all_mode=screen:all_opacity=0.35,eq=contrast=1.2:saturation=1.1",
+    "source_file": "ffmpeg-afterimage-experimental.md"
+  },
+  "motion_trail_comet_tail": {
+    "name": "2. Motion Trail / Comet Tail",
+    "filter_chain": "lagfun=decay=0.96:planes=15,eq=contrast=1.3:saturation=1.4",
+    "source_file": "ffmpeg-afterimage-experimental.md"
+  },
+  "stroboscopic_echo_multi_exposure": {
+    "name": "3. Stroboscopic Echo / Multi-Exposure",
+    "filter_chain": "tmix=frames=8:weights=",
+    "source_file": "ffmpeg-afterimage-experimental.md"
+  },
+  "phosphor_persistence_crt_memory": {
+    "name": "4. Phosphor Persistence (CRT Memory)",
+    "filter_chain": "format=gray,lagfun=decay=0.92,lutrgb=r=",
+    "source_file": "ffmpeg-afterimage-experimental.md"
+  },
+  "shadow_echo_dark_afterimage": {
+    "name": "5. Shadow Echo / Dark Afterimage",
+    "filter_chain": "split[live][shadow];[shadow]lagfun=decay=0.96,eq=brightness=-0.4:contrast=1.5:saturation=0[dark];[live][dark]blend=all_mode=multiply:all_opacity=0.5,eq=contrast=1.1",
+    "source_file": "ffmpeg-afterimage-experimental.md"
+  },
+  "spectral_decomposition_chromatic_echo": {
+    "name": "6. Spectral Decomposition / Chromatic Echo",
+    "filter_chain": "split=3[r][g][b];[r]lagfun=decay=0.98,extractplanes=r[rp];[g]lagfun=decay=0.95,extractplanes=g[gp];[b]lagfun=decay=0.91,extractplanes=b[bp];[rp][gp][bp]mergeplanes=0x001020:yuv444p,format=yuv420p,eq=contrast=1.3:saturation=1.5",
+    "source_file": "ffmpeg-afterimage-experimental.md"
+  },
+  "video_feedback_larsen_effect": {
+    "name": "7. Video Feedback / Larsen Effect",
+    "filter_chain": "split[a][b];[b]scale=iw*1.03:ih*1.03,crop=iw/1.03:ih/1.03,hue=h=3,eq=brightness=0.02[feedback];[a][feedback]blend=all_mode=screen:all_opacity=0.5,lagfun=decay=0.97",
+    "source_file": "ffmpeg-afterimage-experimental.md"
+  },
+  "infinity_mirror_tunnel_recursion": {
+    "name": "8. Infinity Mirror / Tunnel Recursion",
+    "filter_chain": "split=4[a][b][c][d];[b]scale=iw*0.6:ih*0.6[s1];[c]scale=iw*0.36:ih*0.36[s2];[d]scale=iw*0.216:ih*0.216[s3];[a][s1]overlay=(W-w)/2:(H-h)/2[l1];[l1][s2]overlay=(W-w)/2:(H-h)/2[l2];[l2][s3]overlay=(W-w)/2:(H-h)/2,eq=contrast=1.2:saturation=1.1",
+    "source_file": "ffmpeg-afterimage-experimental.md"
+  },
+  "fractal_zoom_feedback": {
+    "name": "9. Fractal Zoom Feedback",
+    "filter_chain": "split[a][b];[b]scale=iw*1.08:ih*1.08,crop=iw/1.08:ih/1.08,rotate=",
+    "source_file": "ffmpeg-afterimage-experimental.md"
+  },
+  "audio_reactive_displacement": {
+    "name": "10. Audio-Reactive Displacement",
+    "filter_chain": "[0:a]showwaves=s=1920x1080:mode=cline:rate=30:colors=white[waves];[waves]format=gray[xmap];[waves]format=gray,negate[ymap];[0:v][xmap][ymap]displace,eq=contrast=1.2:saturation=1.3",
+    "source_file": "ffmpeg-afterimage-experimental.md"
+  },
+  "depth_fog_z_buffer_simulation": {
+    "name": "11. Depth Fog / Z-Buffer Simulation",
+    "filter_chain": "split[a][b];[b]gblur=sigma=8,colorbalance=rs=0.05:gs=0.05:bs=0.15,eq=brightness=0.15:saturation=0.5[fog];[a]format=gray[depth];[a][fog]blend=all_expr=",
+    "source_file": "ffmpeg-afterimage-experimental.md"
+  },
+  "datamosh_true_i_frame_removal": {
+    "name": "12. Datamosh (True I-Frame Removal)",
+    "filter_chain": "select=",
+    "source_file": "ffmpeg-afterimage-experimental.md"
+  },
+  "bullet_time_matrix_effect": {
+    "name": "13. Bullet Time / Matrix Effect",
+    "filter_chain": "select=",
+    "source_file": "ffmpeg-afterimage-experimental.md"
+  },
+  "thermal_bloom_heat_signature_persistence": {
+    "name": "14. Thermal Bloom / Heat Signature Persistence",
+    "filter_chain": "format=gray,lagfun=decay=0.97,pseudocolor=preset=inferno,split[a][b];[b]gblur=sigma=5,eq=brightness=0.08[bloom];[a][bloom]blend=all_mode=screen:all_opacity=0.3,eq=contrast=1.3:saturation=1.4",
+    "source_file": "ffmpeg-afterimage-experimental.md"
+  },
+  "dimensional_bleed_cross_channel_leakage": {
+    "name": "15. Dimensional Bleed / Cross-Channel Leakage",
+    "filter_chain": "split[orig][color];[color]lutrgb=r=",
+    "source_file": "ffmpeg-afterimage-experimental.md"
+  },
+  "echo_chamber_reverb_visualization": {
+    "name": "16. Echo Chamber / Reverb Visualization",
+    "filter_chain": "split=4[a][b][c][d];[b]scale=iw*0.8:ih*0.8,hflip,format=rgba,colorchannelmixer=aa=0.3[echo1];[c]scale=iw*0.6:ih*0.6,vflip,format=rgba,colorchannelmixer=aa=0.2[echo2];[d]scale=iw*0.4:ih*0.4,hflip,vflip,format=rgba,colorchannelmixer=aa=0.15[echo3];[a]format=rgba[base];[base][echo1]overlay=(W-w)/2:(H-h)/2[l1];[l1][echo2]overlay=(W-w)/2:(H-h)/2[l2];[l2][echo3]overlay=(W-w)/2:(H-h)/2,format=yuv420p,lagfun=decay=0.92,eq=contrast=1.2:saturation=1.1",
+    "source_file": "ffmpeg-afterimage-experimental.md"
+  },
+  "glitch_art_printing_risograph_effect": {
+    "name": "17. Glitch Art Printing / Risograph Effect",
+    "filter_chain": "split=3[r][g][b];[r]extractplanes=r,lutrgb=r=",
+    "source_file": "ffmpeg-afterimage-experimental.md"
+  },
+  "light_leak_lens_flare": {
+    "name": "18. Light Leak / Lens Flare",
+    "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum=",
+    "source_file": "ffmpeg-afterimage-experimental.md"
+  },
+  "negative_space_inversion": {
+    "name": "19. Negative Space Inversion",
+    "filter_chain": "split[a][b];[b]tblend=all_mode=difference,format=gray,gblur=sigma=5,lutrgb=r=",
+    "source_file": "ffmpeg-afterimage-experimental.md"
+  },
+  "dreamscape_ethereal_composite": {
+    "name": "20. Dreamscape / Ethereal Composite",
+    "filter_chain": "split=3[sharp][soft][trail];[soft]gblur=sigma=6[blurred];[trail]lagfun=decay=0.93,eq=brightness=0.05:saturation=0.6[ghost];[sharp][blurred]blend=all_mode=screen:all_opacity=0.25[bloomed];[bloomed][ghost]blend=all_mode=screen:all_opacity=0.2,eq=saturation=0.7:contrast=0.9:brightness=0.04,colorbalance=hs=0.05:ms=0.03:bs=0.08:hh=-0.03:mh=0.02:bh=0.05,vignette=angle=0.4,noise=alls=5:allf=u",
+    "source_file": "ffmpeg-afterimage-experimental.md"
+  },
+  "film_decay_vinegar_syndrome": {
+    "name": "1. Film Decay / Vinegar Syndrome",
+    "filter_chain": "curves=vintage,eq=saturation=0.5:contrast=0.9:brightness=-0.05,noise=alls=30:allf=t+u,hue=h=",
+    "source_file": "ffmpeg-decay-effects.md"
+  },
+  "rust_corrosion_overlay": {
+    "name": "2. Rust / Corrosion Overlay",
+    "filter_chain": "colorbalance=rs=0.4:gs=-0.1:bs=-0.3:rm=0.3:gm=-0.05:bm=-0.2,curves=r=",
+    "source_file": "ffmpeg-decay-effects.md"
+  },
+  "melting_dripping": {
+    "name": "3. Melting / Dripping",
+    "filter_chain": "lagfun=decay=0.985:planes=15,scroll=v=",
+    "source_file": "ffmpeg-decay-effects.md"
+  },
+  "disintegration_particle_breakup": {
+    "name": "4. Disintegration / Particle Breakup",
+    "filter_chain": "split[orig][noise_src];[noise_src]geq=random(1)*255:128:128[noisy];[orig][noisy]blend=all_expr=",
+    "source_file": "ffmpeg-decay-effects.md"
+  },
+  "chemical_burn_bleach_bypass": {
+    "name": "5. Chemical Burn / Bleach Bypass",
+    "filter_chain": "curves=all=",
+    "source_file": "ffmpeg-decay-effects.md"
+  },
+  "vhs_tape_degradation": {
+    "name": "6. VHS Tape Degradation",
+    "filter_chain": "rgbashift=rh=4:bh=-4:rv=1:bv=-1,noise=alls=35:allf=t+u,drawgrid=w=0:h=2:t=1:c=black@0.3,eq=saturation=0.6:contrast=0.9,hue=h=",
+    "source_file": "ffmpeg-decay-effects.md"
+  },
+  "acid_burn_color_erosion": {
+    "name": "7. Acid Burn / Color Erosion",
+    "filter_chain": "split[a][b];[b]negate,hue=h=90:s=3,eq=brightness=0.2[acid];[a][acid]blend=all_expr=",
+    "source_file": "ffmpeg-decay-effects.md"
+  },
+  "erosion_weathering": {
+    "name": "8. Erosion / Weathering",
+    "filter_chain": "split[orig][erode];[erode]edgedetect=low=0.1:high=0.4:mode=wires,negate[edges];[orig][edges]blend=all_mode=multiply:all_opacity=0.7,noise=alls=20:allf=u,eq=saturation=0.6:contrast=1.2,gblur=sigma=0.5",
+    "source_file": "ffmpeg-decay-effects.md"
+  },
+  "thermal_meltdown_heat_distortion": {
+    "name": "9. Thermal Meltdown / Heat Distortion",
+    "filter_chain": "nullsrc=s=1920x1080:d=30,lutrgb=r=",
+    "source_file": "ffmpeg-decay-effects.md"
+  },
+  "fog_fade_to_nothing": {
+    "name": "10. Fog / Fade to Nothing",
+    "filter_chain": "split[orig][fog];[fog]gblur=sigma=",
+    "source_file": "ffmpeg-decay-effects.md"
+  },
+  "glitch_decay_combo": {
+    "name": "11. Glitch Decay Combo",
+    "filter_chain": "rgbashift=rh=",
+    "source_file": "ffmpeg-decay-effects.md"
+  },
+  "paper_burn_vignette_consume": {
+    "name": "12. Paper Burn / Vignette Consume",
+    "filter_chain": "split[orig][burn];[burn]colorbalance=rs=0.5:gs=0.1:bs=-0.3,eq=brightness=-0.4:contrast=1.5:saturation=0.3,noise=alls=30:allf=u[burned];[orig][burned]blend=all_expr=",
+    "source_file": "ffmpeg-decay-effects.md"
+  },
+  "mandelbrot_stylized_color_palettes": {
+    "name": "2. Mandelbrot \u2014 Stylized Color Palettes",
+    "filter_chain": "pseudocolor=preset=inferno",
+    "source_file": "ffmpeg-fractals-generative.md"
+  },
+  "mandelbrot_composited_over_video": {
+    "name": "3. Mandelbrot \u2014 Composited Over Video",
+    "filter_chain": "[0:v]pseudocolor=preset=magma[fractal];[1:v][fractal]blend=all_mode=screen:all_opacity=0.5",
+    "source_file": "ffmpeg-fractals-generative.md"
+  },
+  "mandelbrot_as_displacement_source": {
+    "name": "4. Mandelbrot \u2014 As Displacement Source",
+    "filter_chain": "[0:v]format=gray,lutrgb=r=",
+    "source_file": "ffmpeg-fractals-generative.md"
+  },
+  "cellular_automaton_stylized_composited": {
+    "name": "6. Cellular Automaton \u2014 Stylized & Composited",
+    "filter_chain": "pseudocolor=preset=plasma,gblur=sigma=1,eq=contrast=1.5:saturation=2.0",
+    "source_file": "ffmpeg-fractals-generative.md"
+  },
+  "mathematical_fractals_with_geq": {
+    "name": "7. Mathematical Fractals with GEQ",
+    "filter_chain": "geq=lum=",
+    "source_file": "ffmpeg-fractals-generative.md"
+  },
+  "geq_fractals_composited_over_video": {
+    "name": "8. GEQ Fractals \u2014 Composited Over Video",
+    "filter_chain": "[0:v]geq=lum=",
+    "source_file": "ffmpeg-fractals-generative.md"
+  },
+  "reaction_diffusion_simulation": {
+    "name": "9. Reaction-Diffusion Simulation",
+    "filter_chain": "split[a][b];[b]edgedetect=low=0.05:high=0.2:mode=colormix,gblur=sigma=3,hue=s=3[edges];[a][edges]blend=all_mode=addition:all_opacity=0.5,amplify=radius=3:factor=6:threshold=4,lagfun=decay=0.985,gblur=sigma=0.5,eq=contrast=1.4:saturation=2.0",
+    "source_file": "ffmpeg-fractals-generative.md"
+  },
+  "lissajous_harmonograph_patterns": {
+    "name": "10. Lissajous / Harmonograph Patterns",
+    "filter_chain": "geq=lum=",
+    "source_file": "ffmpeg-fractals-generative.md"
+  },
+  "fractal_noise_perlin_like_texture": {
+    "name": "11. Fractal Noise / Perlin-like Texture",
+    "filter_chain": "geq=lum=",
+    "source_file": "ffmpeg-fractals-generative.md"
+  },
+  "life_like_pattern_generator": {
+    "name": "12. Life-like Pattern Generator",
+    "filter_chain": "lagfun=decay=0.97,pseudocolor=preset=viridis,gblur=sigma=1,eq=contrast=1.3:saturation=1.8",
+    "source_file": "ffmpeg-fractals-generative.md"
+  },
+  "julia_set_approximation": {
+    "name": "13. Julia Set Approximation",
+    "filter_chain": "geq=lum=",
+    "source_file": "ffmpeg-fractals-generative.md"
+  },
+  "fractal_glitch_fusion": {
+    "name": "14. Fractal + Glitch Fusion",
+    "filter_chain": "[0:v]format=gray[xmap];[0:v]format=gray,negate[ymap];[1:v][xmap][ymap]displace,rgbashift=rh=",
+    "source_file": "ffmpeg-fractals-generative.md"
+  },
+  "rgb_split_chromatic_aberration": {
+    "name": "1. RGB Split / Chromatic Aberration",
+    "filter_chain": "rgbashift=rh=-8:bh=8:rv=2:bv=-2",
+    "source_file": "ffmpeg-glitch-recipes.md"
+  },
+  "scan_lines_crt_effect": {
+    "name": "2. Scan Lines / CRT Effect",
+    "filter_chain": "drawgrid=w=0:h=2:t=1:c=black@0.4,noise=alls=15:allf=t,eq=contrast=1.2:brightness=-0.05",
+    "source_file": "ffmpeg-glitch-recipes.md"
+  },
+  "pixel_smear_datamosh_lite": {
+    "name": "3. Pixel Smear / Datamosh-lite",
+    "filter_chain": "lagfun=decay=0.97:planes=15",
+    "source_file": "ffmpeg-glitch-recipes.md"
+  },
+  "static_vhs_noise": {
+    "name": "4. Static / VHS Noise",
+    "filter_chain": "noise=alls=40:allf=t+u,eq=saturation=0.8",
+    "source_file": "ffmpeg-glitch-recipes.md"
+  },
+  "pixel_corruption_mosaic": {
+    "name": "5. Pixel Corruption / Mosaic",
+    "filter_chain": "pixelize=w=16:h=16:mode=avg,noise=alls=20:allf=t",
+    "source_file": "ffmpeg-glitch-recipes.md"
+  },
+  "color_channel_corruption": {
+    "name": "6. Color Channel Corruption",
+    "filter_chain": "shuffleplanes=0:2:1:3,hue=h=30:s=2,curves=vintage",
+    "source_file": "ffmpeg-glitch-recipes.md"
+  },
+  "frame_stutter_time_glitch": {
+    "name": "7. Frame Stutter / Time Glitch",
+    "filter_chain": "random=frames=8:seed=42,setpts=N/FRAME_RATE/TB",
+    "source_file": "ffmpeg-glitch-recipes.md"
+  },
+  "wave_wobble_distortion": {
+    "name": "8. Wave / Wobble Distortion",
+    "filter_chain": "nullsrc=s=1920x1080:d=10,lutrgb=r=",
+    "source_file": "ffmpeg-glitch-recipes.md"
+  },
+  "motion_blur_frame_blending": {
+    "name": "9. Motion Blur / Frame Blending",
+    "filter_chain": "tblend=all_mode=grainextract:all_opacity=0.7",
+    "source_file": "ffmpeg-glitch-recipes.md"
+  },
+  "bitplane_noise_data_visualization": {
+    "name": "10. Bitplane Noise / Data Visualization",
+    "filter_chain": "bitplanenoise=bitplane=3:filter=1,pseudocolor=preset=magma",
+    "source_file": "ffmpeg-glitch-recipes.md"
+  },
+  "temporal_amplify_micro_motion": {
+    "name": "11. Temporal Amplify / Micro-Motion",
+    "filter_chain": "amplify=radius=2:factor=5:threshold=8",
+    "source_file": "ffmpeg-glitch-recipes.md"
+  },
+  "echo_stroboscope": {
+    "name": "12. Echo / Stroboscope",
+    "filter_chain": "tmix=frames=5:weights=",
+    "source_file": "ffmpeg-glitch-recipes.md"
+  },
+  "interlace_glitch": {
+    "name": "13. Interlace Glitch",
+    "filter_chain": "tinterlace=mode=merge:flags=vlpf,fieldorder=tff",
+    "source_file": "ffmpeg-glitch-recipes.md"
+  },
+  "color_quantization_posterize": {
+    "name": "14. Color Quantization / Posterize",
+    "filter_chain": "normalize,posterize=bits=3",
+    "source_file": "ffmpeg-glitch-recipes.md"
+  },
+  "horizontal_tear_line_shift": {
+    "name": "15. Horizontal Tear / Line Shift",
+    "filter_chain": "scroll=h=0:v=0.002,rgbashift=rh=3:bh=-3",
+    "source_file": "ffmpeg-glitch-recipes.md"
+  },
+  "jpeg_corruption_compression_artifacts": {
+    "name": "16. JPEG Corruption / Compression Artifacts",
+    "filter_chain": "noise=alls=10:allf=t,pixelize=w=8:h=8:mode=avg,eq=contrast=1.4",
+    "source_file": "ffmpeg-glitch-recipes.md"
+  },
+  "inverse_solarize": {
+    "name": "17. Inverse / Solarize",
+    "filter_chain": "curves=all=",
+    "source_file": "ffmpeg-glitch-recipes.md"
+  },
+  "zoom_pulse_breathing": {
+    "name": "18. Zoom Pulse / Breathing",
+    "filter_chain": "zoompan=z=",
+    "source_file": "ffmpeg-glitch-recipes.md"
+  },
+  "edge_glow_neon_wireframe": {
+    "name": "19. Edge Glow / Neon Wireframe",
+    "filter_chain": "split[orig][edges];[edges]edgedetect=low=0.1:high=0.3:mode=colormix,eq=brightness=0.1:contrast=2,hue=s=3[glow];[orig][glow]blend=all_mode=screen:all_opacity=0.7",
+    "source_file": "ffmpeg-glitch-recipes.md"
+  },
+  "bit_crushing_bit_depth_reduction": {
+    "name": "20. Bit Crushing / Bit Depth Reduction",
+    "filter_chain": "lutrgb=r=",
+    "source_file": "ffmpeg-glitch-recipes.md"
+  },
+  "hyper_glitch": {
+    "name": "21. Hyper Glitch",
+    "filter_chain": "rgbashift=rh=",
+    "source_file": "ffmpeg-glitch-recipes.md"
+  },
+  "feedback_loop_recursive_zoom": {
+    "name": "22. Feedback Loop / Recursive Zoom",
+    "filter_chain": "split[a][b];[b]scale=iw*1.02:ih*1.02,crop=iw/1.02:ih/1.02,setpts=PTS-STARTPTS[zoomed];[a][zoomed]blend=all_mode=screen:all_opacity=0.4",
+    "source_file": "ffmpeg-glitch-recipes.md"
+  },
+  "chromakey_corruption": {
+    "name": "23. Chromakey Corruption",
+    "filter_chain": "split[a][b];[b]negate,setpts=PTS+1/TB[delayed];[a]colorkey=color=0x00AA00:similarity=0.3:blend=0.1[keyed];[delayed][keyed]overlay",
+    "source_file": "ffmpeg-glitch-recipes.md"
+  },
+  "vertical_roll_sync_loss": {
+    "name": "24. Vertical Roll / Sync Loss",
+    "filter_chain": "scroll=v=0.01:h=0",
+    "source_file": "ffmpeg-glitch-recipes.md"
+  },
+  "ghosting_double_exposure": {
+    "name": "25. Ghosting / Double Exposure",
+    "filter_chain": "split[a][b];[b]setpts=PTS+0.5/TB,format=rgba,colorchannelmixer=aa=0.4[ghost];[a][ghost]overlay=format=auto",
+    "source_file": "ffmpeg-glitch-recipes.md"
+  },
+  "thermal_false_color": {
+    "name": "26. Thermal / False Color",
+    "filter_chain": "pseudocolor=preset=magma",
+    "source_file": "ffmpeg-glitch-recipes.md"
+  },
+  "full_glitch_stack_all_in_one": {
+    "name": "27. Full Glitch Stack (All-in-One)",
+    "filter_chain": "rgbashift=rh=-6:bh=6:rv=2:bv=-2,lagfun=decay=0.95,noise=alls=25:allf=t,drawgrid=w=0:h=2:t=1:c=black@0.3,eq=contrast=1.3:saturation=1.4",
+    "source_file": "ffmpeg-glitch-recipes.md"
+  },
+  "linear_gradient_sweep": {
+    "name": "1. Linear Gradient Sweep",
+    "filter_chain": "geq=lum=",
+    "source_file": "ffmpeg-gradients-vector-fields.md"
+  },
+  "radial_gradient_spotlight": {
+    "name": "2. Radial Gradient / Spotlight",
+    "filter_chain": "geq=lum=",
+    "source_file": "ffmpeg-gradients-vector-fields.md"
+  },
+  "mesh_gradient_blob_gradient": {
+    "name": "3. Mesh Gradient / Blob Gradient",
+    "filter_chain": "geq=lum=",
+    "source_file": "ffmpeg-gradients-vector-fields.md"
+  },
+  "conical_angular_gradient": {
+    "name": "4. Conical / Angular Gradient",
+    "filter_chain": "geq=lum=",
+    "source_file": "ffmpeg-gradients-vector-fields.md"
+  },
+  "plasma_lava_lamp_gradient": {
+    "name": "5. Plasma / Lava Lamp Gradient",
+    "filter_chain": "geq=lum=",
+    "source_file": "ffmpeg-gradients-vector-fields.md"
+  },
+  "gradient_as_displacement_source": {
+    "name": "6. Gradient as Displacement Source",
+    "filter_chain": "[0:v]geq=lum=",
+    "source_file": "ffmpeg-gradients-vector-fields.md"
+  },
+  "laminar_flow_parallel_streamlines": {
+    "name": "7. Laminar Flow / Parallel Streamlines",
+    "filter_chain": "geq=lum=",
+    "source_file": "ffmpeg-gradients-vector-fields.md"
+  },
+  "turbulent_flow_chaotic_streamlines": {
+    "name": "8. Turbulent Flow / Chaotic Streamlines",
+    "filter_chain": "geq=lum=",
+    "source_file": "ffmpeg-gradients-vector-fields.md"
+  },
+  "curl_rotational_vector_field": {
+    "name": "9. Curl / Rotational Vector Field",
+    "filter_chain": "geq=lum=",
+    "source_file": "ffmpeg-gradients-vector-fields.md"
+  },
+  "divergence_field_source_sink_flow": {
+    "name": "10. Divergence Field / Source-Sink Flow",
+    "filter_chain": "geq=lum=",
+    "source_file": "ffmpeg-gradients-vector-fields.md"
+  },
+  "magnetic_field_lines": {
+    "name": "11. Magnetic Field Lines",
+    "filter_chain": "geq=lum=",
+    "source_file": "ffmpeg-gradients-vector-fields.md"
+  },
+  "electric_field_force_lines_with_charges": {
+    "name": "12. Electric Field / Force Lines with Charges",
+    "filter_chain": "geq=lum=",
+    "source_file": "ffmpeg-gradients-vector-fields.md"
+  },
+  "vector_field_over_video": {
+    "name": "13. Vector Field Over Video",
+    "filter_chain": "[0:v]geq=lum=",
+    "source_file": "ffmpeg-gradients-vector-fields.md"
+  },
+  "audio_reactive_gradient_pulse": {
+    "name": "14. Audio-Reactive Gradient Pulse",
+    "filter_chain": "[0:a]showvolume=w=1920:h=20:f=0.9:dm=1:o=h[vol];[vol]format=gray,scale=1920:1080:flags=neighbor[vol_map];[0:v]split[orig][base];[base]geq=lum=",
+    "source_file": "ffmpeg-gradients-vector-fields.md"
+  },
+  "audio_reactive_flow_field": {
+    "name": "15. Audio-Reactive Flow Field",
+    "filter_chain": "[0:a]showwaves=s=1920x1080:mode=cline:rate=30:colors=white:scale=sqrt[waves];[waves]format=gray,gblur=sigma=5[audio_field];[0:v]split[orig][warp_src];[warp_src][audio_field]blend=all_mode=screen:all_opacity=0.3[base];[base]geq=lum=",
+    "source_file": "ffmpeg-gradients-vector-fields.md"
+  },
+  "audio_reactive_magnetic_field": {
+    "name": "16. Audio-Reactive Magnetic Field",
+    "filter_chain": "[0:a]showwaves=s=1920x1080:mode=cline:rate=30:colors=white:scale=sqrt[waves];[waves]format=gray,gblur=sigma=20[audio_energy];color=s=1920x1080:d=30:c=black,geq=lum=",
+    "source_file": "ffmpeg-gradients-vector-fields.md"
+  },
+  "audio_spectrum_as_gradient_map": {
+    "name": "17. Audio Spectrum as Gradient Map",
+    "filter_chain": "[0:a]showspectrum=s=1920x1080:mode=combined:slide=replace:color=channel:scale=cbrt:fscale=log[spec];[spec]gblur=sigma=15,eq=saturation=2.0:contrast=0.8,gblur=sigma=10[gradient_map];[0:v][gradient_map]blend=all_mode=screen:all_opacity=0.35,eq=contrast=1.05:saturation=1.1",
+    "source_file": "ffmpeg-gradients-vector-fields.md"
+  },
+  "audio_reactive_divergence_pulses": {
+    "name": "18. Audio-Reactive Divergence Pulses",
+    "filter_chain": "[0:a]showwaves=s=1920x1080:mode=cline:rate=30:colors=white:scale=sqrt[waves];[waves]format=gray,gblur=sigma=30[energy];color=s=1920x1080:d=30:c=black,geq=lum=",
+    "source_file": "ffmpeg-gradients-vector-fields.md"
+  },
+  "gradient_as_color_grading_layer": {
+    "name": "19. Gradient as Color Grading Layer",
+    "filter_chain": "[0:v]geq=lum=",
+    "source_file": "ffmpeg-gradients-vector-fields.md"
+  },
+  "gradient_mask_for_selective_effects": {
+    "name": "20. Gradient Mask for Selective Effects",
+    "filter_chain": "split[sharp][blurred];[blurred]gblur=sigma=10[soft];[sharp][soft]blend=all_expr=",
+    "source_file": "ffmpeg-gradients-vector-fields.md"
+  },
+  "scanning_laser_line": {
+    "name": "1. Scanning Laser Line",
+    "filter_chain": "geq=lum=",
+    "source_file": "ffmpeg-laser-glow-audio.md"
+  },
+  "multi_beam_laser_array": {
+    "name": "2. Multi-Beam Laser Array",
+    "filter_chain": "geq=lum=",
+    "source_file": "ffmpeg-laser-glow-audio.md"
+  },
+  "rotating_laser_beams_lighthouse": {
+    "name": "3. Rotating Laser Beams / Lighthouse",
+    "filter_chain": "geq=lum=",
+    "source_file": "ffmpeg-laser-glow-audio.md"
+  },
+  "pulsing_laser_ring_expanding_circle": {
+    "name": "4. Pulsing Laser Ring / Expanding Circle",
+    "filter_chain": "geq=lum=",
+    "source_file": "ffmpeg-laser-glow-audio.md"
+  },
+  "retro_synthwave_grid_perspective_floor": {
+    "name": "5. Retro Synthwave Grid (Perspective Floor)",
+    "filter_chain": "geq=lum=",
+    "source_file": "ffmpeg-laser-glow-audio.md"
+  },
+  "floating_grid_matrix_rain_grid": {
+    "name": "6. Floating Grid / Matrix Rain Grid",
+    "filter_chain": "geq=lum=",
+    "source_file": "ffmpeg-laser-glow-audio.md"
+  },
+  "hexagonal_grid": {
+    "name": "7. Hexagonal Grid",
+    "filter_chain": "geq=lum=",
+    "source_file": "ffmpeg-laser-glow-audio.md"
+  },
+  "wireframe_sphere_globe_grid": {
+    "name": "8. Wireframe Sphere / Globe Grid",
+    "filter_chain": "geq=lum=",
+    "source_file": "ffmpeg-laser-glow-audio.md"
+  },
+  "neon_edge_glow": {
+    "name": "9. Neon Edge Glow",
+    "filter_chain": "edgedetect=low=0.1:high=0.3:mode=colormix,eq=brightness=0.1:contrast=2.0:saturation=3.0,split[a][b];[b]gblur=sigma=6,eq=brightness=0.15[bloom];[a][bloom]blend=all_mode=screen:all_opacity=0.5",
+    "source_file": "ffmpeg-laser-glow-audio.md"
+  },
+  "bloom_soft_glow": {
+    "name": "10. Bloom / Soft Glow",
+    "filter_chain": "split[a][b];[b]gblur=sigma=15,eq=brightness=0.1[bloom];[a][bloom]blend=all_mode=screen:all_opacity=0.3,eq=contrast=1.05:saturation=1.1",
+    "source_file": "ffmpeg-laser-glow-audio.md"
+  },
+  "neon_text_title_glow_effect": {
+    "name": "11. Neon Text / Title Glow Effect",
+    "filter_chain": "drawtext=text=",
+    "source_file": "ffmpeg-laser-glow-audio.md"
+  },
+  "audio_reactive_waveform_grid": {
+    "name": "12. Audio-Reactive Waveform Grid",
+    "filter_chain": "[0:a]showwaves=s=1920x1080:mode=cline:rate=30:colors=white:scale=sqrt[waves];[waves]lutrgb=r=0:g=",
+    "source_file": "ffmpeg-laser-glow-audio.md"
+  },
+  "audio_reactive_spectrum_bars": {
+    "name": "13. Audio-Reactive Spectrum Bars",
+    "filter_chain": "[0:a]showspectrum=s=1920x1080:mode=combined:slide=scroll:color=intensity:scale=cbrt:fscale=log:orientation=vertical[spec];[spec]lutrgb=r=",
+    "source_file": "ffmpeg-laser-glow-audio.md"
+  },
+  "audio_reactive_vector_scope": {
+    "name": "14. Audio-Reactive Vector Scope",
+    "filter_chain": "[0:a]avectorscope=s=1080x1080:mode=lissajous_xy:draw=line:scale=sqrt:zoom=1.5[scope];[scope]lutrgb=r=0:g=",
+    "source_file": "ffmpeg-laser-glow-audio.md"
+  },
+  "audio_reactive_laser_displacement": {
+    "name": "15. Audio-Reactive Laser Displacement",
+    "filter_chain": "[0:a]showwaves=s=1920x1080:mode=cline:rate=30:colors=white:scale=sqrt[waves];[waves]format=gray[xmap];[waves]format=gray,negate[ymap];[0:v][xmap][ymap]displace,rgbashift=rh=4:bh=-4,eq=contrast=1.2:saturation=1.3",
+    "source_file": "ffmpeg-laser-glow-audio.md"
+  },
+  "audio_reactive_ring_scanner": {
+    "name": "16. Audio-Reactive Ring Scanner",
+    "filter_chain": "[0:a]showwaves=s=1920x1080:mode=cline:rate=30:colors=white:scale=sqrt[waves];[waves]format=gray,geq=lum=",
+    "source_file": "ffmpeg-laser-glow-audio.md"
+  },
+  "black_background_generation_for_external_compositing": {
+    "name": "17. Black Background Generation (for External Compositing)",
+    "filter_chain": "geq=lum=",
+    "source_file": "ffmpeg-laser-glow-audio.md"
+  },
+  "layer_multiple_elements": {
+    "name": "18. Layer Multiple Elements",
+    "filter_chain": "[0:v]geq=lum=",
+    "source_file": "ffmpeg-laser-glow-audio.md"
+  },
+  "fisheye_lens": {
+    "name": "1. Fisheye Lens",
+    "filter_chain": "lenscorrection=k1=0.5:k2=0.3",
+    "source_file": "ffmpeg-lens-time-warp.md"
+  },
+  "tilt_shift_miniature_effect": {
+    "name": "2. Tilt-Shift / Miniature Effect",
+    "filter_chain": "split=3[sharp][top][bot];[top]crop=iw:ih/3:0:0,gblur=sigma=8[t];[bot]crop=iw:ih/3:0:2*ih/3,gblur=sigma=8[b];[sharp]crop=iw:ih/3:0:ih/3[s];[t][s]vstack[ts];[ts][b]vstack,eq=saturation=1.8:contrast=1.2:brightness=0.03",
+    "source_file": "ffmpeg-lens-time-warp.md"
+  },
+  "anamorphic_lens_squeeze": {
+    "name": "3. Anamorphic Lens Squeeze",
+    "filter_chain": "scale=iw*1.33:ih:flags=lanczos,crop=iw/1.33:ih,lenscorrection=k1=0.05:k2=0.02,eq=contrast=1.1:saturation=1.15,pad=iw:ih*1.1:0:(oh-ih)/2:color=black",
+    "source_file": "ffmpeg-lens-time-warp.md"
+  },
+  "chromatic_aberration_lens": {
+    "name": "4. Chromatic Aberration (Lens)",
+    "filter_chain": "rgbashift=rh=-4:bh=4:rv=-2:bv=2",
+    "source_file": "ffmpeg-lens-time-warp.md"
+  },
+  "kaleidoscope_lens": {
+    "name": "5. Kaleidoscope Lens",
+    "filter_chain": "split[a][b];[b]hflip[flip];[a]crop=iw/2:ih:0:0[left];[flip]crop=iw/2:ih:0:0[right];[left][right]hstack,split[c][d];[d]vflip[vf];[c]crop=iw:ih/2:0:0[top];[vf]crop=iw:ih/2:0:0[bottom];[top][bottom]vstack",
+    "source_file": "ffmpeg-lens-time-warp.md"
+  },
+  "prism_light_refraction": {
+    "name": "6. Prism / Light Refraction",
+    "filter_chain": "split=3[r][g][b];[r]rotate=",
+    "source_file": "ffmpeg-lens-time-warp.md"
+  },
+  "rubber_sheet_elastic_stretch": {
+    "name": "7. Rubber Sheet / Elastic Stretch",
+    "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum=",
+    "source_file": "ffmpeg-lens-time-warp.md"
+  },
+  "gravity_bend_gravitational_lensing": {
+    "name": "8. Gravity Bend / Gravitational Lensing",
+    "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum=",
+    "source_file": "ffmpeg-lens-time-warp.md"
+  },
+  "page_curl_paper_bend": {
+    "name": "9. Page Curl / Paper Bend",
+    "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum=",
+    "source_file": "ffmpeg-lens-time-warp.md"
+  },
+  "funhouse_mirror": {
+    "name": "10. Funhouse Mirror",
+    "filter_chain": "scale=iw*0.7:ih*1.3:flags=lanczos,pad=1920:1080:(1920-iw)/2:(1080-ih)/2:color=black,nullsrc=s=1920x1080:d=30:r=30,geq=lum=",
+    "source_file": "ffmpeg-lens-time-warp.md"
+  },
+  "liquid_fluid_distortion": {
+    "name": "11. Liquid / Fluid Distortion",
+    "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum=",
+    "source_file": "ffmpeg-lens-time-warp.md"
+  },
+  "magnifying_glass_loupe": {
+    "name": "12. Magnifying Glass / Loupe",
+    "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum=",
+    "source_file": "ffmpeg-lens-time-warp.md"
+  },
+  "slit_scan_time_displacement": {
+    "name": "13. Slit-Scan / Time Displacement",
+    "filter_chain": "lagfun=decay=0.99:planes=15,scroll=v=0.005:h=0,eq=contrast=1.2:saturation=1.3",
+    "source_file": "ffmpeg-lens-time-warp.md"
+  },
+  "speed_ramp_dynamic_time_warp": {
+    "name": "14. Speed Ramp / Dynamic Time Warp",
+    "filter_chain": "setpts=",
+    "source_file": "ffmpeg-lens-time-warp.md"
+  },
+  "time_echo_temporal_layering": {
+    "name": "15. Time Echo / Temporal Layering",
+    "filter_chain": "split=3[a][b][c];[b]setpts=PTS+0.5/TB,format=rgba,colorchannelmixer=aa=0.3[past];[c]setpts=PTS-0.5/TB,format=rgba,colorchannelmixer=aa=0.3[future];[a]format=rgba[present];[present][past]overlay[layer1];[layer1][future]overlay",
+    "source_file": "ffmpeg-lens-time-warp.md"
+  },
+  "reverse_time_pockets": {
+    "name": "16. Reverse Time Pockets",
+    "filter_chain": "split[fwd][rev];[rev]reverse[reversed];[fwd][reversed]blend=all_expr=",
+    "source_file": "ffmpeg-lens-time-warp.md"
+  },
+  "frame_rate_manipulation_stroboscopic_time": {
+    "name": "17. Frame Rate Manipulation / Stroboscopic Time",
+    "filter_chain": "framestep=8,setpts=N/4/TB",
+    "source_file": "ffmpeg-lens-time-warp.md"
+  },
+  "motion_interpolation_smooth_slow_mo": {
+    "name": "18. Motion Interpolation / Smooth Slow-Mo",
+    "filter_chain": "setpts=2*PTS,minterpolate=fps=60:mi_mode=mci:mc_mode=aobmc:me_mode=bidir:vsbmc=1",
+    "source_file": "ffmpeg-lens-time-warp.md"
+  },
+  "pendulum_oscillating_time": {
+    "name": "19. Pendulum / Oscillating Time",
+    "filter_chain": "setpts=",
+    "source_file": "ffmpeg-lens-time-warp.md"
+  },
+  "chronostasis_time_freeze_zones": {
+    "name": "20. Chronostasis / Time Freeze Zones",
+    "filter_chain": "split[live][frozen];[frozen]tpad=stop_mode=clone:stop_duration=30[still];[live][still]blend=all_expr=",
+    "source_file": "ffmpeg-lens-time-warp.md"
+  },
+  "interesting_combinations_to_try": {
+    "name": "Interesting Combinations to Try",
+    "filter_chain": "rgbashift=rh=5:bh=-5,noise=alls=35:allf=t+u,eq=saturation=0.5:contrast=0.85,gblur=sigma=1.0,scroll=v=",
+    "source_file": "ffmpeg-master-guide.md"
+  },
+  "rain_light_drizzle": {
+    "name": "1. Rain \u2014 Light Drizzle",
+    "filter_chain": "geq=lum=",
+    "source_file": "ffmpeg-particles-stereoscopic.md"
+  },
+  "rain_heavy_downpour": {
+    "name": "2. Rain \u2014 Heavy Downpour",
+    "filter_chain": "geq=lum=",
+    "source_file": "ffmpeg-particles-stereoscopic.md"
+  },
+  "snow_falling_particles": {
+    "name": "3. Snow / Falling Particles",
+    "filter_chain": "geq=lum=",
+    "source_file": "ffmpeg-particles-stereoscopic.md"
+  },
+  "dust_motes_floating_particles": {
+    "name": "4. Dust Motes / Floating Particles",
+    "filter_chain": "geq=lum=",
+    "source_file": "ffmpeg-particles-stereoscopic.md"
+  },
+  "sparks_embers": {
+    "name": "5. Sparks / Embers",
+    "filter_chain": "geq=lum=",
+    "source_file": "ffmpeg-particles-stereoscopic.md"
+  },
+  "fireflies_bioluminescence": {
+    "name": "6. Fireflies / Bioluminescence",
+    "filter_chain": "geq=lum=",
+    "source_file": "ffmpeg-particles-stereoscopic.md"
+  },
+  "starfield_hyperspace": {
+    "name": "7. Starfield / Hyperspace",
+    "filter_chain": "geq=lum=",
+    "source_file": "ffmpeg-particles-stereoscopic.md"
+  },
+  "rising_bubbles_underwater": {
+    "name": "8. Rising Bubbles / Underwater",
+    "filter_chain": "geq=lum=",
+    "source_file": "ffmpeg-particles-stereoscopic.md"
+  },
+  "explosion_radial_burst": {
+    "name": "9. Explosion / Radial Burst",
+    "filter_chain": "geq=lum=",
+    "source_file": "ffmpeg-particles-stereoscopic.md"
+  },
+  "electricity_lightning_arcs": {
+    "name": "10. Electricity / Lightning Arcs",
+    "filter_chain": "geq=lum=",
+    "source_file": "ffmpeg-particles-stereoscopic.md"
+  },
+  "smoke_fog_particles": {
+    "name": "11. Smoke / Fog Particles",
+    "filter_chain": "geq=lum=",
+    "source_file": "ffmpeg-particles-stereoscopic.md"
+  },
+  "audio_reactive_particles": {
+    "name": "12. Audio-Reactive Particles",
+    "filter_chain": "[0:a]showwaves=s=1920x1080:mode=cline:rate=30:colors=white:scale=sqrt[waves];[waves]format=gray,gblur=sigma=20[energy];color=s=1920x1080:d=30:c=black,geq=lum=",
+    "source_file": "ffmpeg-particles-stereoscopic.md"
+  },
+  "anaglyph_3d_from_2d_red_cyan": {
+    "name": "13. Anaglyph 3D from 2D (Red/Cyan)",
+    "filter_chain": "split[left][right];[left]crop=iw-10:ih:0:0,pad=iw+10:ih:10:0:black,extractplanes=r[lr];[right]crop=iw-10:ih:10:0,pad=iw+10:ih:0:0:black,extractplanes=g+b[gcb];[lr][gcb]mergeplanes=0x001020:yuv444p,format=yuv420p",
+    "source_file": "ffmpeg-particles-stereoscopic.md"
+  },
+  "side_by_side_3d_generation": {
+    "name": "14. Side-by-Side 3D Generation",
+    "filter_chain": "split[left][right];[left]crop=iw-16:ih:0:0,pad=iw+16:ih:16:0:black[l];[right]crop=iw-16:ih:16:0,pad=iw+16:ih:0:0:black[r];[l][r]hstack,scale=1920:1080",
+    "source_file": "ffmpeg-particles-stereoscopic.md"
+  },
+  "over_under_3d_generation": {
+    "name": "15. Over-Under 3D Generation",
+    "filter_chain": "split[left][right];[left]crop=iw:ih-12:0:0,pad=iw:ih+12:0:12:black[l];[right]crop=iw:ih-12:0:12,pad=iw:ih+12:0:0:black[r];[l]scale=1920:540[ls];[r]scale=1920:540[rs];[ls][rs]vstack",
+    "source_file": "ffmpeg-particles-stereoscopic.md"
+  },
+  "3d_format_conversion": {
+    "name": "16. 3D Format Conversion",
+    "filter_chain": "stereo3d=sbsl:arcg",
+    "source_file": "ffmpeg-particles-stereoscopic.md"
+  },
+  "displacement_based_fake_3d": {
+    "name": "17. Displacement-Based Fake 3D",
+    "filter_chain": "split=3[left_src][right_src][depth_src];[depth_src]format=gray,gblur=sigma=8[depth];[depth]split[dl][dr];[left_src]format=gray[luma_for_xmap_left];[dl]lutrgb=r=",
+    "source_file": "ffmpeg-particles-stereoscopic.md"
+  },
+  "3d_particles_stereo_particle_field": {
+    "name": "18. 3D Particles (Stereo Particle Field)",
+    "filter_chain": "geq=lum=",
+    "source_file": "ffmpeg-particles-stereoscopic.md"
+  },
+  "3d_glitch_effect": {
+    "name": "19. 3D Glitch Effect",
+    "filter_chain": "split[left][right];[left]rgbashift=rh=-5:bh=5,noise=alls=20:allf=t,crop=iw-12:ih:0:0,pad=iw+12:ih:12:0:black[l];[right]rgbashift=rh=5:bh=-5,noise=alls=25:allf=t,posterize=bits=3,crop=iw-12:ih:12:0,pad=iw+12:ih:0:0:black[r];[l]scale=960:1080[ls];[r]scale=960:1080[rs];[ls][rs]hstack",
+    "source_file": "ffmpeg-particles-stereoscopic.md"
+  },
+  "3d_depth_pulse_breathing": {
+    "name": "20. 3D Depth Pulse / Breathing",
+    "filter_chain": "split[left][right];[left]crop=",
+    "source_file": "ffmpeg-particles-stereoscopic.md"
+  },
+  "stereoscopic_particle_rain": {
+    "name": "21. Stereoscopic Particle Rain",
+    "filter_chain": "[0:v]geq=lum=",
+    "source_file": "ffmpeg-particles-stereoscopic.md"
+  },
+  "3d_fractal_zoom": {
+    "name": "22. 3D Fractal Zoom",
+    "filter_chain": "stereo3d=sbsl:arcg",
+    "source_file": "ffmpeg-particles-stereoscopic.md"
+  },
+  "3d_fireflies_in_fog": {
+    "name": "23. 3D Fireflies in Fog",
+    "filter_chain": "geq=lum=",
+    "source_file": "ffmpeg-particles-stereoscopic.md"
+  },
+  "audio_reactive_3d_particle_explosion": {
+    "name": "24. Audio-Reactive 3D Particle Explosion",
+    "filter_chain": "geq=lum=",
+    "source_file": "ffmpeg-particles-stereoscopic.md"
+  },
+  "basic_8_bit_nes_style": {
+    "name": "1. Basic 8-Bit / NES Style",
+    "filter_chain": "scale=256:240:flags=lanczos,posterize=bits=2,scale=1920:1080:flags=neighbor",
+    "source_file": "ffmpeg-retro-8bit.md"
+  },
+  "atari_2600_style": {
+    "name": "2. Atari 2600 Style",
+    "filter_chain": "scale=160:192:flags=lanczos,posterize=bits=2,eq=saturation=0.7:contrast=1.3,scale=960:1080:flags=neighbor",
+    "source_file": "ffmpeg-retro-8bit.md"
+  },
+  "game_boy_original_dmg": {
+    "name": "3. Game Boy (Original DMG)",
+    "filter_chain": "scale=160:144:flags=lanczos,format=gray,posterize=bits=2,lutrgb=r=",
+    "source_file": "ffmpeg-retro-8bit.md"
+  },
+  "commodore_64_style": {
+    "name": "4. Commodore 64 Style",
+    "filter_chain": "scale=320:200:flags=lanczos,posterize=bits=2,colorbalance=rs=0.05:gs=-0.05:bs=0.15:rm=0.05:bm=0.1,eq=saturation=0.8:contrast=1.2,scale=1920:1080:flags=neighbor,gblur=sigma=0.6",
+    "source_file": "ffmpeg-retro-8bit.md"
+  },
+  "cga_early_dos_style": {
+    "name": "5. CGA / Early DOS Style",
+    "filter_chain": "scale=320:200:flags=lanczos,format=gray,posterize=bits=2,lutrgb=r=",
+    "source_file": "ffmpeg-retro-8bit.md"
+  },
+  "zx_spectrum_style": {
+    "name": "6. ZX Spectrum Style",
+    "filter_chain": "scale=256:192:flags=lanczos,posterize=bits=1,pixelize=w=8:h=8:mode=avg,eq=saturation=1.3:contrast=1.4,scale=1024:768:flags=neighbor,noise=alls=5:allf=t",
+    "source_file": "ffmpeg-retro-8bit.md"
+  },
+  "arcade_crt_display": {
+    "name": "7. Arcade CRT Display",
+    "filter_chain": "scale=320:240:flags=lanczos,eq=saturation=1.5:contrast=1.3:brightness=0.05,scale=1920:1080:flags=neighbor,drawgrid=w=0:h=3:t=1:c=black@0.2,gblur=sigma=0.8,vignette=angle=0.4:x0=0.5:y0=0.5,noise=alls=8:allf=t",
+    "source_file": "ffmpeg-retro-8bit.md"
+  },
+  "vhs_composite_video_artifacts": {
+    "name": "8. VHS / Composite Video Artifacts",
+    "filter_chain": "scale=320:240:flags=lanczos,rgbashift=rh=3:bh=-3,gblur=sigma=1.5,eq=saturation=0.7:contrast=0.9:brightness=-0.02,noise=alls=25:allf=t+u,scale=1920:1080:flags=bilinear,drawgrid=w=0:h=2:t=1:c=black@0.2,hue=h=",
+    "source_file": "ffmpeg-retro-8bit.md"
+  },
+  "pixel_art_dithering": {
+    "name": "9. Pixel Art Dithering",
+    "filter_chain": "scale=320:240:flags=lanczos,format=gray,posterize=bits=1,noise=alls=30:allf=u,posterize=bits=1,scale=1920:1080:flags=neighbor",
+    "source_file": "ffmpeg-retro-8bit.md"
+  },
+  "retro_computer_boot_text_mode": {
+    "name": "10. Retro Computer Boot / Text Mode",
+    "filter_chain": "scale=280:192:flags=lanczos,format=gray,posterize=bits=2,lutrgb=r=0:g=",
+    "source_file": "ffmpeg-retro-8bit.md"
+  },
+  "snes_16_bit_style": {
+    "name": "11. SNES / 16-Bit Style",
+    "filter_chain": "scale=256:224:flags=lanczos,posterize=bits=3,eq=saturation=1.2:contrast=1.1,scale=1024:896:flags=neighbor",
+    "source_file": "ffmpeg-retro-8bit.md"
+  },
+  "sega_genesis_mega_drive_style": {
+    "name": "12. Sega Genesis / Mega Drive Style",
+    "filter_chain": "scale=320:224:flags=lanczos,posterize=bits=3,eq=saturation=0.9:contrast=1.4,scale=1280:896:flags=neighbor",
+    "source_file": "ffmpeg-retro-8bit.md"
+  },
+  "early_3d_ps1_style": {
+    "name": "13. Early 3D / PS1 Style",
+    "filter_chain": "scale=320:240:flags=lanczos,noise=alls=12:allf=u,posterize=bits=3,gblur=sigma=0.4,eq=saturation=0.8:contrast=1.2,scale=1280:960:flags=neighbor,drawgrid=w=0:h=2:t=1:c=black@0.1",
+    "source_file": "ffmpeg-retro-8bit.md"
+  },
+  "monochrome_lcd_game_watch_tiger_electronics": {
+    "name": "14. Monochrome LCD (Game & Watch / Tiger Electronics)",
+    "filter_chain": "scale=60:40:flags=lanczos,format=gray,posterize=bits=1,lagfun=decay=0.7,scale=1080:720:flags=neighbor,drawgrid=w=18:h=18:t=1:c=#808080@0.3,colorbalance=rs=-0.1:gs=0.05:bs=-0.05,eq=brightness=0.15:contrast=0.8",
+    "source_file": "ffmpeg-retro-8bit.md"
+  },
+  "vector_display_asteroids_vectrex": {
+    "name": "15. Vector Display (Asteroids / Vectrex)",
+    "filter_chain": "edgedetect=low=0.1:high=0.3:mode=wires,negate,format=gray,lutrgb=r=0:g=",
+    "source_file": "ffmpeg-retro-8bit.md"
+  },
+  "teletext_ceefax_style": {
+    "name": "16. Teletext / Ceefax Style",
+    "filter_chain": "scale=40:25:flags=lanczos,posterize=bits=1,eq=saturation=1.5:contrast=1.5,scale=1280:800:flags=neighbor,pad=1920:1080:320:140:color=black,drawgrid=w=32:h=32:t=2:c=#222222@0.5,noise=alls=5:allf=t",
+    "source_file": "ffmpeg-retro-8bit.md"
+  },
+  "retro_transition_effects": {
+    "name": "17. Retro Transition Effects",
+    "filter_chain": "[0:v]scale=320:240:flags=lanczos,posterize=bits=2,scale=1920:1080:flags=neighbor[a];[1:v]scale=320:240:flags=lanczos,posterize=bits=2,scale=1920:1080:flags=neighbor[b];[a][b]blend=all_expr=",
+    "source_file": "ffmpeg-retro-8bit.md"
+  },
+  "animated_palette_cycling": {
+    "name": "18. Animated Palette Cycling",
+    "filter_chain": "scale=320:240:flags=lanczos,posterize=bits=2,hue=h=",
+    "source_file": "ffmpeg-retro-8bit.md"
+  },
+  "logarithmic_spiral": {
+    "name": "1. Logarithmic Spiral",
+    "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum=",
+    "source_file": "ffmpeg-spirals-topology.md"
+  },
+  "fibonacci_golden_spiral": {
+    "name": "2. Fibonacci / Golden Spiral",
+    "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum=",
+    "source_file": "ffmpeg-spirals-topology.md"
+  },
+  "double_helix_dna_twist": {
+    "name": "3. Double Helix / DNA Twist",
+    "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum=",
+    "source_file": "ffmpeg-spirals-topology.md"
+  },
+  "torus_donut_warp": {
+    "name": "4. Torus / Donut Warp",
+    "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum=",
+    "source_file": "ffmpeg-spirals-topology.md"
+  },
+  "m_bius_strip_twist": {
+    "name": "5. M\u00f6bius Strip Twist",
+    "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum=",
+    "source_file": "ffmpeg-spirals-topology.md"
+  },
+  "klein_bottle_fold": {
+    "name": "6. Klein Bottle Fold",
+    "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum=",
+    "source_file": "ffmpeg-spirals-topology.md"
+  },
+  "hyperbolic_space_poincar_disk": {
+    "name": "7. Hyperbolic Space / Poincar\u00e9 Disk",
+    "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum=",
+    "source_file": "ffmpeg-spirals-topology.md"
+  },
+  "spherical_projection_planet_effect": {
+    "name": "8. Spherical Projection / Planet Effect",
+    "filter_chain": "v360=input=flat:output=ball:pitch=0:yaw=",
+    "source_file": "ffmpeg-spirals-topology.md"
+  },
+  "vortex_whirlpool": {
+    "name": "9. Vortex / Whirlpool",
+    "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum=",
+    "source_file": "ffmpeg-spirals-topology.md"
+  },
+  "ripple_concentric_waves": {
+    "name": "10. Ripple / Concentric Waves",
+    "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum=",
+    "source_file": "ffmpeg-spirals-topology.md"
+  },
+  "polar_coordinate_warp": {
+    "name": "11. Polar Coordinate Warp",
+    "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum=",
+    "source_file": "ffmpeg-spirals-topology.md"
+  },
+  "trefoil_knot_warp": {
+    "name": "12. Trefoil Knot Warp",
+    "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum=",
+    "source_file": "ffmpeg-spirals-topology.md"
+  },
+  "hypercube_4d_projection": {
+    "name": "13. Hypercube / 4D Projection",
+    "filter_chain": "split[a][b];[a]nullsrc=s=1920x1080:d=30:r=30,geq=lum=",
+    "source_file": "ffmpeg-spirals-topology.md"
+  },
+  "sinusoidal_terrain_landscape": {
+    "name": "14. Sinusoidal Terrain / Landscape",
+    "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum=",
+    "source_file": "ffmpeg-spirals-topology.md"
+  },
+  "wormhole_space_tunnel": {
+    "name": "15. Wormhole / Space Tunnel",
+    "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum=",
+    "source_file": "ffmpeg-spirals-topology.md"
+  },
+  "topology_transition_sphere_to_torus": {
+    "name": "16. Topology Transition \u2014 Sphere to Torus",
+    "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum=",
+    "source_file": "ffmpeg-spirals-topology.md"
+  },
+  "escher_style_impossible_geometry": {
+    "name": "17. Escher-style Impossible Geometry",
+    "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum=",
+    "source_file": "ffmpeg-spirals-topology.md"
+  },
+  "cosmic_web_filament_structure": {
+    "name": "18. Cosmic Web / Filament Structure",
+    "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum=",
+    "source_file": "ffmpeg-spirals-topology.md"
+  },
+  "earthquake_camera_shake": {
+    "name": "1. Earthquake / Camera Shake",
+    "filter_chain": "crop=iw-40:ih-40:20+random(0)*20:20+random(1)*20,scale=iw+40:ih+40",
+    "source_file": "ffmpeg-violent-chaotic-effects.md"
+  },
+  "strobe_seizure_flash": {
+    "name": "2. Strobe / Seizure Flash",
+    "filter_chain": "split[a][b];[b]negate[neg];[a][neg]blend=all_expr=",
+    "source_file": "ffmpeg-violent-chaotic-effects.md"
+  },
+  "signal_destruction_total_corruption": {
+    "name": "3. Signal Destruction / Total Corruption",
+    "filter_chain": "rgbashift=rh=",
+    "source_file": "ffmpeg-violent-chaotic-effects.md"
+  },
+  "pixel_explosion_scatter": {
+    "name": "4. Pixel Explosion / Scatter",
+    "filter_chain": "nullsrc=s=1920x1080:d=30,lutrgb=r=",
+    "source_file": "ffmpeg-violent-chaotic-effects.md"
+  },
+  "temporal_seizure_time_shatter": {
+    "name": "5. Temporal Seizure / Time Shatter",
+    "filter_chain": "random=frames=15:seed=-1,setpts=N/FRAME_RATE/TB,tblend=all_mode=phoenix:all_opacity=0.8,framestep=2",
+    "source_file": "ffmpeg-violent-chaotic-effects.md"
+  },
+  "color_violence_oversaturation_assault": {
+    "name": "6. Color Violence / Oversaturation Assault",
+    "filter_chain": "eq=saturation=5:contrast=2.5:gamma=0.7,hue=h=",
+    "source_file": "ffmpeg-violent-chaotic-effects.md"
+  },
+  "meat_grinder_total_mangle": {
+    "name": "7. Meat Grinder / Total Mangle",
+    "filter_chain": "rgbashift=rh=",
+    "source_file": "ffmpeg-violent-chaotic-effects.md"
+  },
+  "dimension_tear_reality_rip": {
+    "name": "8. Dimension Tear / Reality Rip",
+    "filter_chain": "crop=iw:ih/5:0:0,scroll=horizontal=",
+    "source_file": "ffmpeg-violent-chaotic-effects.md"
+  },
+  "feedback_overload_infinite_recursion": {
+    "name": "9. Feedback Overload / Infinite Recursion",
+    "filter_chain": "split[a][b];[b]scale=iw*1.08:ih*1.08,crop=iw/1.08:ih/1.08,hue=h=15:s=1.5,eq=contrast=1.1:brightness=0.02,setpts=PTS-STARTPTS[zoom];[a][zoom]blend=all_mode=addition:all_opacity=0.6,lagfun=decay=0.97,eq=saturation=2",
+    "source_file": "ffmpeg-violent-chaotic-effects.md"
+  },
+  "waveform_annihilation_audio_reactive_simulation": {
+    "name": "10. Waveform Annihilation / Audio-Reactive Simulation",
+    "filter_chain": "nullsrc=s=1920x1080:d=30,lutrgb=r=",
+    "source_file": "ffmpeg-violent-chaotic-effects.md"
+  },
+  "gravity_collapse_implosion": {
+    "name": "11. Gravity Collapse / Implosion",
+    "filter_chain": "nullsrc=s=1920x1080:d=30,lutrgb=r=",
+    "source_file": "ffmpeg-violent-chaotic-effects.md"
+  },
+  "fragmentation_bomb_mosaic_shatter": {
+    "name": "12. Fragmentation Bomb / Mosaic Shatter",
+    "filter_chain": "pixelize=w=",
+    "source_file": "ffmpeg-violent-chaotic-effects.md"
+  },
+  "phase_cancellation_ghost_layer_assault": {
+    "name": "13. Phase Cancellation / Ghost Layer Assault",
+    "filter_chain": "split=4[a][b][c][d];[b]setpts=PTS+0.1/TB,format=rgba,colorchannelmixer=aa=0.5,hue=h=60[g1];[c]setpts=PTS+0.2/TB,format=rgba,colorchannelmixer=aa=0.5,hue=h=120,negate[g2];[d]setpts=PTS+0.3/TB,format=rgba,colorchannelmixer=aa=0.5,hue=h=240[g3];[a][g1]overlay=format=auto[t1];[t1][g2]overlay=format=auto[t2];[t2][g3]overlay=format=auto,eq=contrast=1.8:saturation=2.5,noise=alls=20:allf=t",
+    "source_file": "ffmpeg-violent-chaotic-effects.md"
+  },
+  "recursive_mutation_self_consuming_video": {
+    "name": "14. Recursive Mutation / Self-Consuming Video",
+    "filter_chain": "amplify=radius=3:factor=15:threshold=3,tblend=all_mode=grainextract:all_opacity=0.9,lagfun=decay=0.96,eq=contrast=2:saturation=3,hue=h=",
+    "source_file": "ffmpeg-violent-chaotic-effects.md"
+  },
+  "the_annihilator_everything_at_maximum": {
+    "name": "15. The Annihilator (Everything at Maximum)",
+    "filter_chain": "nullsrc=s=1920x1080:d=30,lutrgb=r=",
+    "source_file": "ffmpeg-violent-chaotic-effects.md"
+  },
+  "dimensional_collapse": {
+    "name": "1. Dimensional Collapse",
+    "filter_chain": "split=4[a][b][c][d];[b]scale=iw/2:ih/2[b1];[c]scale=iw/4:ih/4[c1];[d]scale=iw/8:ih/8[d1];[a][b1]overlay=W*0.5:H*0.5[ab];[ab][c1]overlay=W*0.25:H*0.25[abc];[abc][d1]overlay=W*0.75:H*0.75,rgbashift=rh=10:bh=-10,eq=contrast=1.6:saturation=2.0",
+    "source_file": "ffmpeg-violent-effects.md"
+  },
+  "signal_annihilation": {
+    "name": "2. Signal Annihilation",
+    "filter_chain": "rgbashift=rh=30:bh=-30:rv=20:bv=-20,shuffleplanes=2:0:1:3,lutrgb=r=",
+    "source_file": "ffmpeg-violent-effects.md"
+  },
+  "temporal_shredder": {
+    "name": "3. Temporal Shredder",
+    "filter_chain": "random=frames=30:seed=666,setpts=N/FRAME_RATE/TB,tblend=all_mode=phoenix:all_opacity=0.8,lagfun=decay=0.98,amplify=radius=3:factor=8:threshold=5,noise=alls=25:allf=t",
+    "source_file": "ffmpeg-violent-effects.md"
+  },
+  "flesh_machine": {
+    "name": "4. Flesh Machine",
+    "filter_chain": "nullsrc=s=1920x1080:d=30,lutrgb=r=",
+    "source_file": "ffmpeg-violent-effects.md"
+  },
+  "data_blender": {
+    "name": "5. Data Blender",
+    "filter_chain": "shuffleplanes=1:2:0:3,lutrgb=r=",
+    "source_file": "ffmpeg-violent-effects.md"
+  },
+  "gravity_well": {
+    "name": "6. Gravity Well",
+    "filter_chain": "nullsrc=s=1920x1080:d=30,lutrgb=r=",
+    "source_file": "ffmpeg-violent-effects.md"
+  },
+  "infinite_mirror_fracture": {
+    "name": "7. Infinite Mirror Fracture",
+    "filter_chain": "split[a][b];[b]hflip[flip];[a]crop=iw/2:ih:0:0[left];[flip]crop=iw/2:ih:0:0[right];[left][right]hstack,split[c][d];[d]vflip[vflip];[c]crop=iw:ih/2:0:0[top];[vflip]crop=iw:ih/2:0:0[bottom];[top][bottom]vstack,rgbashift=rh=6:bh=-6,eq=contrast=1.4:saturation=1.6",
+    "source_file": "ffmpeg-violent-effects.md"
+  },
+  "seizure_machine": {
+    "name": "8. Seizure Machine",
+    "filter_chain": "geq=lum=",
+    "source_file": "ffmpeg-violent-effects.md"
+  },
+  "vortex_crusher": {
+    "name": "9. Vortex Crusher",
+    "filter_chain": "rotate=",
+    "source_file": "ffmpeg-violent-effects.md"
+  },
+  "cellular_automaton": {
+    "name": "10. Cellular Automaton",
+    "filter_chain": "amplify=radius=3:factor=10:threshold=3,lagfun=decay=0.98,tblend=all_mode=grainextract:all_opacity=0.8,rgbashift=rh=5:bh=-5,eq=contrast=1.8:saturation=2.5,noise=alls=10:allf=t",
+    "source_file": "ffmpeg-violent-effects.md"
+  },
+  "meat_grinder": {
+    "name": "11. Meat Grinder",
+    "filter_chain": "nullsrc=s=1920x1080:d=30,lutrgb=r=",
+    "source_file": "ffmpeg-violent-effects.md"
+  },
+  "reality_tear": {
+    "name": "12. Reality Tear",
+    "filter_chain": "crop=iw:ih/5:0:0,scroll=horizontal=",
+    "source_file": "ffmpeg-violent-effects.md"
+  },
+  "void_emergence": {
+    "name": "13. Void Emergence",
+    "filter_chain": "geq=lum=",
+    "source_file": "ffmpeg-violent-effects.md"
+  },
+  "chromosome_damage": {
+    "name": "14. Chromosome Damage",
+    "filter_chain": "split=3[a][b][c];[b]crop=iw/3:ih/3:",
+    "source_file": "ffmpeg-violent-effects.md"
+  },
+  "total_entropy": {
+    "name": "15. Total Entropy",
+    "filter_chain": "nullsrc=s=1920x1080:d=30,lutrgb=r=",
+    "source_file": "ffmpeg-violent-effects.md"
+  }
+}
