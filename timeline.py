@@ -80,7 +80,7 @@ def validate(timeline: dict, filter_registry: dict | None = None) -> list[str]:
         src = scene.get('source', {})
         if isinstance(src, dict):
             stype = src.get('type')
-            if stype not in ('dazzle', 'fractal', 'video', None):
+            if stype not in ('dazzle', 'video', None):
                 errors.append(f'scene {sid}: unknown source type: {stype}')
             if stype == 'video' and not src.get('path'):
                 errors.append(f'scene {sid}: video source missing path')

@@ -72,20 +72,6 @@ def render_scene(scene: dict, timeline: dict, filter_registry: dict,
         print(f' palette={palette}')
         _run(cmd, f'scene {sid} dazzle')
 
-    elif stype == 'fractal':
-        fractal_dir = tools.get('fractal')
-        if not fractal_dir:
-            raise SystemExit(f'scene {sid}: fractal source requires tools.fractal path')
-        config = src.get('config', 'recipes/default.json')
-        cmd = [
-            'python3', os.path.join(fractal_dir, 'render.py'),
-            scene_audio, source_path,
-            '--config', os.path.join(fractal_dir, config),
-            '--no-profile',
-        ]
-        print(f'  [scene {sid}] fractal: {config}')
-        _run(cmd, f'scene {sid} fractal')
-
     elif stype == 'video':
         # Trim the source video to the scene duration.
         video_path = src['path']
