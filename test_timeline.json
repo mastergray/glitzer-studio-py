@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "audio": "/home/mastergray/codex/seamless-disarray/songs/clips/test/archive/LANDR-10-11-25-2__00m00s_00m20s.wav",
+  "tools": {
+    "ffmpeg": "/home/mastergray/codex/seamless-disarray/ffmpeg/bin/ffmpeg",
+    "dazzle": "/home/mastergray/claude/dazzle-video-maker-py",
+    "glitch_maker": "/home/mastergray/claude/glitch-maker-py",
+    "ffmpeg_filters": "/home/mastergray/codex/seamless-disarray/ffmpeg",
+    "ffprobe": "/home/mastergray/codex/seamless-disarray/ffmpeg/bin/ffprobe"
+  },
+  "temp_dir": "/tmp/glitzle",
+  "palette": "rainbow",
+  "scenes": [
+    {
+      "id": 1,
+      "start_sec": 4.0,
+      "end_sec": 20.0,
+      "label": "neutral",
+      "beats": 45,
+      "downbeats": 12,
+      "source": {
+        "type": "dazzle",
+        "effects": [
+          "hexagon",
+          "spiral",
+          "boxes"
+        ],
+        "post": [
+          "kaleidoscope"
+        ]
+      },
+      "post": {
+        "recipe": "subtle"
+      },
+      "filters": "rgb_split_chromatic_aberration",
+      "palette": "fire"
+    }
+  ],
+  "scale": 3,
+  "fps": 30
+}
