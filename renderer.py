@@ -42,6 +42,9 @@ def render_scene(scene: dict, timeline: dict, filter_registry: dict,
     stype = src['type']
     source_path = os.path.join(temp_dir, f'scene_{sid}_source.mp4')
 
+    ffmpeg_bin = tools.get('ffmpeg', 'ffmpeg')
+    ffprobe_bin = tools.get('ffprobe', 'ffprobe')
+
     if stype == 'dazzle':
         dazzle_dir = tools['dazzle']
         cmd = [
@@ -53,6 +56,8 @@ def render_scene(scene: dict, timeline: dict, filter_registry: dict,
             '--scale', str(timeline.get('scale', 6)),
             '--fps', str(timeline.get('fps', 60)),
             '--crf', str(timeline.get('crf', 23)),
+            '--ffmpeg', ffmpeg_bin,
+            '--ffprobe', ffprobe_bin,
             '--no-profile',
         ]
         if src.get('post'):
@@ -86,7 +91,7 @@ def render_scene(scene: dict, timeline: dict, filter_registry: dict,
         video_path = src['path']
         video_start = src.get('start_sec', start)
         cmd = [
-            tools['ffmpeg'], '-y', '-v', 'error',
+            ffmpeg_bin, '-y', '-v', 'error',
             '-ss', str(video_start), '-t', str(duration),
             '-i', video_path, '-c', 'copy', source_path,
         ]
@@ -103,6 +108,8 @@ def render_scene(scene: dict, timeline: dict, filter_registry: dict,
             'python3', os.path.join(gm_dir, 'render.py'),
             source_path, post_path,
             '--audio', scene_audio,
+            '--ffmpeg', ffmpeg_bin,
+            '--ffprobe', ffprobe_bin,
             '--no-profile',
         ]
 
@@ -134,7 +141,7 @@ def render_scene(scene: dict, timeline: dict, filter_registry: dict,
 
         filter_path = os.path.join(temp_dir, f'scene_{sid}_filtered.mp4')
         cmd = [
-            tools['ffmpeg'], '-y', '-v', 'error',
+            ffmpeg_bin, '-y', '-v', 'error',
             '-i', source_path,
             '-vf', filter_chain,
             '-c:a', 'copy',
