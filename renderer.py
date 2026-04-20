@@ -55,11 +55,13 @@ def _render_dazzle(visuals: dict, scene_audio: str, out_path: str,
         cmd.extend(['--post', *post_names])
 
         # Post effect params: --{effect_id}-{prop} value
+        # Props use dashes in CLI flags (e.g., speed-x not speed_x)
         for entry in post_entries:
             if isinstance(entry, dict) and entry.get('props'):
                 eid = entry['id']
                 for prop, val in entry['props'].items():
-                    cmd.extend([f'--{eid}-{prop}', str(val)])
+                    flag = f'--{eid}-{prop}'.replace('_', '-')
+                    cmd.extend([flag, str(val)])
 
     return cmd
 
