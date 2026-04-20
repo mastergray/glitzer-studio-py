@@ -148,7 +148,10 @@ def cmd_render(args):
     out_path = args.output
 
     scenes = timeline['scenes']
-    parallel = args.parallel
+    if args.parallel == 'auto':
+        parallel = len(scenes)
+    else:
+        parallel = int(args.parallel)
     print(f'[render] {len(scenes)} scene(s) to render (parallel={parallel})')
 
     t0 = time.time()
@@ -224,8 +227,9 @@ def main():
     r.add_argument('--ffmpeg', default='ffmpeg', help='path to ffmpeg binary')
     r.add_argument('--ffprobe', default='ffprobe', help='path to ffprobe binary')
     r.add_argument('--temp-dir', default='/tmp/glitzle', help='temp directory for intermediates')
-    r.add_argument('--parallel', type=int, default=1,
-                   help='render N scenes in parallel (default 1 = sequential)')
+    r.add_argument('--parallel', default='1',
+                   help='render N scenes in parallel. "auto" = one worker per scene. '
+                        '(default 1 = sequential)')
 
     # --- filters ---
     sub.add_parser('filters', help='List managed ffmpeg filter library')
