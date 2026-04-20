@@ -251,6 +251,32 @@ python3 studio.py filters
 
 Lists all 220 managed ffmpeg filter IDs.
 
+## Output Naming Convention
+
+Rendered outputs use a descriptive naming format:
+
+```
+{audio_name}__{scene1}__{scene2}__{scene3}.mp4
+```
+
+- `__` (double underscore) separates the audio name from scenes and scenes from each other
+- `-` (dash) separates visual elements within a scene (effects + post effects)
+- Compound effect names with underscores use dashes instead (e.g., `mirror_diamond` → `mirror-diamond`)
+
+Example:
+```
+LANDR-08-31-25_clip_04_08m35s_09m05s
+  __puffs-sierpinski-lotsadots-radial-twist
+  __tunnel-ellipse-pedals-tetrys-ziti
+  __sierpinski-spiral-puffs-lotsadots-mirror-diamond-kaleidoscope
+.mp4
+```
+
+Each scene's section lists the dazzle shape effects followed by the dazzle
+post-production effects used. Glitch effects and ffmpeg filters are not
+included in the filename (they're recorded in the timeline JSON which is
+stored alongside the output).
+
 ## Project Structure
 
 ```
