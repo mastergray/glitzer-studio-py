@@ -9,6 +9,7 @@ Orchestrates dazzle (generation), glitch-maker (effects), and ffmpeg
 """
 from __future__ import annotations
 import argparse
+import concurrent.futures
 import json
 import os
 import subprocess
@@ -147,13 +148,26 @@ def cmd_render(args):
     out_path = args.output
 
     scenes = timeline['scenes']
-    print(f'[render] {len(scenes)} scene(s) to render')
+    parallel = args.parallel
+    print(f'[render] {len(scenes)} scene(s) to render (parallel={parallel})')
 
     t0 = time.time()
-    segments = []
-    for scene in scenes:
-        seg_path = render_scene(scene, timeline, filter_library, tools, temp_dir)
-        segments.append(seg_path)
+    if parallel > 1 and len(scenes) > 1:
+        # Render scenes in parallel — each is independent until concatenation.
+        segments = [None] * len(scenes)
+        with concurrent.futures.ThreadPoolExecutor(max_workers=parallel) as pool:
+            futures = {
+                pool.submit(render_scene, scene, timeline, filter_library, tools, temp_dir): i
+                for i, scene in enumerate(scenes)
+            }
+            for future in concurrent.futures.as_completed(futures):
+                idx = futures[future]
+                segments[idx] = future.result()
+    else:
+        segments = []
+        for scene in scenes:
+            seg_path = render_scene(scene, timeline, filter_library, tools, temp_dir)
+            segments.append(seg_path)
 
     # Concatenate all scenes.
     concat_path = os.path.join(temp_dir, 'concatenated.mp4')
@@ -210,6 +224,8 @@ def main():
     r.add_argument('--ffmpeg', default='ffmpeg', help='path to ffmpeg binary')
     r.add_argument('--ffprobe', default='ffprobe', help='path to ffprobe binary')
     r.add_argument('--temp-dir', default='/tmp/glitzle', help='temp directory for intermediates')
+    r.add_argument('--parallel', type=int, default=1,
+                   help='render N scenes in parallel (default 1 = sequential)')
 
     # --- filters ---
     sub.add_parser('filters', help='List managed ffmpeg filter library')
