@@ -1,1102 +1,1322 @@
 {
   "classic_afterimage_retinal_burn": {
     "name": "1. Classic Afterimage / Retinal Burn",
-    "filter_chain": "split[live][ghost];[ghost]negate,lagfun=decay=0.97[afterimage];[live][afterimage]blend=all_mode=screen:all_opacity=0.35,eq=contrast=1.2:saturation=1.1",
-    "source_file": "ffmpeg-afterimage-experimental.md"
+    "filter_chain": "split[live][ghost]; [ghost]negate,lagfun=decay=0.97[afterimage]; [live][afterimage]blend=all_mode=screen:all_opacity=0.35, eq=contrast=1.2:saturation=1.1",
+    "source_file": "ffmpeg-afterimage-experimental.md",
+    "complex": true
   },
   "motion_trail_comet_tail": {
     "name": "2. Motion Trail / Comet Tail",
-    "filter_chain": "lagfun=decay=0.96:planes=15,eq=contrast=1.3:saturation=1.4",
-    "source_file": "ffmpeg-afterimage-experimental.md"
+    "filter_chain": "lagfun=decay=0.96:planes=15, eq=contrast=1.3:saturation=1.4",
+    "source_file": "ffmpeg-afterimage-experimental.md",
+    "complex": false
   },
   "stroboscopic_echo_multi_exposure": {
     "name": "3. Stroboscopic Echo / Multi-Exposure",
-    "filter_chain": "tmix=frames=8:weights=",
-    "source_file": "ffmpeg-afterimage-experimental.md"
+    "filter_chain": "tmix=frames=8:weights=1 0 0 1 0 0 1 0",
+    "source_file": "ffmpeg-afterimage-experimental.md",
+    "complex": false
   },
   "phosphor_persistence_crt_memory": {
     "name": "4. Phosphor Persistence (CRT Memory)",
-    "filter_chain": "format=gray,lagfun=decay=0.92,lutrgb=r=",
-    "source_file": "ffmpeg-afterimage-experimental.md"
+    "filter_chain": "format=gray, lagfun=decay=0.92, lutrgb=r=val/4:g=val:b=val/3, gblur=sigma=1.0, drawgrid=w=0:h=2:t=1:c=black@0.2, vignette=angle=0.4, noise=alls=8:allf=t",
+    "source_file": "ffmpeg-afterimage-experimental.md",
+    "complex": false
   },
   "shadow_echo_dark_afterimage": {
     "name": "5. Shadow Echo / Dark Afterimage",
-    "filter_chain": "split[live][shadow];[shadow]lagfun=decay=0.96,eq=brightness=-0.4:contrast=1.5:saturation=0[dark];[live][dark]blend=all_mode=multiply:all_opacity=0.5,eq=contrast=1.1",
-    "source_file": "ffmpeg-afterimage-experimental.md"
+    "filter_chain": "split[live][shadow]; [shadow]lagfun=decay=0.96, eq=brightness=-0.4:contrast=1.5:saturation=0[dark]; [live][dark]blend=all_mode=multiply:all_opacity=0.5, eq=contrast=1.1",
+    "source_file": "ffmpeg-afterimage-experimental.md",
+    "complex": true
   },
   "spectral_decomposition_chromatic_echo": {
     "name": "6. Spectral Decomposition / Chromatic Echo",
-    "filter_chain": "split=3[r][g][b];[r]lagfun=decay=0.98,extractplanes=r[rp];[g]lagfun=decay=0.95,extractplanes=g[gp];[b]lagfun=decay=0.91,extractplanes=b[bp];[rp][gp][bp]mergeplanes=0x001020:yuv444p,format=yuv420p,eq=contrast=1.3:saturation=1.5",
-    "source_file": "ffmpeg-afterimage-experimental.md"
+    "filter_chain": "split=3[r][g][b]; [r]lagfun=decay=0.98,extractplanes=r[rp]; [g]lagfun=decay=0.95,extractplanes=g[gp]; [b]lagfun=decay=0.91,extractplanes=b[bp]; [rp][gp][bp]mergeplanes=0x001020:yuv444p, format=yuv420p, eq=contrast=1.3:saturation=1.5",
+    "source_file": "ffmpeg-afterimage-experimental.md",
+    "complex": true
   },
   "video_feedback_larsen_effect": {
     "name": "7. Video Feedback / Larsen Effect",
-    "filter_chain": "split[a][b];[b]scale=iw*1.03:ih*1.03,crop=iw/1.03:ih/1.03,hue=h=3,eq=brightness=0.02[feedback];[a][feedback]blend=all_mode=screen:all_opacity=0.5,lagfun=decay=0.97",
-    "source_file": "ffmpeg-afterimage-experimental.md"
+    "filter_chain": "split[a][b]; [b]scale=iw*1.03:ih*1.03,crop=iw/1.03:ih/1.03, hue=h=3,eq=brightness=0.02[feedback]; [a][feedback]blend=all_mode=screen:all_opacity=0.5, lagfun=decay=0.97",
+    "source_file": "ffmpeg-afterimage-experimental.md",
+    "complex": true
   },
   "infinity_mirror_tunnel_recursion": {
     "name": "8. Infinity Mirror / Tunnel Recursion",
-    "filter_chain": "split=4[a][b][c][d];[b]scale=iw*0.6:ih*0.6[s1];[c]scale=iw*0.36:ih*0.36[s2];[d]scale=iw*0.216:ih*0.216[s3];[a][s1]overlay=(W-w)/2:(H-h)/2[l1];[l1][s2]overlay=(W-w)/2:(H-h)/2[l2];[l2][s3]overlay=(W-w)/2:(H-h)/2,eq=contrast=1.2:saturation=1.1",
-    "source_file": "ffmpeg-afterimage-experimental.md"
+    "filter_chain": "split=4[a][b][c][d]; [b]scale=iw*0.6:ih*0.6[s1]; [c]scale=iw*0.36:ih*0.36[s2]; [d]scale=iw*0.216:ih*0.216[s3]; [a][s1]overlay=(W-w)/2:(H-h)/2[l1]; [l1][s2]overlay=(W-w)/2:(H-h)/2[l2]; [l2][s3]overlay=(W-w)/2:(H-h)/2, eq=contrast=1.2:saturation=1.1",
+    "source_file": "ffmpeg-afterimage-experimental.md",
+    "complex": true
   },
   "fractal_zoom_feedback": {
     "name": "9. Fractal Zoom Feedback",
-    "filter_chain": "split[a][b];[b]scale=iw*1.08:ih*1.08,crop=iw/1.08:ih/1.08,rotate=",
-    "source_file": "ffmpeg-afterimage-experimental.md"
+    "filter_chain": "split[a][b]; [b]scale=iw*1.08:ih*1.08,crop=iw/1.08:ih/1.08, rotate=0.03:fillcolor=black, hue=h=8:s=1.2[zoom]; [a][zoom]blend=all_mode=addition:all_opacity=0.4, lagfun=decay=0.985, tblend=all_mode=grainextract:all_opacity=0.3, eq=contrast=1.5:saturation=1.8",
+    "source_file": "ffmpeg-afterimage-experimental.md",
+    "complex": true
   },
   "audio_reactive_displacement": {
     "name": "10. Audio-Reactive Displacement",
-    "filter_chain": "[0:a]showwaves=s=1920x1080:mode=cline:rate=30:colors=white[waves];[waves]format=gray[xmap];[waves]format=gray,negate[ymap];[0:v][xmap][ymap]displace,eq=contrast=1.2:saturation=1.3",
-    "source_file": "ffmpeg-afterimage-experimental.md"
+    "filter_chain": "[0:a]showwaves=s=1920x1080:mode=cline:rate=30:colors=white[waves]; [waves]format=gray[xmap]; [waves]format=gray,negate[ymap]; [0:v][xmap][ymap]displace, eq=contrast=1.2:saturation=1.3",
+    "source_file": "ffmpeg-afterimage-experimental.md",
+    "complex": true
   },
   "depth_fog_z_buffer_simulation": {
     "name": "11. Depth Fog / Z-Buffer Simulation",
-    "filter_chain": "split[a][b];[b]gblur=sigma=8,colorbalance=rs=0.05:gs=0.05:bs=0.15,eq=brightness=0.15:saturation=0.5[fog];[a]format=gray[depth];[a][fog]blend=all_expr=",
-    "source_file": "ffmpeg-afterimage-experimental.md"
+    "filter_chain": "split[a][b]; [b]gblur=sigma=8, colorbalance=rs=0.05:gs=0.05:bs=0.15, eq=brightness=0.15:saturation=0.5[fog]; [a]format=gray[depth]; [a][fog]blend=all_expr=A*(lum(X,Y)/255)+B*(1-lum(X,Y)/255), eq=contrast=1.1",
+    "source_file": "ffmpeg-afterimage-experimental.md",
+    "complex": true
   },
   "datamosh_true_i_frame_removal": {
     "name": "12. Datamosh (True I-Frame Removal)",
-    "filter_chain": "select=",
-    "source_file": "ffmpeg-afterimage-experimental.md"
+    "filter_chain": "select=not(eq(pict_type,I)),setpts=N/FRAME_RATE/TB",
+    "source_file": "ffmpeg-afterimage-experimental.md",
+    "complex": false
   },
   "bullet_time_matrix_effect": {
     "name": "13. Bullet Time / Matrix Effect",
-    "filter_chain": "select=",
-    "source_file": "ffmpeg-afterimage-experimental.md"
+    "filter_chain": "select=between(n,150,150),setpts=N/30/TB, loop=loop=150:size=1, nullsrc=s=1920x1080:d=5:r=30,geq=lum=128+30*sin(atan2(Y-H/2,X-W/2)+T*3)*cos(hypot(X-W/2,Y-H/2)/100):cb=128:cr=128,format=gray[xmap]; nullsrc=s=1920x1080:d=5:r=30,geq=lum=128+30*cos(atan2(Y-H/2,X-W/2)+T*3)*sin(hypot(X-W/2,Y-H/2)/100):cb=128:cr=128,format=gray[ymap]; [0:v][xmap][ymap]displace, eq=contrast=1.2:saturation=1.1",
+    "source_file": "ffmpeg-afterimage-experimental.md",
+    "complex": true
   },
   "thermal_bloom_heat_signature_persistence": {
     "name": "14. Thermal Bloom / Heat Signature Persistence",
-    "filter_chain": "format=gray,lagfun=decay=0.97,pseudocolor=preset=inferno,split[a][b];[b]gblur=sigma=5,eq=brightness=0.08[bloom];[a][bloom]blend=all_mode=screen:all_opacity=0.3,eq=contrast=1.3:saturation=1.4",
-    "source_file": "ffmpeg-afterimage-experimental.md"
+    "filter_chain": "format=gray, lagfun=decay=0.97, pseudocolor=preset=inferno, split[a][b]; [b]gblur=sigma=5,eq=brightness=0.08[bloom]; [a][bloom]blend=all_mode=screen:all_opacity=0.3, eq=contrast=1.3:saturation=1.4",
+    "source_file": "ffmpeg-afterimage-experimental.md",
+    "complex": true
   },
   "dimensional_bleed_cross_channel_leakage": {
     "name": "15. Dimensional Bleed / Cross-Channel Leakage",
-    "filter_chain": "split[orig][color];[color]lutrgb=r=",
-    "source_file": "ffmpeg-afterimage-experimental.md"
+    "filter_chain": "split[orig][color]; [color]lutrgb=r=mod(val+X/8,256):g=mod(val+Y/6,256):b=mod(val+(X+Y)/10,256)[bled]; [orig][bled]blend=all_mode=screen:all_opacity=0.3, eq=contrast=1.2:saturation=1.4",
+    "source_file": "ffmpeg-afterimage-experimental.md",
+    "complex": true
   },
   "echo_chamber_reverb_visualization": {
     "name": "16. Echo Chamber / Reverb Visualization",
-    "filter_chain": "split=4[a][b][c][d];[b]scale=iw*0.8:ih*0.8,hflip,format=rgba,colorchannelmixer=aa=0.3[echo1];[c]scale=iw*0.6:ih*0.6,vflip,format=rgba,colorchannelmixer=aa=0.2[echo2];[d]scale=iw*0.4:ih*0.4,hflip,vflip,format=rgba,colorchannelmixer=aa=0.15[echo3];[a]format=rgba[base];[base][echo1]overlay=(W-w)/2:(H-h)/2[l1];[l1][echo2]overlay=(W-w)/2:(H-h)/2[l2];[l2][echo3]overlay=(W-w)/2:(H-h)/2,format=yuv420p,lagfun=decay=0.92,eq=contrast=1.2:saturation=1.1",
-    "source_file": "ffmpeg-afterimage-experimental.md"
+    "filter_chain": "split=4[a][b][c][d]; [b]scale=iw*0.8:ih*0.8,hflip,format=rgba,colorchannelmixer=aa=0.3[echo1]; [c]scale=iw*0.6:ih*0.6,vflip,format=rgba,colorchannelmixer=aa=0.2[echo2]; [d]scale=iw*0.4:ih*0.4,hflip,vflip,format=rgba,colorchannelmixer=aa=0.15[echo3]; [a]format=rgba[base]; [base][echo1]overlay=(W-w)/2:(H-h)/2[l1]; [l1][echo2]overlay=(W-w)/2:(H-h)/2[l2]; [l2][echo3]overlay=(W-w)/2:(H-h)/2, format=yuv420p, lagfun=decay=0.92, eq=contrast=1.2:saturation=1.1",
+    "source_file": "ffmpeg-afterimage-experimental.md",
+    "complex": true
   },
   "glitch_art_printing_risograph_effect": {
     "name": "17. Glitch Art Printing / Risograph Effect",
-    "filter_chain": "split=3[r][g][b];[r]extractplanes=r,lutrgb=r=",
-    "source_file": "ffmpeg-afterimage-experimental.md"
+    "filter_chain": "split=3[r][g][b]; [r]extractplanes=r,lutrgb=r=if(gt(val,128),255,0),rgbashift=rh=3:rv=1[rp]; [g]extractplanes=g,lutrgb=g=if(gt(val,100),255,0)[gp]; [b]extractplanes=b,lutrgb=b=if(gt(val,128),255,0),rgbashift=bh=-2:bv=-1[bp]; [rp][gp][bp]mergeplanes=0x001020:yuv444p, format=yuv420p, noise=alls=12:allf=u, eq=contrast=1.4:saturation=1.6",
+    "source_file": "ffmpeg-afterimage-experimental.md",
+    "complex": true
   },
   "light_leak_lens_flare": {
     "name": "18. Light Leak / Lens Flare",
-    "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum=",
-    "source_file": "ffmpeg-afterimage-experimental.md"
+    "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum=max(0, 180*exp(-hypot(X-W*0.2-W*0.3*sin(T*0.5),Y-H*0.3-H*0.2*cos(T*0.3))/300) +120*exp(-hypot(X-W*0.7+W*0.2*cos(T*0.4),Y-H*0.6+H*0.15*sin(T*0.6))/250) ):cb=128+30*sin(T*0.5):cr=128+40*cos(T*0.3), gblur=sigma=30[leak]; [0:v][leak]blend=all_mode=screen:all_opacity=0.35, eq=contrast=0.95:saturation=1.1",
+    "source_file": "ffmpeg-afterimage-experimental.md",
+    "complex": true
   },
   "negative_space_inversion": {
     "name": "19. Negative Space Inversion",
-    "filter_chain": "split[a][b];[b]tblend=all_mode=difference,format=gray,gblur=sigma=5,lutrgb=r=",
-    "source_file": "ffmpeg-afterimage-experimental.md"
+    "filter_chain": "split[a][b]; [b]tblend=all_mode=difference,format=gray,gblur=sigma=5, lutrgb=r=if(gt(val,30),255,0):g=if(gt(val,30),255,0):b=if(gt(val,30),255,0)[motion_mask]; [a]split[orig][inverted]; [inverted]negate,hue=h=180,eq=saturation=1.5[neg]; [orig][neg]blend=all_expr=if(gt(B,128),B,A)[composed]; [a][composed]blend=all_mode=normal:all_opacity=1",
+    "source_file": "ffmpeg-afterimage-experimental.md",
+    "complex": true
   },
   "dreamscape_ethereal_composite": {
     "name": "20. Dreamscape / Ethereal Composite",
-    "filter_chain": "split=3[sharp][soft][trail];[soft]gblur=sigma=6[blurred];[trail]lagfun=decay=0.93,eq=brightness=0.05:saturation=0.6[ghost];[sharp][blurred]blend=all_mode=screen:all_opacity=0.25[bloomed];[bloomed][ghost]blend=all_mode=screen:all_opacity=0.2,eq=saturation=0.7:contrast=0.9:brightness=0.04,colorbalance=hs=0.05:ms=0.03:bs=0.08:hh=-0.03:mh=0.02:bh=0.05,vignette=angle=0.4,noise=alls=5:allf=u",
-    "source_file": "ffmpeg-afterimage-experimental.md"
+    "filter_chain": "split=3[sharp][soft][trail]; [soft]gblur=sigma=6[blurred]; [trail]lagfun=decay=0.93,eq=brightness=0.05:saturation=0.6[ghost]; [sharp][blurred]blend=all_mode=screen:all_opacity=0.25[bloomed]; [bloomed][ghost]blend=all_mode=screen:all_opacity=0.2, eq=saturation=0.7:contrast=0.9:brightness=0.04, colorbalance=hs=0.05:ms=0.03:bs=0.08:hh=-0.03:mh=0.02:bh=0.05, vignette=angle=0.4, noise=alls=5:allf=u",
+    "source_file": "ffmpeg-afterimage-experimental.md",
+    "complex": true
   },
   "film_decay_vinegar_syndrome": {
     "name": "1. Film Decay / Vinegar Syndrome",
-    "filter_chain": "curves=vintage,eq=saturation=0.5:contrast=0.9:brightness=-0.05,noise=alls=30:allf=t+u,hue=h=",
-    "source_file": "ffmpeg-decay-effects.md"
+    "filter_chain": "curves=vintage, eq=saturation=0.5:contrast=0.9:brightness=-0.05, noise=alls=30:allf=t+u, hue=h=10*sin(T*0.5):s=0.7, unsharp=5:5:1.5",
+    "source_file": "ffmpeg-decay-effects.md",
+    "complex": false
   },
   "rust_corrosion_overlay": {
     "name": "2. Rust / Corrosion Overlay",
-    "filter_chain": "colorbalance=rs=0.4:gs=-0.1:bs=-0.3:rm=0.3:gm=-0.05:bm=-0.2,curves=r=",
-    "source_file": "ffmpeg-decay-effects.md"
+    "filter_chain": "colorbalance=rs=0.4:gs=-0.1:bs=-0.3:rm=0.3:gm=-0.05:bm=-0.2, curves=r=0/0 0.5/0.6 1/0.8:g=0/0 0.5/0.35 1/0.5:b=0/0 0.5/0.15 1/0.25, noise=alls=25:allf=u, eq=contrast=1.3:saturation=1.2, unsharp=7:7:2.0",
+    "source_file": "ffmpeg-decay-effects.md",
+    "complex": false
   },
   "melting_dripping": {
     "name": "3. Melting / Dripping",
-    "filter_chain": "lagfun=decay=0.985:planes=15,scroll=v=",
-    "source_file": "ffmpeg-decay-effects.md"
+    "filter_chain": "lagfun=decay=0.985:planes=15, scroll=v=0.003+0.001*sin(T*2):h=0, eq=contrast=1.2:saturation=1.3",
+    "source_file": "ffmpeg-decay-effects.md",
+    "complex": false
   },
   "disintegration_particle_breakup": {
     "name": "4. Disintegration / Particle Breakup",
-    "filter_chain": "split[orig][noise_src];[noise_src]geq=random(1)*255:128:128[noisy];[orig][noisy]blend=all_expr=",
-    "source_file": "ffmpeg-decay-effects.md"
+    "filter_chain": "split[orig][noise_src]; [noise_src]geq=random(1)*255:128:128[noisy]; [orig][noisy]blend=all_expr=if(gt(random(0), 1-T/20), B, A), noise=alls=10:allf=t",
+    "source_file": "ffmpeg-decay-effects.md",
+    "complex": true
   },
   "chemical_burn_bleach_bypass": {
     "name": "5. Chemical Burn / Bleach Bypass",
-    "filter_chain": "curves=all=",
-    "source_file": "ffmpeg-decay-effects.md"
+    "filter_chain": "curves=all=0/0 0.3/0.1 0.6/0.7 1/1, eq=saturation=0.4:contrast=1.6:gamma=1.3, colorbalance=hs=0.2:ms=0.1:bs=-0.1:hh=-0.1:mh=0.05, noise=alls=15:allf=u",
+    "source_file": "ffmpeg-decay-effects.md",
+    "complex": false
   },
   "vhs_tape_degradation": {
     "name": "6. VHS Tape Degradation",
-    "filter_chain": "rgbashift=rh=4:bh=-4:rv=1:bv=-1,noise=alls=35:allf=t+u,drawgrid=w=0:h=2:t=1:c=black@0.3,eq=saturation=0.6:contrast=0.9,hue=h=",
-    "source_file": "ffmpeg-decay-effects.md"
+    "filter_chain": "rgbashift=rh=4:bh=-4:rv=1:bv=-1, noise=alls=35:allf=t+u, drawgrid=w=0:h=2:t=1:c=black@0.3, eq=saturation=0.6:contrast=0.9, hue=h=3*sin(T*2), gblur=sigma=0.8, scroll=v=0.001*sin(T*5):h=0",
+    "source_file": "ffmpeg-decay-effects.md",
+    "complex": false
   },
   "acid_burn_color_erosion": {
     "name": "7. Acid Burn / Color Erosion",
-    "filter_chain": "split[a][b];[b]negate,hue=h=90:s=3,eq=brightness=0.2[acid];[a][acid]blend=all_expr=",
-    "source_file": "ffmpeg-decay-effects.md"
+    "filter_chain": "split[a][b]; [b]negate,hue=h=90:s=3,eq=brightness=0.2[acid]; [a][acid]blend=all_expr=if(gt(sin(X/15+T*3)*cos(Y/12+T*2), 0.3), B, A), noise=alls=20:allf=t, eq=contrast=1.4:saturation=1.5",
+    "source_file": "ffmpeg-decay-effects.md",
+    "complex": true
   },
   "erosion_weathering": {
     "name": "8. Erosion / Weathering",
-    "filter_chain": "split[orig][erode];[erode]edgedetect=low=0.1:high=0.4:mode=wires,negate[edges];[orig][edges]blend=all_mode=multiply:all_opacity=0.7,noise=alls=20:allf=u,eq=saturation=0.6:contrast=1.2,gblur=sigma=0.5",
-    "source_file": "ffmpeg-decay-effects.md"
+    "filter_chain": "split[orig][erode]; [erode]edgedetect=low=0.1:high=0.4:mode=wires, negate[edges]; [orig][edges]blend=all_mode=multiply:all_opacity=0.7, noise=alls=20:allf=u, eq=saturation=0.6:contrast=1.2, gblur=sigma=0.5",
+    "source_file": "ffmpeg-decay-effects.md",
+    "complex": true
   },
   "thermal_meltdown_heat_distortion": {
     "name": "9. Thermal Meltdown / Heat Distortion",
-    "filter_chain": "nullsrc=s=1920x1080:d=30,lutrgb=r=",
-    "source_file": "ffmpeg-decay-effects.md"
+    "filter_chain": "nullsrc=s=1920x1080:d=30,lutrgb=r=128+8*sin(X/25+T*6):g=128:b=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30,lutrgb=r=128+12*sin(Y/15+T*4)+5*sin(X/40+T*3):g=128:b=128,format=gray[ymap]; [0:v][xmap][ymap]displace, lagfun=decay=0.97, colorbalance=rs=0.3:gs=-0.05:bs=-0.2:rm=0.2:bm=-0.15, eq=contrast=1.2:saturation=1.3",
+    "source_file": "ffmpeg-decay-effects.md",
+    "complex": true
   },
   "fog_fade_to_nothing": {
     "name": "10. Fog / Fade to Nothing",
-    "filter_chain": "split[orig][fog];[fog]gblur=sigma=",
-    "source_file": "ffmpeg-decay-effects.md"
+    "filter_chain": "split[orig][fog]; [fog]gblur=sigma=1+T*2, eq=brightness=T*0.04:contrast=max(0.3, 1-T*0.04):saturation=max(0.1, 1-T*0.05)[foggy]; [orig][foggy]blend=all_expr=A*(1-T/20)+B*(T/20)",
+    "source_file": "ffmpeg-decay-effects.md",
+    "complex": true
   },
   "glitch_decay_combo": {
     "name": "11. Glitch Decay Combo",
-    "filter_chain": "rgbashift=rh=",
-    "source_file": "ffmpeg-decay-effects.md"
+    "filter_chain": "rgbashift=rh=3+T*0.3:bh=-3-T*0.3, lagfun=decay=min(0.995, 0.95+T*0.002), colorbalance=rs=T*0.02:bs=-T*0.015, noise=alls=min(60, 10+T*2):allf=t+u, eq=saturation=max(0.2, 0.8-T*0.03):contrast=max(0.5, 1.1-T*0.02), drawgrid=w=0:h=2:t=1:c=black@0.3, scroll=v=0.001*sin(T*3):h=0",
+    "source_file": "ffmpeg-decay-effects.md",
+    "complex": false
   },
   "paper_burn_vignette_consume": {
     "name": "12. Paper Burn / Vignette Consume",
-    "filter_chain": "split[orig][burn];[burn]colorbalance=rs=0.5:gs=0.1:bs=-0.3,eq=brightness=-0.4:contrast=1.5:saturation=0.3,noise=alls=30:allf=u[burned];[orig][burned]blend=all_expr=",
-    "source_file": "ffmpeg-decay-effects.md"
+    "filter_chain": "split[orig][burn]; [burn]colorbalance=rs=0.5:gs=0.1:bs=-0.3, eq=brightness=-0.4:contrast=1.5:saturation=0.3, noise=alls=30:allf=u[burned]; [orig][burned]blend=all_expr=if(gt(hypot(X-W/2, Y-H/2), max(0, W/2-T*15)), B, A)",
+    "source_file": "ffmpeg-decay-effects.md",
+    "complex": true
   },
   "mandelbrot_stylized_color_palettes": {
     "name": "2. Mandelbrot \u2014 Stylized Color Palettes",
     "filter_chain": "pseudocolor=preset=inferno",
-    "source_file": "ffmpeg-fractals-generative.md"
+    "source_file": "ffmpeg-fractals-generative.md",
+    "complex": false
   },
   "mandelbrot_composited_over_video": {
     "name": "3. Mandelbrot \u2014 Composited Over Video",
-    "filter_chain": "[0:v]pseudocolor=preset=magma[fractal];[1:v][fractal]blend=all_mode=screen:all_opacity=0.5",
-    "source_file": "ffmpeg-fractals-generative.md"
+    "filter_chain": "[0:v]pseudocolor=preset=magma[fractal]; [1:v][fractal]blend=all_mode=screen:all_opacity=0.5",
+    "source_file": "ffmpeg-fractals-generative.md",
+    "complex": true
   },
   "mandelbrot_as_displacement_source": {
     "name": "4. Mandelbrot \u2014 As Displacement Source",
-    "filter_chain": "[0:v]format=gray,lutrgb=r=",
-    "source_file": "ffmpeg-fractals-generative.md"
+    "filter_chain": "[0:v]format=gray,lutrgb=r=val:g=val:b=val[xmap]; [0:v]format=gray,negate[ymap]; [1:v][xmap][ymap]displace",
+    "source_file": "ffmpeg-fractals-generative.md",
+    "complex": true
   },
   "cellular_automaton_stylized_composited": {
     "name": "6. Cellular Automaton \u2014 Stylized & Composited",
     "filter_chain": "pseudocolor=preset=plasma,gblur=sigma=1,eq=contrast=1.5:saturation=2.0",
-    "source_file": "ffmpeg-fractals-generative.md"
+    "source_file": "ffmpeg-fractals-generative.md",
+    "complex": false
   },
   "mathematical_fractals_with_geq": {
     "name": "7. Mathematical Fractals with GEQ",
-    "filter_chain": "geq=lum=",
-    "source_file": "ffmpeg-fractals-generative.md"
+    "filter_chain": "geq=lum=128+127*sin(hypot(X-W/2,Y-H/2)/5+T*3):cb=128:cr=128",
+    "source_file": "ffmpeg-fractals-generative.md",
+    "complex": false
   },
   "geq_fractals_composited_over_video": {
     "name": "8. GEQ Fractals \u2014 Composited Over Video",
-    "filter_chain": "[0:v]geq=lum=",
-    "source_file": "ffmpeg-fractals-generative.md"
+    "filter_chain": "[0:v]geq=lum=128+127*sin(atan2(Y-H/2,X-W/2)*6+hypot(X-W/2,Y-H/2)/15+T*4):cb=128+80*sin(atan2(Y-H/2,X-W/2)*4+T*3):cr=128+80*cos(hypot(X-W/2,Y-H/2)/25+T*2)[pattern]; [1:v][pattern]blend=all_mode=screen:all_opacity=0.4",
+    "source_file": "ffmpeg-fractals-generative.md",
+    "complex": true
   },
   "reaction_diffusion_simulation": {
     "name": "9. Reaction-Diffusion Simulation",
-    "filter_chain": "split[a][b];[b]edgedetect=low=0.05:high=0.2:mode=colormix,gblur=sigma=3,hue=s=3[edges];[a][edges]blend=all_mode=addition:all_opacity=0.5,amplify=radius=3:factor=6:threshold=4,lagfun=decay=0.985,gblur=sigma=0.5,eq=contrast=1.4:saturation=2.0",
-    "source_file": "ffmpeg-fractals-generative.md"
+    "filter_chain": "split[a][b]; [b]edgedetect=low=0.05:high=0.2:mode=colormix, gblur=sigma=3, hue=s=3[edges]; [a][edges]blend=all_mode=addition:all_opacity=0.5, amplify=radius=3:factor=6:threshold=4, lagfun=decay=0.985, gblur=sigma=0.5, eq=contrast=1.4:saturation=2.0",
+    "source_file": "ffmpeg-fractals-generative.md",
+    "complex": true
   },
   "lissajous_harmonograph_patterns": {
     "name": "10. Lissajous / Harmonograph Patterns",
-    "filter_chain": "geq=lum=",
-    "source_file": "ffmpeg-fractals-generative.md"
+    "filter_chain": "geq=lum=if(lt(hypot(X-W/2-W/3*sin(T*3+N*0.01),Y-H/2-H/3*sin(T*4+N*0.01)),5),255,0):cb=128:cr=128, lagfun=decay=0.99, pseudocolor=preset=plasma",
+    "source_file": "ffmpeg-fractals-generative.md",
+    "complex": false
   },
   "fractal_noise_perlin_like_texture": {
     "name": "11. Fractal Noise / Perlin-like Texture",
-    "filter_chain": "geq=lum=",
-    "source_file": "ffmpeg-fractals-generative.md"
+    "filter_chain": "geq=lum= 128 +50*sin(X/40+T*1.5)*cos(Y/35+T*1.2) +25*sin(X/20+T*2.5)*cos(Y/18+T*2.0) +12*sin(X/10+T*3.5)*cos(Y/9+T*3.0) +6*sin(X/5+T*4.5)*cos(Y/4.5+T*4.0) :cb=128+30*sin(X/30+T*2)*cos(Y/25+T*1.5):cr=128+30*cos(X/35+T*1.8)*sin(Y/30+T*2.2)",
+    "source_file": "ffmpeg-fractals-generative.md",
+    "complex": false
   },
   "life_like_pattern_generator": {
     "name": "12. Life-like Pattern Generator",
-    "filter_chain": "lagfun=decay=0.97,pseudocolor=preset=viridis,gblur=sigma=1,eq=contrast=1.3:saturation=1.8",
-    "source_file": "ffmpeg-fractals-generative.md"
+    "filter_chain": "lagfun=decay=0.97, pseudocolor=preset=viridis, gblur=sigma=1, eq=contrast=1.3:saturation=1.8",
+    "source_file": "ffmpeg-fractals-generative.md",
+    "complex": false
   },
   "julia_set_approximation": {
     "name": "13. Julia Set Approximation",
-    "filter_chain": "geq=lum=",
-    "source_file": "ffmpeg-fractals-generative.md"
+    "filter_chain": "geq=lum= mod( floor(255 * (sin(((X-W/2)/200)*((X-W/2)/200) - ((Y-H/2)/200)*((Y-H/2)/200) + 0.355+0.05*sin(T*0.5)) * 8 + T*2) + 1) / 2 , 256):cb=128+60*sin(X/100+T):cr=128+60*cos(Y/100+T*1.3), eq=contrast=1.5:saturation=1.8",
+    "source_file": "ffmpeg-fractals-generative.md",
+    "complex": false
   },
   "fractal_glitch_fusion": {
     "name": "14. Fractal + Glitch Fusion",
-    "filter_chain": "[0:v]format=gray[xmap];[0:v]format=gray,negate[ymap];[1:v][xmap][ymap]displace,rgbashift=rh=",
-    "source_file": "ffmpeg-fractals-generative.md"
+    "filter_chain": "[0:v]format=gray[xmap]; [0:v]format=gray,negate[ymap]; [1:v][xmap][ymap]displace, rgbashift=rh=10*sin(T*5):bh=-10*sin(T*5), lagfun=decay=0.96, noise=alls=25:allf=t, tblend=all_mode=phoenix:all_opacity=0.5, eq=contrast=1.5:saturation=2.0",
+    "source_file": "ffmpeg-fractals-generative.md",
+    "complex": true
   },
   "rgb_split_chromatic_aberration": {
     "name": "1. RGB Split / Chromatic Aberration",
     "filter_chain": "rgbashift=rh=-8:bh=8:rv=2:bv=-2",
-    "source_file": "ffmpeg-glitch-recipes.md"
+    "source_file": "ffmpeg-glitch-recipes.md",
+    "complex": false
   },
   "scan_lines_crt_effect": {
     "name": "2. Scan Lines / CRT Effect",
     "filter_chain": "drawgrid=w=0:h=2:t=1:c=black@0.4,noise=alls=15:allf=t,eq=contrast=1.2:brightness=-0.05",
-    "source_file": "ffmpeg-glitch-recipes.md"
+    "source_file": "ffmpeg-glitch-recipes.md",
+    "complex": false
   },
   "pixel_smear_datamosh_lite": {
     "name": "3. Pixel Smear / Datamosh-lite",
     "filter_chain": "lagfun=decay=0.97:planes=15",
-    "source_file": "ffmpeg-glitch-recipes.md"
+    "source_file": "ffmpeg-glitch-recipes.md",
+    "complex": false
   },
   "static_vhs_noise": {
     "name": "4. Static / VHS Noise",
     "filter_chain": "noise=alls=40:allf=t+u,eq=saturation=0.8",
-    "source_file": "ffmpeg-glitch-recipes.md"
+    "source_file": "ffmpeg-glitch-recipes.md",
+    "complex": false
   },
   "pixel_corruption_mosaic": {
     "name": "5. Pixel Corruption / Mosaic",
     "filter_chain": "pixelize=w=16:h=16:mode=avg,noise=alls=20:allf=t",
-    "source_file": "ffmpeg-glitch-recipes.md"
+    "source_file": "ffmpeg-glitch-recipes.md",
+    "complex": false
   },
   "color_channel_corruption": {
     "name": "6. Color Channel Corruption",
     "filter_chain": "shuffleplanes=0:2:1:3,hue=h=30:s=2,curves=vintage",
-    "source_file": "ffmpeg-glitch-recipes.md"
+    "source_file": "ffmpeg-glitch-recipes.md",
+    "complex": false
   },
   "frame_stutter_time_glitch": {
     "name": "7. Frame Stutter / Time Glitch",
     "filter_chain": "random=frames=8:seed=42,setpts=N/FRAME_RATE/TB",
-    "source_file": "ffmpeg-glitch-recipes.md"
+    "source_file": "ffmpeg-glitch-recipes.md",
+    "complex": false
   },
   "wave_wobble_distortion": {
     "name": "8. Wave / Wobble Distortion",
-    "filter_chain": "nullsrc=s=1920x1080:d=10,lutrgb=r=",
-    "source_file": "ffmpeg-glitch-recipes.md"
+    "filter_chain": "nullsrc=s=1920x1080:d=10,lutrgb=r=128+30*sin(X/20+T*4):g=128:b=128,format=gray[xmap]; nullsrc=s=1920x1080:d=10,lutrgb=r=128+20*sin(Y/15+T*3):g=128:b=128,format=gray[ymap]; [0:v][xmap][ymap]displace",
+    "source_file": "ffmpeg-glitch-recipes.md",
+    "complex": true
   },
   "motion_blur_frame_blending": {
     "name": "9. Motion Blur / Frame Blending",
     "filter_chain": "tblend=all_mode=grainextract:all_opacity=0.7",
-    "source_file": "ffmpeg-glitch-recipes.md"
+    "source_file": "ffmpeg-glitch-recipes.md",
+    "complex": false
   },
   "bitplane_noise_data_visualization": {
     "name": "10. Bitplane Noise / Data Visualization",
     "filter_chain": "bitplanenoise=bitplane=3:filter=1,pseudocolor=preset=magma",
-    "source_file": "ffmpeg-glitch-recipes.md"
+    "source_file": "ffmpeg-glitch-recipes.md",
+    "complex": false
   },
   "temporal_amplify_micro_motion": {
     "name": "11. Temporal Amplify / Micro-Motion",
     "filter_chain": "amplify=radius=2:factor=5:threshold=8",
-    "source_file": "ffmpeg-glitch-recipes.md"
+    "source_file": "ffmpeg-glitch-recipes.md",
+    "complex": false
   },
   "echo_stroboscope": {
     "name": "12. Echo / Stroboscope",
-    "filter_chain": "tmix=frames=5:weights=",
-    "source_file": "ffmpeg-glitch-recipes.md"
+    "filter_chain": "tmix=frames=5:weights=1 1 1 1 1",
+    "source_file": "ffmpeg-glitch-recipes.md",
+    "complex": false
   },
   "interlace_glitch": {
     "name": "13. Interlace Glitch",
     "filter_chain": "tinterlace=mode=merge:flags=vlpf,fieldorder=tff",
-    "source_file": "ffmpeg-glitch-recipes.md"
+    "source_file": "ffmpeg-glitch-recipes.md",
+    "complex": false
   },
   "color_quantization_posterize": {
     "name": "14. Color Quantization / Posterize",
     "filter_chain": "normalize,posterize=bits=3",
-    "source_file": "ffmpeg-glitch-recipes.md"
+    "source_file": "ffmpeg-glitch-recipes.md",
+    "complex": false
   },
   "horizontal_tear_line_shift": {
     "name": "15. Horizontal Tear / Line Shift",
     "filter_chain": "scroll=h=0:v=0.002,rgbashift=rh=3:bh=-3",
-    "source_file": "ffmpeg-glitch-recipes.md"
+    "source_file": "ffmpeg-glitch-recipes.md",
+    "complex": false
   },
   "jpeg_corruption_compression_artifacts": {
     "name": "16. JPEG Corruption / Compression Artifacts",
     "filter_chain": "noise=alls=10:allf=t,pixelize=w=8:h=8:mode=avg,eq=contrast=1.4",
-    "source_file": "ffmpeg-glitch-recipes.md"
+    "source_file": "ffmpeg-glitch-recipes.md",
+    "complex": false
   },
   "inverse_solarize": {
     "name": "17. Inverse / Solarize",
-    "filter_chain": "curves=all=",
-    "source_file": "ffmpeg-glitch-recipes.md"
+    "filter_chain": "curves=all=0/0 0.25/0.6 0.5/0.3 0.75/0.9 1/0",
+    "source_file": "ffmpeg-glitch-recipes.md",
+    "complex": false
   },
   "zoom_pulse_breathing": {
     "name": "18. Zoom Pulse / Breathing",
-    "filter_chain": "zoompan=z=",
-    "source_file": "ffmpeg-glitch-recipes.md"
+    "filter_chain": "zoompan=z=1+0.15*sin(in*0.3):x=iw/2-(iw/zoom/2):y=ih/2-(ih/zoom/2):d=1:s=1920x1080:fps=30",
+    "source_file": "ffmpeg-glitch-recipes.md",
+    "complex": false
   },
   "edge_glow_neon_wireframe": {
     "name": "19. Edge Glow / Neon Wireframe",
-    "filter_chain": "split[orig][edges];[edges]edgedetect=low=0.1:high=0.3:mode=colormix,eq=brightness=0.1:contrast=2,hue=s=3[glow];[orig][glow]blend=all_mode=screen:all_opacity=0.7",
-    "source_file": "ffmpeg-glitch-recipes.md"
+    "filter_chain": "split[orig][edges]; [edges]edgedetect=low=0.1:high=0.3:mode=colormix,eq=brightness=0.1:contrast=2,hue=s=3[glow]; [orig][glow]blend=all_mode=screen:all_opacity=0.7",
+    "source_file": "ffmpeg-glitch-recipes.md",
+    "complex": true
   },
   "bit_crushing_bit_depth_reduction": {
     "name": "20. Bit Crushing / Bit Depth Reduction",
-    "filter_chain": "lutrgb=r=",
-    "source_file": "ffmpeg-glitch-recipes.md"
+    "filter_chain": "lutrgb=r=bitand(val,224):g=bitand(val,224):b=bitand(val,224)",
+    "source_file": "ffmpeg-glitch-recipes.md",
+    "complex": false
   },
   "hyper_glitch": {
     "name": "21. Hyper Glitch",
-    "filter_chain": "rgbashift=rh=",
-    "source_file": "ffmpeg-glitch-recipes.md"
+    "filter_chain": "rgbashift=rh=12*sin(T*5):bh=-12*sin(T*5):rv=6*cos(T*3):bv=-6*cos(T*3), lagfun=decay=0.96, noise=alls=50:allf=t+u, random=frames=4:seed=12345, setpts=N/FRAME_RATE/TB, drawgrid=w=0:h=2:t=1:c=black@0.5, shuffleplanes=0:2:1:3, eq=contrast=1.5:saturation=2.0:brightness=0.05",
+    "source_file": "ffmpeg-glitch-recipes.md",
+    "complex": false
   },
   "feedback_loop_recursive_zoom": {
     "name": "22. Feedback Loop / Recursive Zoom",
-    "filter_chain": "split[a][b];[b]scale=iw*1.02:ih*1.02,crop=iw/1.02:ih/1.02,setpts=PTS-STARTPTS[zoomed];[a][zoomed]blend=all_mode=screen:all_opacity=0.4",
-    "source_file": "ffmpeg-glitch-recipes.md"
+    "filter_chain": "split[a][b]; [b]scale=iw*1.02:ih*1.02,crop=iw/1.02:ih/1.02,setpts=PTS-STARTPTS[zoomed]; [a][zoomed]blend=all_mode=screen:all_opacity=0.4",
+    "source_file": "ffmpeg-glitch-recipes.md",
+    "complex": true
   },
   "chromakey_corruption": {
     "name": "23. Chromakey Corruption",
-    "filter_chain": "split[a][b];[b]negate,setpts=PTS+1/TB[delayed];[a]colorkey=color=0x00AA00:similarity=0.3:blend=0.1[keyed];[delayed][keyed]overlay",
-    "source_file": "ffmpeg-glitch-recipes.md"
+    "filter_chain": "split[a][b]; [b]negate,setpts=PTS+1/TB[delayed]; [a]colorkey=color=0x00AA00:similarity=0.3:blend=0.1[keyed]; [delayed][keyed]overlay",
+    "source_file": "ffmpeg-glitch-recipes.md",
+    "complex": true
   },
   "vertical_roll_sync_loss": {
     "name": "24. Vertical Roll / Sync Loss",
     "filter_chain": "scroll=v=0.01:h=0",
-    "source_file": "ffmpeg-glitch-recipes.md"
+    "source_file": "ffmpeg-glitch-recipes.md",
+    "complex": false
   },
   "ghosting_double_exposure": {
     "name": "25. Ghosting / Double Exposure",
-    "filter_chain": "split[a][b];[b]setpts=PTS+0.5/TB,format=rgba,colorchannelmixer=aa=0.4[ghost];[a][ghost]overlay=format=auto",
-    "source_file": "ffmpeg-glitch-recipes.md"
+    "filter_chain": "split[a][b]; [b]setpts=PTS+0.5/TB,format=rgba,colorchannelmixer=aa=0.4[ghost]; [a][ghost]overlay=format=auto",
+    "source_file": "ffmpeg-glitch-recipes.md",
+    "complex": true
   },
   "thermal_false_color": {
     "name": "26. Thermal / False Color",
     "filter_chain": "pseudocolor=preset=magma",
-    "source_file": "ffmpeg-glitch-recipes.md"
+    "source_file": "ffmpeg-glitch-recipes.md",
+    "complex": false
   },
   "full_glitch_stack_all_in_one": {
     "name": "27. Full Glitch Stack (All-in-One)",
-    "filter_chain": "rgbashift=rh=-6:bh=6:rv=2:bv=-2,lagfun=decay=0.95,noise=alls=25:allf=t,drawgrid=w=0:h=2:t=1:c=black@0.3,eq=contrast=1.3:saturation=1.4",
-    "source_file": "ffmpeg-glitch-recipes.md"
+    "filter_chain": "rgbashift=rh=-6:bh=6:rv=2:bv=-2, lagfun=decay=0.95, noise=alls=25:allf=t, drawgrid=w=0:h=2:t=1:c=black@0.3, eq=contrast=1.3:saturation=1.4",
+    "source_file": "ffmpeg-glitch-recipes.md",
+    "complex": false
   },
   "linear_gradient_sweep": {
     "name": "1. Linear Gradient Sweep",
-    "filter_chain": "geq=lum=",
-    "source_file": "ffmpeg-gradients-vector-fields.md"
+    "filter_chain": "geq=lum=mod(X*0.5+T*80, 256):cb=128+40*sin(T*0.5):cr=128+40*cos(T*0.7)",
+    "source_file": "ffmpeg-gradients-vector-fields.md",
+    "complex": false
   },
   "radial_gradient_spotlight": {
     "name": "2. Radial Gradient / Spotlight",
-    "filter_chain": "geq=lum=",
-    "source_file": "ffmpeg-gradients-vector-fields.md"
+    "filter_chain": "geq=lum=max(0, 255-hypot(X-W/2-W/3*sin(T*0.8), Y-H/2-H/3*cos(T*0.6))*0.5):cb=128-20:cr=128+20, gblur=sigma=2",
+    "source_file": "ffmpeg-gradients-vector-fields.md",
+    "complex": false
   },
   "mesh_gradient_blob_gradient": {
     "name": "3. Mesh Gradient / Blob Gradient",
-    "filter_chain": "geq=lum=",
-    "source_file": "ffmpeg-gradients-vector-fields.md"
+    "filter_chain": "geq= lum=128 +60*exp(-hypot(X-W/4-W/6*sin(T*0.4),Y-H/3-H/6*cos(T*0.3))/250) +50*exp(-hypot(X-3*W/4+W/5*cos(T*0.5),Y-2*H/3+H/5*sin(T*0.4))/200) +40*exp(-hypot(X-W/2-W/4*sin(T*0.6),Y-H/2+H/4*cos(T*0.35))/220) : cb=128 -25*exp(-hypot(X-W/4-W/6*sin(T*0.4),Y-H/3-H/6*cos(T*0.3))/250) +20*exp(-hypot(X-3*W/4+W/5*cos(T*0.5),Y-2*H/3+H/5*sin(T*0.4))/200) +15*exp(-hypot(X-W/2-W/4*sin(T*0.6),Y-H/2+H/4*cos(T*0.35))/220) : cr=128 +20*exp(-hypot(X-W/4-W/6*sin(T*0.4),Y-H/3-H/6*cos(T*0.3))/250) -25*exp(-hypot(X-3*W/4+W/5*cos(T*0.5),Y-2*H/3+H/5*sin(T*0.4))/200) +10*exp(-hypot(X-W/2-W/4*sin(T*0.6),Y-H/2+H/4*cos(T*0.35))/220) , gblur=sigma=20",
+    "source_file": "ffmpeg-gradients-vector-fields.md",
+    "complex": false
   },
   "conical_angular_gradient": {
     "name": "4. Conical / Angular Gradient",
-    "filter_chain": "geq=lum=",
-    "source_file": "ffmpeg-gradients-vector-fields.md"
+    "filter_chain": "geq= lum=128+127*sin(atan2(Y-H/2,X-W/2)*1+T*1.5): cb=128+60*sin(atan2(Y-H/2,X-W/2)*2+T*1.2): cr=128+60*cos(atan2(Y-H/2,X-W/2)*3+T*0.9)",
+    "source_file": "ffmpeg-gradients-vector-fields.md",
+    "complex": false
   },
   "plasma_lava_lamp_gradient": {
     "name": "5. Plasma / Lava Lamp Gradient",
-    "filter_chain": "geq=lum=",
-    "source_file": "ffmpeg-gradients-vector-fields.md"
+    "filter_chain": "geq= lum=128 +40*sin(X/80+T*1.2)*cos(Y/70+T*0.9) +30*sin(X/40+T*2.1)*cos(Y/35+T*1.6) +20*cos(X/20+Y/25+T*2.8) : cb=128 +35*sin(X/90+T*0.8)*cos(Y/80+T*0.6) +25*cos(X/45+T*1.5)*sin(Y/40+T*1.2) : cr=128 +35*cos(X/70+T*1.0)*sin(Y/90+T*0.7) +25*sin(X/35+T*1.8)*cos(Y/45+T*1.4) , gblur=sigma=5, eq=saturation=1.5:contrast=1.2",
+    "source_file": "ffmpeg-gradients-vector-fields.md",
+    "complex": false
   },
   "gradient_as_displacement_source": {
     "name": "6. Gradient as Displacement Source",
-    "filter_chain": "[0:v]geq=lum=",
-    "source_file": "ffmpeg-gradients-vector-fields.md"
+    "filter_chain": "[0:v]geq=lum=128+60*sin(hypot(X-W/2,Y-H/2)/40+T*3):cb=128:cr=128,format=gray[xmap]; [0:v]geq=lum=128+60*cos(hypot(X-W/2,Y-H/2)/40+T*3):cb=128:cr=128,format=gray[ymap]; [1:v][xmap][ymap]displace",
+    "source_file": "ffmpeg-gradients-vector-fields.md",
+    "complex": true
   },
   "laminar_flow_parallel_streamlines": {
     "name": "7. Laminar Flow / Parallel Streamlines",
-    "filter_chain": "geq=lum=",
-    "source_file": "ffmpeg-gradients-vector-fields.md"
+    "filter_chain": "geq=lum=max(0, 255-abs(sin(Y/20+sin(X/100+T*2)*3+T*1.5))*300):cb=100:cr=128, lutrgb=r=0:g=val:b=val/2, gblur=sigma=2, lagfun=decay=0.85",
+    "source_file": "ffmpeg-gradients-vector-fields.md",
+    "complex": false
   },
   "turbulent_flow_chaotic_streamlines": {
     "name": "8. Turbulent Flow / Chaotic Streamlines",
-    "filter_chain": "geq=lum=",
-    "source_file": "ffmpeg-gradients-vector-fields.md"
+    "filter_chain": "geq=lum=max(0, 255-abs(sin( Y/15 +sin(X/60+T*2)*3 +sin(X/30+T*3)*2 +sin(X/15+T*4)*1 +T*1.5))*400):cb=100:cr=128, lutrgb=r=0:g=val:b=val, gblur=sigma=2, lagfun=decay=0.87",
+    "source_file": "ffmpeg-gradients-vector-fields.md",
+    "complex": false
   },
   "curl_rotational_vector_field": {
     "name": "9. Curl / Rotational Vector Field",
-    "filter_chain": "geq=lum=",
-    "source_file": "ffmpeg-gradients-vector-fields.md"
+    "filter_chain": "geq=lum=max(0, max( 255-abs(sin(atan2(Y-H/4,X-W/4)*4+T*3+hypot(X-W/4,Y-H/4)/30))*300*exp(-hypot(X-W/4,Y-H/4)/300), max(255-abs(sin(atan2(Y-3*H/4,X-3*W/4)*4-T*3+hypot(X-3*W/4,Y-3*H/4)/30))*300*exp(-hypot(X-3*W/4,Y-3*H/4)/300), 255-abs(sin(atan2(Y-H/2,X-W/2)*6+T*2+hypot(X-W/2,Y-H/2)/25))*250*exp(-hypot(X-W/2,Y-H/2)/350)) )):cb=128+20*sin(T*0.5):cr=128+20*cos(T*0.7), lutrgb=r=val/3:g=val:b=val, gblur=sigma=2, lagfun=decay=0.9",
+    "source_file": "ffmpeg-gradients-vector-fields.md",
+    "complex": false
   },
   "divergence_field_source_sink_flow": {
     "name": "10. Divergence Field / Source-Sink Flow",
-    "filter_chain": "geq=lum=",
-    "source_file": "ffmpeg-gradients-vector-fields.md"
+    "filter_chain": "geq=lum=max(0, max( 255-abs(sin(hypot(X-W/3,Y-H/3)/15-T*4))*300*exp(-hypot(X-W/3,Y-H/3)/250), 255-abs(sin(hypot(X-2*W/3,Y-2*H/3)/15+T*4))*300*exp(-hypot(X-2*W/3,Y-2*H/3)/250) )): cb=128-20*exp(-hypot(X-W/3,Y-H/3)/200)+20*exp(-hypot(X-2*W/3,Y-2*H/3)/200): cr=128+25*exp(-hypot(X-W/3,Y-H/3)/200)-25*exp(-hypot(X-2*W/3,Y-2*H/3)/200), lutrgb=r=val:g=val/2:b=val, gblur=sigma=2, lagfun=decay=0.9",
+    "source_file": "ffmpeg-gradients-vector-fields.md",
+    "complex": false
   },
   "magnetic_field_lines": {
     "name": "11. Magnetic Field Lines",
-    "filter_chain": "geq=lum=",
-    "source_file": "ffmpeg-gradients-vector-fields.md"
+    "filter_chain": "geq=lum=max(0, 255-abs(sin( atan2(Y-H/2, X-W/3+W/6*sin(T*0.5)) - atan2(Y-H/2, X-2*W/3-W/6*sin(T*0.5)) +T*0.5)*6)*300): cb=128+15*sin(T*0.8):cr=128+15*cos(T*0.6), lutrgb=r=val/2:g=val/2:b=val, gblur=sigma=2, split[a][b]; [b]gblur=sigma=6,eq=brightness=0.08[bloom]; [a][bloom]blend=all_mode=screen:all_opacity=0.4",
+    "source_file": "ffmpeg-gradients-vector-fields.md",
+    "complex": true
   },
   "electric_field_force_lines_with_charges": {
     "name": "12. Electric Field / Force Lines with Charges",
-    "filter_chain": "geq=lum=",
-    "source_file": "ffmpeg-gradients-vector-fields.md"
+    "filter_chain": "geq=lum=max(0, 255-abs(sin( 3*atan2(Y-H/3,X-W/4+W/8*sin(T*0.6)) -2*atan2(Y-2*H/3,X-3*W/4-W/8*cos(T*0.5)) +2*atan2(Y-H/2,X-W/2+W/6*sin(T*0.8)) )*1)*250): cb=128+20*sin(T*0.6):cr=128+20*cos(T*0.8), lutrgb=r=val:g=val/2:b=val, gblur=sigma=2, split[a][b]; [b]gblur=sigma=6,eq=brightness=0.1[bloom]; [a][bloom]blend=all_mode=screen:all_opacity=0.35",
+    "source_file": "ffmpeg-gradients-vector-fields.md",
+    "complex": true
   },
   "vector_field_over_video": {
     "name": "13. Vector Field Over Video",
-    "filter_chain": "[0:v]geq=lum=",
-    "source_file": "ffmpeg-gradients-vector-fields.md"
+    "filter_chain": "[0:v]geq=lum=max(0, max( 255-abs(sin(Y/15+sin(X/60+T*2)*3+T*1.5))*400, 255-abs(sin(X/15+sin(Y/60+T*1.5)*3+T*2))*400 )):cb=100:cr=128, lutrgb=r=0:g=val:b=val/2, gblur=sigma=2, lagfun=decay=0.87[field]; [1:v][field]blend=all_mode=screen:all_opacity=0.5, eq=contrast=1.1:saturation=1.2",
+    "source_file": "ffmpeg-gradients-vector-fields.md",
+    "complex": true
   },
   "audio_reactive_gradient_pulse": {
     "name": "14. Audio-Reactive Gradient Pulse",
-    "filter_chain": "[0:a]showvolume=w=1920:h=20:f=0.9:dm=1:o=h[vol];[vol]format=gray,scale=1920:1080:flags=neighbor[vol_map];[0:v]split[orig][base];[base]geq=lum=",
-    "source_file": "ffmpeg-gradients-vector-fields.md"
+    "filter_chain": "[0:a]showvolume=w=1920:h=20:f=0.9:dm=1:o=h[vol]; [vol]format=gray,scale=1920:1080:flags=neighbor[vol_map]; [0:v]split[orig][base]; [base]geq= lum=128+60*sin(X/80+T*1.5)*cos(Y/70+T*1.2)+40*sin(X/40+T*2.5)*cos(Y/35+T*2): cb=128+40*sin(X/90+T*0.8)*cos(Y/80+T*0.6): cr=128+40*cos(X/70+T*1.0)*sin(Y/90+T*0.7), gblur=sigma=10[gradient]; [gradient][vol_map]blend=all_mode=multiply[reactive_gradient]; [orig][reactive_gradient]blend=all_mode=screen:all_opacity=0.5",
+    "source_file": "ffmpeg-gradients-vector-fields.md",
+    "complex": true
   },
   "audio_reactive_flow_field": {
     "name": "15. Audio-Reactive Flow Field",
-    "filter_chain": "[0:a]showwaves=s=1920x1080:mode=cline:rate=30:colors=white:scale=sqrt[waves];[waves]format=gray,gblur=sigma=5[audio_field];[0:v]split[orig][warp_src];[warp_src][audio_field]blend=all_mode=screen:all_opacity=0.3[base];[base]geq=lum=",
-    "source_file": "ffmpeg-gradients-vector-fields.md"
+    "filter_chain": "[0:a]showwaves=s=1920x1080:mode=cline:rate=30:colors=white:scale=sqrt[waves]; [waves]format=gray,gblur=sigma=5[audio_field]; [0:v]split[orig][warp_src]; [warp_src][audio_field]blend=all_mode=screen:all_opacity=0.3[base]; [base]geq=lum=max(0, 255-abs(sin(Y/15+sin(X/50+T*3)*3+T*2))*400):cb=100:cr=128, lutrgb=r=0:g=val:b=val, gblur=sigma=2, lagfun=decay=0.9[flow]; [orig][flow]blend=all_mode=screen:all_opacity=0.5",
+    "source_file": "ffmpeg-gradients-vector-fields.md",
+    "complex": true
   },
   "audio_reactive_magnetic_field": {
     "name": "16. Audio-Reactive Magnetic Field",
-    "filter_chain": "[0:a]showwaves=s=1920x1080:mode=cline:rate=30:colors=white:scale=sqrt[waves];[waves]format=gray,gblur=sigma=20[audio_energy];color=s=1920x1080:d=30:c=black,geq=lum=",
-    "source_file": "ffmpeg-gradients-vector-fields.md"
+    "filter_chain": "[0:a]showwaves=s=1920x1080:mode=cline:rate=30:colors=white:scale=sqrt[waves]; [waves]format=gray,gblur=sigma=20[audio_energy]; color=s=1920x1080:d=30:c=black, geq=lum=max(0, 255-abs(sin( atan2(Y-H/2,X-W/3+W/8*sin(T*0.6)) - atan2(Y-H/2,X-2*W/3-W/8*sin(T*0.6)) +T*0.5)*8)*350):cb=128+15*sin(T*0.8):cr=128+15*cos(T*0.6), lutrgb=r=val/2:g=val/2:b=val, gblur=sigma=2[field]; [field][audio_energy]blend=all_mode=multiply[reactive_field]; [reactive_field]split[a][b]; [b]gblur=sigma=8,eq=brightness=0.1[bloom]; [a][bloom]blend=all_mode=screen:all_opacity=0.4, lagfun=decay=0.88[glow_field]; [0:v][glow_field]blend=all_mode=screen:all_opacity=0.6",
+    "source_file": "ffmpeg-gradients-vector-fields.md",
+    "complex": true
   },
   "audio_spectrum_as_gradient_map": {
     "name": "17. Audio Spectrum as Gradient Map",
-    "filter_chain": "[0:a]showspectrum=s=1920x1080:mode=combined:slide=replace:color=channel:scale=cbrt:fscale=log[spec];[spec]gblur=sigma=15,eq=saturation=2.0:contrast=0.8,gblur=sigma=10[gradient_map];[0:v][gradient_map]blend=all_mode=screen:all_opacity=0.35,eq=contrast=1.05:saturation=1.1",
-    "source_file": "ffmpeg-gradients-vector-fields.md"
+    "filter_chain": "[0:a]showspectrum=s=1920x1080:mode=combined:slide=replace:color=channel:scale=cbrt:fscale=log[spec]; [spec]gblur=sigma=15, eq=saturation=2.0:contrast=0.8, gblur=sigma=10[gradient_map]; [0:v][gradient_map]blend=all_mode=screen:all_opacity=0.35, eq=contrast=1.05:saturation=1.1",
+    "source_file": "ffmpeg-gradients-vector-fields.md",
+    "complex": true
   },
   "audio_reactive_divergence_pulses": {
     "name": "18. Audio-Reactive Divergence Pulses",
-    "filter_chain": "[0:a]showwaves=s=1920x1080:mode=cline:rate=30:colors=white:scale=sqrt[waves];[waves]format=gray,gblur=sigma=30[energy];color=s=1920x1080:d=30:c=black,geq=lum=",
-    "source_file": "ffmpeg-gradients-vector-fields.md"
+    "filter_chain": "[0:a]showwaves=s=1920x1080:mode=cline:rate=30:colors=white:scale=sqrt[waves]; [waves]format=gray,gblur=sigma=30[energy]; color=s=1920x1080:d=30:c=black, geq=lum=max(0, max(255-abs(sin(hypot(X-W/4,Y-H/3)/12-T*5))*300*exp(-hypot(X-W/4,Y-H/3)/250), max(255-abs(sin(hypot(X-3*W/4,Y-2*H/3)/12-T*6))*300*exp(-hypot(X-3*W/4,Y-2*H/3)/250), 255-abs(sin(hypot(X-W/2,Y-H/2)/15-T*4))*250*exp(-hypot(X-W/2,Y-H/2)/300))) ):cb=128+20*sin(T*0.5):cr=128+20*cos(T*0.7), lutrgb=r=0:g=val:b=val, gblur=sigma=2[pulses]; [pulses][energy]blend=all_mode=multiply[reactive_pulses]; [reactive_pulses]split[a][b]; [b]gblur=sigma=8,eq=brightness=0.1[bloom]; [a][bloom]blend=all_mode=screen:all_opacity=0.4, lagfun=decay=0.9[glow_pulses]; [0:v][glow_pulses]blend=all_mode=screen:all_opacity=0.6",
+    "source_file": "ffmpeg-gradients-vector-fields.md",
+    "complex": true
   },
   "gradient_as_color_grading_layer": {
     "name": "19. Gradient as Color Grading Layer",
-    "filter_chain": "[0:v]geq=lum=",
-    "source_file": "ffmpeg-gradients-vector-fields.md"
+    "filter_chain": "[0:v]geq=lum=200-Y*150/H:cb=115:cr=155, gblur=sigma=30[grade]; [1:v][grade]blend=all_mode=multiply:all_opacity=0.25, eq=contrast=1.1:saturation=1.15",
+    "source_file": "ffmpeg-gradients-vector-fields.md",
+    "complex": true
   },
   "gradient_mask_for_selective_effects": {
     "name": "20. Gradient Mask for Selective Effects",
-    "filter_chain": "split[sharp][blurred];[blurred]gblur=sigma=10[soft];[sharp][soft]blend=all_expr=",
-    "source_file": "ffmpeg-gradients-vector-fields.md"
+    "filter_chain": "split[sharp][blurred]; [blurred]gblur=sigma=10[soft]; [sharp][soft]blend=all_expr=A*(1-pow(hypot(X-W/2,Y-H/2)/(W/2),2)) + B*pow(hypot(X-W/2,Y-H/2)/(W/2),2)",
+    "source_file": "ffmpeg-gradients-vector-fields.md",
+    "complex": true
   },
   "scanning_laser_line": {
     "name": "1. Scanning Laser Line",
-    "filter_chain": "geq=lum=",
-    "source_file": "ffmpeg-laser-glow-audio.md"
+    "filter_chain": "geq=lum=max(0, 255-abs(Y-H*mod(T/5,1))*8):cb=100:cr=100, lutrgb=r=0:g=val:b=val/3, gblur=sigma=3",
+    "source_file": "ffmpeg-laser-glow-audio.md",
+    "complex": false
   },
   "multi_beam_laser_array": {
     "name": "2. Multi-Beam Laser Array",
-    "filter_chain": "geq=lum=",
-    "source_file": "ffmpeg-laser-glow-audio.md"
+    "filter_chain": "geq=lum=max(0, max(255-abs(Y-H*mod(T/4,1))*10, max(255-abs(Y-H*mod(T/4+0.25,1))*10, max(255-abs(Y-H*mod(T/4+0.5,1))*10, 255-abs(Y-H*mod(T/4+0.75,1))*10)))):cb=100:cr=128, lutrgb=r=0:g=val:b=val, gblur=sigma=3",
+    "source_file": "ffmpeg-laser-glow-audio.md",
+    "complex": false
   },
   "rotating_laser_beams_lighthouse": {
     "name": "3. Rotating Laser Beams / Lighthouse",
-    "filter_chain": "geq=lum=",
-    "source_file": "ffmpeg-laser-glow-audio.md"
+    "filter_chain": "geq=lum=max(0, max(255-abs(sin(atan2(Y-H/2,X-W/2)-T*3))*300, max(255-abs(sin(atan2(Y-H/2,X-W/2)-T*3+1.047))*300, 255-abs(sin(atan2(Y-H/2,X-W/2)-T*3+2.094))*300))):cb=100:cr=100, lutrgb=r=0:g=val:b=val/2, gblur=sigma=5, eq=brightness=0.05:contrast=1.3",
+    "source_file": "ffmpeg-laser-glow-audio.md",
+    "complex": false
   },
   "pulsing_laser_ring_expanding_circle": {
     "name": "4. Pulsing Laser Ring / Expanding Circle",
-    "filter_chain": "geq=lum=",
-    "source_file": "ffmpeg-laser-glow-audio.md"
+    "filter_chain": "geq=lum=max(0, 255-abs(hypot(X-W/2,Y-H/2)-mod(T*200,800))*5):cb=100:cr=128, lutrgb=r=0:g=val:b=val, gblur=sigma=4",
+    "source_file": "ffmpeg-laser-glow-audio.md",
+    "complex": false
   },
   "retro_synthwave_grid_perspective_floor": {
     "name": "5. Retro Synthwave Grid (Perspective Floor)",
-    "filter_chain": "geq=lum=",
-    "source_file": "ffmpeg-laser-glow-audio.md"
+    "filter_chain": "geq=lum=max(0, max(255-abs(sin(X/60))*400, 255-abs(sin((Y-H/2)*4/(Y-H/2+1)+T*3))*300) *max(0,(Y-H/2))/(H/2)):cb=90:cr=128, lutrgb=r=val/2:g=0:b=val, gblur=sigma=2, eq=brightness=-0.02:contrast=1.3",
+    "source_file": "ffmpeg-laser-glow-audio.md",
+    "complex": false
   },
   "floating_grid_matrix_rain_grid": {
     "name": "6. Floating Grid / Matrix Rain Grid",
-    "filter_chain": "geq=lum=",
-    "source_file": "ffmpeg-laser-glow-audio.md"
+    "filter_chain": "geq=lum=max(0, max(255-abs(sin((X+10*sin(Y/80+T*2))/80))*500, 255-abs(sin((Y+10*sin(X/80+T*1.5))/80))*500)):cb=100:cr=128, lutrgb=r=0:g=val:b=val/2, gblur=sigma=2, noise=alls=5:allf=t",
+    "source_file": "ffmpeg-laser-glow-audio.md",
+    "complex": false
   },
   "hexagonal_grid": {
     "name": "7. Hexagonal Grid",
-    "filter_chain": "geq=lum=",
-    "source_file": "ffmpeg-laser-glow-audio.md"
+    "filter_chain": "geq=lum=max(0, 255 - 300*min( min(abs(sin(X/52+T*0.5)), abs(sin(X/52+Y/90+T*0.5))), abs(sin(X/52-Y/90+T*0.5)) )):cb=90:cr=128, lutrgb=r=val/3:g=0:b=val, gblur=sigma=2, noise=alls=3:allf=t",
+    "source_file": "ffmpeg-laser-glow-audio.md",
+    "complex": false
   },
   "wireframe_sphere_globe_grid": {
     "name": "8. Wireframe Sphere / Globe Grid",
-    "filter_chain": "geq=lum=",
-    "source_file": "ffmpeg-laser-glow-audio.md"
+    "filter_chain": "geq=lum=if(lt(hypot(X-W/2,Y-H/2),W/2-20), max(0, max( 255-abs(sin(asin((Y-H/2)/(W/2))*6))*400, 255-abs(sin((atan2(Y-H/2,X-W/2)+T*1.5)*4)*cos(asin(clip((Y-H/2)/(W/2),-1,1))))*350 )*max(0,1-hypot(X-W/2,Y-H/2)/(W/2-10)*0.3), 0):cb=100:cr=128, lutrgb=r=0:g=val:b=val/2, gblur=sigma=2, scale=1920:1080:flags=lanczos",
+    "source_file": "ffmpeg-laser-glow-audio.md",
+    "complex": false
   },
   "neon_edge_glow": {
     "name": "9. Neon Edge Glow",
-    "filter_chain": "edgedetect=low=0.1:high=0.3:mode=colormix,eq=brightness=0.1:contrast=2.0:saturation=3.0,split[a][b];[b]gblur=sigma=6,eq=brightness=0.15[bloom];[a][bloom]blend=all_mode=screen:all_opacity=0.5",
-    "source_file": "ffmpeg-laser-glow-audio.md"
+    "filter_chain": "edgedetect=low=0.1:high=0.3:mode=colormix, eq=brightness=0.1:contrast=2.0:saturation=3.0, split[a][b]; [b]gblur=sigma=6,eq=brightness=0.15[bloom]; [a][bloom]blend=all_mode=screen:all_opacity=0.5",
+    "source_file": "ffmpeg-laser-glow-audio.md",
+    "complex": true
   },
   "bloom_soft_glow": {
     "name": "10. Bloom / Soft Glow",
-    "filter_chain": "split[a][b];[b]gblur=sigma=15,eq=brightness=0.1[bloom];[a][bloom]blend=all_mode=screen:all_opacity=0.3,eq=contrast=1.05:saturation=1.1",
-    "source_file": "ffmpeg-laser-glow-audio.md"
+    "filter_chain": "split[a][b]; [b]gblur=sigma=15,eq=brightness=0.1[bloom]; [a][bloom]blend=all_mode=screen:all_opacity=0.3, eq=contrast=1.05:saturation=1.1",
+    "source_file": "ffmpeg-laser-glow-audio.md",
+    "complex": true
   },
   "neon_text_title_glow_effect": {
     "name": "11. Neon Text / Title Glow Effect",
-    "filter_chain": "drawtext=text=",
-    "source_file": "ffmpeg-laser-glow-audio.md"
+    "filter_chain": "drawtext=text=NEON:fontsize=200:fontcolor=white:x=(w-tw)/2:y=(h-th)/2:fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf, split[a][b]; [b]lutrgb=r=val:g=0:b=val*0.8, gblur=sigma=10,eq=brightness=0.1[glow]; [a]lutrgb=r=if(gt(val,200),val,0):g=if(gt(val,200),0,0):b=if(gt(val,200),val*0.8,0)[text]; [a][glow]blend=all_mode=screen:all_opacity=0.5",
+    "source_file": "ffmpeg-laser-glow-audio.md",
+    "complex": true
   },
   "audio_reactive_waveform_grid": {
     "name": "12. Audio-Reactive Waveform Grid",
-    "filter_chain": "[0:a]showwaves=s=1920x1080:mode=cline:rate=30:colors=white:scale=sqrt[waves];[waves]lutrgb=r=0:g=",
-    "source_file": "ffmpeg-laser-glow-audio.md"
+    "filter_chain": "[0:a]showwaves=s=1920x1080:mode=cline:rate=30:colors=white:scale=sqrt[waves]; [waves]lutrgb=r=0:g=val:b=val/2, gblur=sigma=4, split[a][b]; [b]gblur=sigma=10,eq=brightness=0.1[bloom]; [a][bloom]blend=all_mode=screen:all_opacity=0.4[glow_waves]; [0:v][glow_waves]blend=all_mode=screen:all_opacity=0.7",
+    "source_file": "ffmpeg-laser-glow-audio.md",
+    "complex": true
   },
   "audio_reactive_spectrum_bars": {
     "name": "13. Audio-Reactive Spectrum Bars",
-    "filter_chain": "[0:a]showspectrum=s=1920x1080:mode=combined:slide=scroll:color=intensity:scale=cbrt:fscale=log:orientation=vertical[spec];[spec]lutrgb=r=",
-    "source_file": "ffmpeg-laser-glow-audio.md"
+    "filter_chain": "[0:a]showspectrum=s=1920x1080:mode=combined:slide=scroll:color=intensity:scale=cbrt:fscale=log:orientation=vertical[spec]; [spec]lutrgb=r=val:g=val/3:b=val*0.8, split[a][b]; [b]gblur=sigma=6,eq=brightness=0.1[bloom]; [a][bloom]blend=all_mode=screen:all_opacity=0.4[glow_spec]; [0:v][glow_spec]blend=all_mode=screen:all_opacity=0.6",
+    "source_file": "ffmpeg-laser-glow-audio.md",
+    "complex": true
   },
   "audio_reactive_vector_scope": {
     "name": "14. Audio-Reactive Vector Scope",
-    "filter_chain": "[0:a]avectorscope=s=1080x1080:mode=lissajous_xy:draw=line:scale=sqrt:zoom=1.5[scope];[scope]lutrgb=r=0:g=",
-    "source_file": "ffmpeg-laser-glow-audio.md"
+    "filter_chain": "[0:a]avectorscope=s=1080x1080:mode=lissajous_xy:draw=line:scale=sqrt:zoom=1.5[scope]; [scope]lutrgb=r=0:g=val:b=val, gblur=sigma=2, lagfun=decay=0.9, split[a][b]; [b]gblur=sigma=8,eq=brightness=0.12[bloom]; [a][bloom]blend=all_mode=screen:all_opacity=0.5, scale=1920:1080:flags=lanczos[glow_scope]; [0:v][glow_scope]blend=all_mode=screen:all_opacity=0.5",
+    "source_file": "ffmpeg-laser-glow-audio.md",
+    "complex": true
   },
   "audio_reactive_laser_displacement": {
     "name": "15. Audio-Reactive Laser Displacement",
-    "filter_chain": "[0:a]showwaves=s=1920x1080:mode=cline:rate=30:colors=white:scale=sqrt[waves];[waves]format=gray[xmap];[waves]format=gray,negate[ymap];[0:v][xmap][ymap]displace,rgbashift=rh=4:bh=-4,eq=contrast=1.2:saturation=1.3",
-    "source_file": "ffmpeg-laser-glow-audio.md"
+    "filter_chain": "[0:a]showwaves=s=1920x1080:mode=cline:rate=30:colors=white:scale=sqrt[waves]; [waves]format=gray[xmap]; [waves]format=gray,negate[ymap]; [0:v][xmap][ymap]displace, rgbashift=rh=4:bh=-4, eq=contrast=1.2:saturation=1.3",
+    "source_file": "ffmpeg-laser-glow-audio.md",
+    "complex": true
   },
   "audio_reactive_ring_scanner": {
     "name": "16. Audio-Reactive Ring Scanner",
-    "filter_chain": "[0:a]showwaves=s=1920x1080:mode=cline:rate=30:colors=white:scale=sqrt[waves];[waves]format=gray,geq=lum=",
-    "source_file": "ffmpeg-laser-glow-audio.md"
+    "filter_chain": "[0:a]showwaves=s=1920x1080:mode=cline:rate=30:colors=white:scale=sqrt[waves]; [waves]format=gray,geq=lum=val*max(0,255-abs(hypot(X-W/2,Y-H/2)-mod(T*200,600))*3)/255:cb=128:cr=128, lutrgb=r=0:g=val:b=val, gblur=sigma=4, lagfun=decay=0.93[rings]; [0:v][rings]blend=all_mode=screen:all_opacity=0.6",
+    "source_file": "ffmpeg-laser-glow-audio.md",
+    "complex": true
   },
   "black_background_generation_for_external_compositing": {
     "name": "17. Black Background Generation (for External Compositing)",
-    "filter_chain": "geq=lum=",
-    "source_file": "ffmpeg-laser-glow-audio.md"
+    "filter_chain": "geq=lum=max(0, 255-abs(Y-H*mod(T/4,1))*6):cb=100:cr=100, lutrgb=r=0:g=val:b=val/3, gblur=sigma=4",
+    "source_file": "ffmpeg-laser-glow-audio.md",
+    "complex": false
   },
   "layer_multiple_elements": {
     "name": "18. Layer Multiple Elements",
-    "filter_chain": "[0:v]geq=lum=",
-    "source_file": "ffmpeg-laser-glow-audio.md"
+    "filter_chain": "[0:v]geq=lum=max(0,max(255-abs(sin(atan2(Y-H/2,X-W/2)-T*3))*300, 255-abs(sin(atan2(Y-H/2,X-W/2)-T*3+2.094))*300)):cb=100:cr=100, lutrgb=r=0:g=val:b=val/3, gblur=sigma=4[lasers]; [1:v]geq=lum=max(0,max(255-abs(sin(X/80))*500, 255-abs(sin(Y/80))*500)):cb=100:cr=128, lutrgb=r=val/3:g=0:b=val, gblur=sigma=2,eq=brightness=-0.05[grid]; [2:v][grid]blend=all_mode=screen:all_opacity=0.3[with_grid]; [with_grid][lasers]blend=all_mode=screen:all_opacity=0.5, eq=contrast=1.1:saturation=1.2",
+    "source_file": "ffmpeg-laser-glow-audio.md",
+    "complex": true
   },
   "fisheye_lens": {
     "name": "1. Fisheye Lens",
     "filter_chain": "lenscorrection=k1=0.5:k2=0.3",
-    "source_file": "ffmpeg-lens-time-warp.md"
+    "source_file": "ffmpeg-lens-time-warp.md",
+    "complex": false
   },
   "tilt_shift_miniature_effect": {
     "name": "2. Tilt-Shift / Miniature Effect",
-    "filter_chain": "split=3[sharp][top][bot];[top]crop=iw:ih/3:0:0,gblur=sigma=8[t];[bot]crop=iw:ih/3:0:2*ih/3,gblur=sigma=8[b];[sharp]crop=iw:ih/3:0:ih/3[s];[t][s]vstack[ts];[ts][b]vstack,eq=saturation=1.8:contrast=1.2:brightness=0.03",
-    "source_file": "ffmpeg-lens-time-warp.md"
+    "filter_chain": "split=3[sharp][top][bot]; [top]crop=iw:ih/3:0:0,gblur=sigma=8[t]; [bot]crop=iw:ih/3:0:2*ih/3,gblur=sigma=8[b]; [sharp]crop=iw:ih/3:0:ih/3[s]; [t][s]vstack[ts]; [ts][b]vstack, eq=saturation=1.8:contrast=1.2:brightness=0.03",
+    "source_file": "ffmpeg-lens-time-warp.md",
+    "complex": true
   },
   "anamorphic_lens_squeeze": {
     "name": "3. Anamorphic Lens Squeeze",
-    "filter_chain": "scale=iw*1.33:ih:flags=lanczos,crop=iw/1.33:ih,lenscorrection=k1=0.05:k2=0.02,eq=contrast=1.1:saturation=1.15,pad=iw:ih*1.1:0:(oh-ih)/2:color=black",
-    "source_file": "ffmpeg-lens-time-warp.md"
+    "filter_chain": "scale=iw*1.33:ih:flags=lanczos, crop=iw/1.33:ih, lenscorrection=k1=0.05:k2=0.02, eq=contrast=1.1:saturation=1.15, pad=iw:ih*1.1:0:(oh-ih)/2:color=black",
+    "source_file": "ffmpeg-lens-time-warp.md",
+    "complex": false
   },
   "chromatic_aberration_lens": {
     "name": "4. Chromatic Aberration (Lens)",
     "filter_chain": "rgbashift=rh=-4:bh=4:rv=-2:bv=2",
-    "source_file": "ffmpeg-lens-time-warp.md"
+    "source_file": "ffmpeg-lens-time-warp.md",
+    "complex": false
   },
   "kaleidoscope_lens": {
     "name": "5. Kaleidoscope Lens",
-    "filter_chain": "split[a][b];[b]hflip[flip];[a]crop=iw/2:ih:0:0[left];[flip]crop=iw/2:ih:0:0[right];[left][right]hstack,split[c][d];[d]vflip[vf];[c]crop=iw:ih/2:0:0[top];[vf]crop=iw:ih/2:0:0[bottom];[top][bottom]vstack",
-    "source_file": "ffmpeg-lens-time-warp.md"
+    "filter_chain": "split[a][b]; [b]hflip[flip]; [a]crop=iw/2:ih:0:0[left]; [flip]crop=iw/2:ih:0:0[right]; [left][right]hstack, split[c][d]; [d]vflip[vf]; [c]crop=iw:ih/2:0:0[top]; [vf]crop=iw:ih/2:0:0[bottom]; [top][bottom]vstack",
+    "source_file": "ffmpeg-lens-time-warp.md",
+    "complex": true
   },
   "prism_light_refraction": {
     "name": "6. Prism / Light Refraction",
-    "filter_chain": "split=3[r][g][b];[r]rotate=",
-    "source_file": "ffmpeg-lens-time-warp.md"
+    "filter_chain": "split=3[r][g][b]; [r]rotate=0.02:fillcolor=black@0,extractplanes=r[rp]; [g]extractplanes=g[gp]; [b]rotate=-0.02:fillcolor=black@0,extractplanes=b[bp]; [rp][gp][bp]mergeplanes=0x001020:yuv444p, format=yuv420p, eq=saturation=1.5:contrast=1.2",
+    "source_file": "ffmpeg-lens-time-warp.md",
+    "complex": true
   },
   "rubber_sheet_elastic_stretch": {
     "name": "7. Rubber Sheet / Elastic Stretch",
-    "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum=",
-    "source_file": "ffmpeg-lens-time-warp.md"
+    "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum=128 +30*(X-W/4)/(hypot(X-W/4,Y-H/2)+200)*sin(T*3) +30*(X-3*W/4)/(hypot(X-3*W/4,Y-H/2)+200)*sin(T*4+1) :cb=128:cr=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30:r=30,geq=lum=128 +30*(Y-H/2)/(hypot(X-W/4,Y-H/2)+200)*sin(T*3) +30*(Y-H/2)/(hypot(X-3*W/4,Y-H/2)+200)*sin(T*4+1) :cb=128:cr=128,format=gray[ymap]; [0:v][xmap][ymap]displace",
+    "source_file": "ffmpeg-lens-time-warp.md",
+    "complex": true
   },
   "gravity_bend_gravitational_lensing": {
     "name": "8. Gravity Bend / Gravitational Lensing",
-    "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum=",
-    "source_file": "ffmpeg-lens-time-warp.md"
+    "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum=128+120*(X-W/2-W/3*sin(T*1.5))/(hypot(X-W/2-W/3*sin(T*1.5),Y-H/2-H/3*cos(T))+1)/(1+hypot(X-W/2-W/3*sin(T*1.5),Y-H/2-H/3*cos(T))/100):cb=128:cr=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30:r=30,geq=lum=128+120*(Y-H/2-H/3*cos(T))/(hypot(X-W/2-W/3*sin(T*1.5),Y-H/2-H/3*cos(T))+1)/(1+hypot(X-W/2-W/3*sin(T*1.5),Y-H/2-H/3*cos(T))/100):cb=128:cr=128,format=gray[ymap]; [0:v][xmap][ymap]displace",
+    "source_file": "ffmpeg-lens-time-warp.md",
+    "complex": true
   },
   "page_curl_paper_bend": {
     "name": "9. Page Curl / Paper Bend",
-    "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum=",
-    "source_file": "ffmpeg-lens-time-warp.md"
+    "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum=128+if(gt(X,W-W*T/15), 30*sin((X-W+W*T/15)/30), 0):cb=128:cr=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30:r=30,geq=lum=128+if(gt(X,W-W*T/15), 15*cos((X-W+W*T/15)/30)*sin(Y/100), 0):cb=128:cr=128,format=gray[ymap]; [0:v][xmap][ymap]displace, split[a][b]; [b]eq=brightness=-0.3[shadow]; [a][shadow]blend=all_expr=if(gt(X,W-W*T/15-20)*lt(X,W-W*T/15), B, A)",
+    "source_file": "ffmpeg-lens-time-warp.md",
+    "complex": true
   },
   "funhouse_mirror": {
     "name": "10. Funhouse Mirror",
-    "filter_chain": "scale=iw*0.7:ih*1.3:flags=lanczos,pad=1920:1080:(1920-iw)/2:(1080-ih)/2:color=black,nullsrc=s=1920x1080:d=30:r=30,geq=lum=",
-    "source_file": "ffmpeg-lens-time-warp.md"
+    "filter_chain": "scale=iw*0.7:ih*1.3:flags=lanczos, pad=1920:1080:(1920-iw)/2:(1080-ih)/2:color=black, nullsrc=s=1920x1080:d=30:r=30,geq=lum=128+20*sin(Y/30+T*3):cb=128:cr=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30:r=30,geq=lum=128+10*sin(X/40+T*2):cb=128:cr=128,format=gray[ymap]; [0:v][xmap][ymap]displace",
+    "source_file": "ffmpeg-lens-time-warp.md",
+    "complex": true
   },
   "liquid_fluid_distortion": {
     "name": "11. Liquid / Fluid Distortion",
-    "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum=",
-    "source_file": "ffmpeg-lens-time-warp.md"
+    "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum=128 +20*sin(X/60+T*1.2)*cos(Y/50+T*0.9) +12*sin(X/30+T*2.1)*cos(Y/25+T*1.7) +6*cos(X/15+T*3)*sin(Y/12+T*2.5) :cb=128:cr=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30:r=30,geq=lum=128 +20*cos(X/50+T*0.9)*sin(Y/60+T*1.2) +12*cos(X/25+T*1.7)*sin(Y/30+T*2.1) +6*sin(X/12+T*2.5)*cos(Y/15+T*3) :cb=128:cr=128,format=gray[ymap]; [0:v][xmap][ymap]displace, eq=contrast=1.1:saturation=1.1",
+    "source_file": "ffmpeg-lens-time-warp.md",
+    "complex": true
   },
   "magnifying_glass_loupe": {
     "name": "12. Magnifying Glass / Loupe",
-    "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum=",
-    "source_file": "ffmpeg-lens-time-warp.md"
+    "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum=128+if(lt(hypot(X-W/2-W/4*sin(T*1.5),Y-H/2-H/4*cos(T)),150), 30*(X-W/2-W/4*sin(T*1.5))/(hypot(X-W/2-W/4*sin(T*1.5),Y-H/2-H/4*cos(T))+1), 0):cb=128:cr=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30:r=30,geq=lum=128+if(lt(hypot(X-W/2-W/4*sin(T*1.5),Y-H/2-H/4*cos(T)),150), 30*(Y-H/2-H/4*cos(T))/(hypot(X-W/2-W/4*sin(T*1.5),Y-H/2-H/4*cos(T))+1), 0):cb=128:cr=128,format=gray[ymap]; [0:v][xmap][ymap]displace",
+    "source_file": "ffmpeg-lens-time-warp.md",
+    "complex": true
   },
   "slit_scan_time_displacement": {
     "name": "13. Slit-Scan / Time Displacement",
-    "filter_chain": "lagfun=decay=0.99:planes=15,scroll=v=0.005:h=0,eq=contrast=1.2:saturation=1.3",
-    "source_file": "ffmpeg-lens-time-warp.md"
+    "filter_chain": "lagfun=decay=0.99:planes=15, scroll=v=0.005:h=0, eq=contrast=1.2:saturation=1.3",
+    "source_file": "ffmpeg-lens-time-warp.md",
+    "complex": false
   },
   "speed_ramp_dynamic_time_warp": {
     "name": "14. Speed Ramp / Dynamic Time Warp",
-    "filter_chain": "setpts=",
-    "source_file": "ffmpeg-lens-time-warp.md"
+    "filter_chain": "setpts=PTS*(1+0.5*sin(T*0.5))",
+    "source_file": "ffmpeg-lens-time-warp.md",
+    "complex": false
   },
   "time_echo_temporal_layering": {
     "name": "15. Time Echo / Temporal Layering",
-    "filter_chain": "split=3[a][b][c];[b]setpts=PTS+0.5/TB,format=rgba,colorchannelmixer=aa=0.3[past];[c]setpts=PTS-0.5/TB,format=rgba,colorchannelmixer=aa=0.3[future];[a]format=rgba[present];[present][past]overlay[layer1];[layer1][future]overlay",
-    "source_file": "ffmpeg-lens-time-warp.md"
+    "filter_chain": "split=3[a][b][c]; [b]setpts=PTS+0.5/TB,format=rgba,colorchannelmixer=aa=0.3[past]; [c]setpts=PTS-0.5/TB,format=rgba,colorchannelmixer=aa=0.3[future]; [a]format=rgba[present]; [present][past]overlay[layer1]; [layer1][future]overlay",
+    "source_file": "ffmpeg-lens-time-warp.md",
+    "complex": true
   },
   "reverse_time_pockets": {
     "name": "16. Reverse Time Pockets",
-    "filter_chain": "split[fwd][rev];[rev]reverse[reversed];[fwd][reversed]blend=all_expr=",
-    "source_file": "ffmpeg-lens-time-warp.md"
+    "filter_chain": "split[fwd][rev]; [rev]reverse[reversed]; [fwd][reversed]blend=all_expr=if(gt(sin(X/100+Y/80), 0), A, B)",
+    "source_file": "ffmpeg-lens-time-warp.md",
+    "complex": true
   },
   "frame_rate_manipulation_stroboscopic_time": {
     "name": "17. Frame Rate Manipulation / Stroboscopic Time",
     "filter_chain": "framestep=8,setpts=N/4/TB",
-    "source_file": "ffmpeg-lens-time-warp.md"
+    "source_file": "ffmpeg-lens-time-warp.md",
+    "complex": false
   },
   "motion_interpolation_smooth_slow_mo": {
     "name": "18. Motion Interpolation / Smooth Slow-Mo",
-    "filter_chain": "setpts=2*PTS,minterpolate=fps=60:mi_mode=mci:mc_mode=aobmc:me_mode=bidir:vsbmc=1",
-    "source_file": "ffmpeg-lens-time-warp.md"
+    "filter_chain": "setpts=2*PTS, minterpolate=fps=60:mi_mode=mci:mc_mode=aobmc:me_mode=bidir:vsbmc=1",
+    "source_file": "ffmpeg-lens-time-warp.md",
+    "complex": false
   },
   "pendulum_oscillating_time": {
     "name": "19. Pendulum / Oscillating Time",
-    "filter_chain": "setpts=",
-    "source_file": "ffmpeg-lens-time-warp.md"
+    "filter_chain": "setpts=PTS*abs(sin(T*0.5))",
+    "source_file": "ffmpeg-lens-time-warp.md",
+    "complex": false
   },
   "chronostasis_time_freeze_zones": {
     "name": "20. Chronostasis / Time Freeze Zones",
-    "filter_chain": "split[live][frozen];[frozen]tpad=stop_mode=clone:stop_duration=30[still];[live][still]blend=all_expr=",
-    "source_file": "ffmpeg-lens-time-warp.md"
+    "filter_chain": "split[live][frozen]; [frozen]tpad=stop_mode=clone:stop_duration=30[still]; [live][still]blend=all_expr=if(gt(hypot(X-W/2,Y-H/2), 200+100*sin(T*1.5)), B, A), noise=alls=5:allf=t",
+    "source_file": "ffmpeg-lens-time-warp.md",
+    "complex": true
   },
   "interesting_combinations_to_try": {
     "name": "Interesting Combinations to Try",
-    "filter_chain": "rgbashift=rh=5:bh=-5,noise=alls=35:allf=t+u,eq=saturation=0.5:contrast=0.85,gblur=sigma=1.0,scroll=v=",
-    "source_file": "ffmpeg-master-guide.md"
+    "filter_chain": "rgbashift=rh=5:bh=-5, noise=alls=35:allf=t+u, eq=saturation=0.5:contrast=0.85, gblur=sigma=1.0, scroll=v=0.002*sin(T*8):h=0, hue=h=3*sin(T*2), split[live][ghost]; [ghost]negate,hue=h=180,lagfun=decay=0.96[afterimage]; [live][afterimage]blend=all_mode=screen:all_opacity=0.3, eq=saturation=max(0.1, 0.6-T*0.02):contrast=max(0.5, 0.9-T*0.01), noise=alls=min(60, 30+T*1.5):allf=t+u, drawgrid=w=0:h=2:t=1:c=black@0.25",
+    "source_file": "ffmpeg-master-guide.md",
+    "complex": true
   },
   "rain_light_drizzle": {
     "name": "1. Rain \u2014 Light Drizzle",
-    "filter_chain": "geq=lum=",
-    "source_file": "ffmpeg-particles-stereoscopic.md"
+    "filter_chain": "geq=lum=if(lt(mod(X*7+Y*13+floor(T*800),1000),3), max(0,255-abs(mod(Y+floor(T*800)+X*7,200)-100)*10), 0):cb=128:cr=128, gblur=sigmaX=0:sigmaY=1.5, noise=alls=3:allf=t",
+    "source_file": "ffmpeg-particles-stereoscopic.md",
+    "complex": false
   },
   "rain_heavy_downpour": {
     "name": "2. Rain \u2014 Heavy Downpour",
-    "filter_chain": "geq=lum=",
-    "source_file": "ffmpeg-particles-stereoscopic.md"
+    "filter_chain": "geq=lum=if(lt(mod(X*11+Y*17+floor(T*1000),400),3), max(0,255-abs(mod(Y+floor(T*1000)+X*3,150)-75)*8), 0) +if(lt(mod(X*23+Y*7+floor(T*600),600),2), max(0,200-abs(mod(Y+floor(T*600)+X*5,180)-90)*12), 0):cb=128:cr=128, gblur=sigmaX=0.5:sigmaY=2, noise=alls=5:allf=t",
+    "source_file": "ffmpeg-particles-stereoscopic.md",
+    "complex": false
   },
   "snow_falling_particles": {
     "name": "3. Snow / Falling Particles",
-    "filter_chain": "geq=lum=",
-    "source_file": "ffmpeg-particles-stereoscopic.md"
+    "filter_chain": "geq=lum=if(lt(mod(X*13+Y*7+floor(T*60),800),2), max(0,220-abs(mod(Y+floor(T*60)+floor(15*sin(T*2+X/100)),400)-200)*15), 0) +if(lt(mod(X*31+Y*11+floor(T*40),1200),2), max(0,180-abs(mod(Y+floor(T*40)+floor(10*sin(T*1.5+X/80)),500)-250)*20), 0):cb=128:cr=128, gblur=sigma=1.5",
+    "source_file": "ffmpeg-particles-stereoscopic.md",
+    "complex": false
   },
   "dust_motes_floating_particles": {
     "name": "4. Dust Motes / Floating Particles",
-    "filter_chain": "geq=lum=",
-    "source_file": "ffmpeg-particles-stereoscopic.md"
+    "filter_chain": "geq=lum=if(lt(mod(X*17+Y*23+floor(T*15),2000),1), max(0,200*exp(-pow(mod(Y+floor(T*15)+floor(8*sin(T*0.8+X/50)),600)-300,2)/50) *exp(-pow(mod(X+floor(6*sin(T*0.6+Y/60)),800)-400,2)/50)), 0):cb=128:cr=128, gblur=sigma=2, lagfun=decay=0.85",
+    "source_file": "ffmpeg-particles-stereoscopic.md",
+    "complex": false
   },
   "sparks_embers": {
     "name": "5. Sparks / Embers",
-    "filter_chain": "geq=lum=",
-    "source_file": "ffmpeg-particles-stereoscopic.md"
+    "filter_chain": "geq=lum=if(lt(mod(X*19+Y*11+floor(T*200),1500),2), max(0,255-abs(mod(Y-floor(T*200)+floor(30*sin(T*5+X/30)),500)-250)*8 )*max(0,(H-Y)/H)), 0):cb=118:cr=155, lutrgb=r=val:g=val*0.6:b=val/5, gblur=sigma=1.5, lagfun=decay=0.88, split[a][b]; [b]gblur=sigma=5,eq=brightness=0.08[bloom]; [a][bloom]blend=all_mode=screen:all_opacity=0.4",
+    "source_file": "ffmpeg-particles-stereoscopic.md",
+    "complex": true
   },
   "fireflies_bioluminescence": {
     "name": "6. Fireflies / Bioluminescence",
-    "filter_chain": "geq=lum=",
-    "source_file": "ffmpeg-particles-stereoscopic.md"
+    "filter_chain": "geq=lum= max(0,180*exp(-hypot(X-W/4-80*sin(T*0.5),Y-H/3-60*cos(T*0.4))/20)*(0.5+0.5*sin(T*3))) +max(0,160*exp(-hypot(X-3*W/4+70*cos(T*0.6),Y-2*H/3+50*sin(T*0.5))/18)*(0.5+0.5*sin(T*3.5+1))) +max(0,140*exp(-hypot(X-W/2-90*sin(T*0.7),Y-H/2-70*cos(T*0.3))/22)*(0.5+0.5*sin(T*4+2))) +max(0,120*exp(-hypot(X-W/5+60*cos(T*0.4),Y-H/4+40*sin(T*0.6))/16)*(0.5+0.5*sin(T*2.5+3))) +max(0,150*exp(-hypot(X-4*W/5-50*sin(T*0.55),Y-3*H/4-45*cos(T*0.45))/20)*(0.5+0.5*sin(T*3.2+4))) :cb=110:cr=118, lutrgb=r=val/3:g=val:b=val/5, gblur=sigma=3, split[a][b]; [b]gblur=sigma=10,eq=brightness=0.08[bloom]; [a][bloom]blend=all_mode=screen:all_opacity=0.5",
+    "source_file": "ffmpeg-particles-stereoscopic.md",
+    "complex": true
   },
   "starfield_hyperspace": {
     "name": "7. Starfield / Hyperspace",
-    "filter_chain": "geq=lum=",
-    "source_file": "ffmpeg-particles-stereoscopic.md"
+    "filter_chain": "geq=lum=if(lt(mod(X*37+Y*53+floor(T*100),3000),1), max(0,255*max(0,(hypot(X-W/2,Y-H/2)-mod(T*200+X*3+Y*5,W/2))/(W/20)) *exp(-pow(atan2(Y-H/2,X-W/2)-atan2(mod(Y*53,H)-H/2,mod(X*37,W)-W/2),2)/0.01)), 0): cb=128:cr=128, gblur=sigma=1, lagfun=decay=0.92",
+    "source_file": "ffmpeg-particles-stereoscopic.md",
+    "complex": false
   },
   "rising_bubbles_underwater": {
     "name": "8. Rising Bubbles / Underwater",
-    "filter_chain": "geq=lum=",
-    "source_file": "ffmpeg-particles-stereoscopic.md"
+    "filter_chain": "geq=lum= max(0,120*exp(-pow(hypot(X-W/5-20*sin(T*1.2),Y-mod(H+H/4-T*80,H+100)+50)-15,2)/30)) +max(0,100*exp(-pow(hypot(X-2*W/5+15*sin(T*1.5+1),Y-mod(H+H/3-T*60,H+120)+60)-12,2)/25)) +max(0,90*exp(-pow(hypot(X-3*W/5-18*sin(T*1.0+2),Y-mod(H+H/2-T*70,H+80)+40)-10,2)/20)) +max(0,110*exp(-pow(hypot(X-4*W/5+12*sin(T*1.3+3),Y-mod(H+2*H/3-T*50,H+150)+70)-14,2)/28)) +max(0,80*exp(-pow(hypot(X-W/2-25*sin(T*0.9+4),Y-mod(H+H/5-T*90,H+60)+30)-8,2)/18)) :cb=105:cr=120, lutrgb=r=val/3:g=val*0.7:b=val, gblur=sigma=1.5",
+    "source_file": "ffmpeg-particles-stereoscopic.md",
+    "complex": false
   },
   "explosion_radial_burst": {
     "name": "9. Explosion / Radial Burst",
-    "filter_chain": "geq=lum=",
-    "source_file": "ffmpeg-particles-stereoscopic.md"
+    "filter_chain": "geq=lum=if(lt(mod(floor(atan2(Y-H/2,X-W/2)*300),50),1), max(0,255*exp(-pow(hypot(X-W/2,Y-H/2)-T*200,2)/2000) *max(0,1-T/4)), 0):cb=118:cr=155, lutrgb=r=val:g=val*0.5:b=val/6, gblur=sigma=2, lagfun=decay=0.92, split[a][b]; [b]gblur=sigma=8,eq=brightness=0.12[bloom]; [a][bloom]blend=all_mode=screen:all_opacity=0.5",
+    "source_file": "ffmpeg-particles-stereoscopic.md",
+    "complex": true
   },
   "electricity_lightning_arcs": {
     "name": "10. Electricity / Lightning Arcs",
-    "filter_chain": "geq=lum=",
-    "source_file": "ffmpeg-particles-stereoscopic.md"
+    "filter_chain": "geq=lum=max(0, 255-abs(Y-H/2-80*sin(X/40+random(1)*3+T*8)-40*sin(X/20+random(1)*5+T*12))*8):cb=90:cr=128, lutrgb=r=val/2:g=val/2:b=val, gblur=sigma=2, split[a][b]; [b]gblur=sigma=8,eq=brightness=0.15[bloom]; [a][bloom]blend=all_mode=screen:all_opacity=0.5, noise=alls=5:allf=t",
+    "source_file": "ffmpeg-particles-stereoscopic.md",
+    "complex": true
   },
   "smoke_fog_particles": {
     "name": "11. Smoke / Fog Particles",
-    "filter_chain": "geq=lum=",
-    "source_file": "ffmpeg-particles-stereoscopic.md"
+    "filter_chain": "geq=lum=128 +40*sin(X/100+T*0.4)*cos(Y/80+T*0.3) +25*sin(X/50+T*0.8)*cos(Y/40+T*0.6) +15*cos(X/25+Y/30+T*1.2) :cb=128:cr=128, gblur=sigma=15, eq=brightness=-0.3:contrast=0.6",
+    "source_file": "ffmpeg-particles-stereoscopic.md",
+    "complex": false
   },
   "audio_reactive_particles": {
     "name": "12. Audio-Reactive Particles",
-    "filter_chain": "[0:a]showwaves=s=1920x1080:mode=cline:rate=30:colors=white:scale=sqrt[waves];[waves]format=gray,gblur=sigma=20[energy];color=s=1920x1080:d=30:c=black,geq=lum=",
-    "source_file": "ffmpeg-particles-stereoscopic.md"
+    "filter_chain": "[0:a]showwaves=s=1920x1080:mode=cline:rate=30:colors=white:scale=sqrt[waves]; [waves]format=gray,gblur=sigma=20[energy]; color=s=1920x1080:d=30:c=black, geq=lum= max(0,200*exp(-hypot(X-W/4-80*sin(T*0.6),Y-H/3-60*cos(T*0.5))/15)*(0.5+0.5*sin(T*4))) +max(0,180*exp(-hypot(X-3*W/4+70*cos(T*0.7),Y-2*H/3+50*sin(T*0.4))/12)*(0.5+0.5*sin(T*5+1))) +max(0,160*exp(-hypot(X-W/2-60*sin(T*0.8),Y-H/2-40*cos(T*0.6))/18)*(0.5+0.5*sin(T*3.5+2))) +max(0,140*exp(-hypot(X-W/3+50*cos(T*0.5),Y-3*H/4+30*sin(T*0.7))/14)*(0.5+0.5*sin(T*4.5+3))) :cb=110:cr=120, lutrgb=r=0:g=val:b=val/2, gblur=sigma=2[particles]; [particles][energy]blend=all_mode=multiply[reactive]; [reactive]split[a][b]; [b]gblur=sigma=8,eq=brightness=0.1[bloom]; [a][bloom]blend=all_mode=screen:all_opacity=0.4[glow_particles]; [0:v][glow_particles]blend=all_mode=screen:all_opacity=0.7",
+    "source_file": "ffmpeg-particles-stereoscopic.md",
+    "complex": true
   },
   "anaglyph_3d_from_2d_red_cyan": {
     "name": "13. Anaglyph 3D from 2D (Red/Cyan)",
-    "filter_chain": "split[left][right];[left]crop=iw-10:ih:0:0,pad=iw+10:ih:10:0:black,extractplanes=r[lr];[right]crop=iw-10:ih:10:0,pad=iw+10:ih:0:0:black,extractplanes=g+b[gcb];[lr][gcb]mergeplanes=0x001020:yuv444p,format=yuv420p",
-    "source_file": "ffmpeg-particles-stereoscopic.md"
+    "filter_chain": "split[left][right]; [left]crop=iw-10:ih:0:0,pad=iw+10:ih:10:0:black,extractplanes=r[lr]; [right]crop=iw-10:ih:10:0,pad=iw+10:ih:0:0:black,extractplanes=g+b[gcb]; [lr][gcb]mergeplanes=0x001020:yuv444p, format=yuv420p",
+    "source_file": "ffmpeg-particles-stereoscopic.md",
+    "complex": true
   },
   "side_by_side_3d_generation": {
     "name": "14. Side-by-Side 3D Generation",
-    "filter_chain": "split[left][right];[left]crop=iw-16:ih:0:0,pad=iw+16:ih:16:0:black[l];[right]crop=iw-16:ih:16:0,pad=iw+16:ih:0:0:black[r];[l][r]hstack,scale=1920:1080",
-    "source_file": "ffmpeg-particles-stereoscopic.md"
+    "filter_chain": "split[left][right]; [left]crop=iw-16:ih:0:0,pad=iw+16:ih:16:0:black[l]; [right]crop=iw-16:ih:16:0,pad=iw+16:ih:0:0:black[r]; [l][r]hstack, scale=1920:1080",
+    "source_file": "ffmpeg-particles-stereoscopic.md",
+    "complex": true
   },
   "over_under_3d_generation": {
     "name": "15. Over-Under 3D Generation",
-    "filter_chain": "split[left][right];[left]crop=iw:ih-12:0:0,pad=iw:ih+12:0:12:black[l];[right]crop=iw:ih-12:0:12,pad=iw:ih+12:0:0:black[r];[l]scale=1920:540[ls];[r]scale=1920:540[rs];[ls][rs]vstack",
-    "source_file": "ffmpeg-particles-stereoscopic.md"
+    "filter_chain": "split[left][right]; [left]crop=iw:ih-12:0:0,pad=iw:ih+12:0:12:black[l]; [right]crop=iw:ih-12:0:12,pad=iw:ih+12:0:0:black[r]; [l]scale=1920:540[ls]; [r]scale=1920:540[rs]; [ls][rs]vstack",
+    "source_file": "ffmpeg-particles-stereoscopic.md",
+    "complex": true
   },
   "3d_format_conversion": {
     "name": "16. 3D Format Conversion",
     "filter_chain": "stereo3d=sbsl:arcg",
-    "source_file": "ffmpeg-particles-stereoscopic.md"
+    "source_file": "ffmpeg-particles-stereoscopic.md",
+    "complex": false
   },
   "displacement_based_fake_3d": {
     "name": "17. Displacement-Based Fake 3D",
-    "filter_chain": "split=3[left_src][right_src][depth_src];[depth_src]format=gray,gblur=sigma=8[depth];[depth]split[dl][dr];[left_src]format=gray[luma_for_xmap_left];[dl]lutrgb=r=",
-    "source_file": "ffmpeg-particles-stereoscopic.md"
+    "filter_chain": "split=3[left_src][right_src][depth_src]; [depth_src]format=gray,gblur=sigma=8[depth]; [depth]split[dl][dr]; [left_src]format=gray[luma_for_xmap_left]; [dl]lutrgb=r=128+val/15:g=128:b=128,format=gray[left_xmap]; [dr]lutrgb=r=128-val/15:g=128:b=128,format=gray[right_xmap]; color=s=1920x1080:c=gray,format=gray[flat_ymap]; [flat_ymap]split[yl][yr]; [left_src][left_xmap][yl]displace,scale=960:1080[left]; [right_src][right_xmap][yr]displace,scale=960:1080[right]; [left][right]hstack",
+    "source_file": "ffmpeg-particles-stereoscopic.md",
+    "complex": true
   },
   "3d_particles_stereo_particle_field": {
     "name": "18. 3D Particles (Stereo Particle Field)",
-    "filter_chain": "geq=lum=",
-    "source_file": "ffmpeg-particles-stereoscopic.md"
+    "filter_chain": "geq=lum= max(0,200*exp(-hypot(X-mod(X,1920)-W/8-30*sin(T*0.5), Y-H/3-20*cos(T*0.4))/12) *(0.5+0.5*sin(T*3))) +max(0,160*exp(-hypot(X-mod(X,1920)-3*W/8+20*cos(T*0.6), Y-2*H/3+15*sin(T*0.5))/10) *(0.5+0.5*sin(T*4+1))) +max(0,120*exp(-hypot(X-mod(X,1920)-W/4-40*sin(T*0.4), Y-H/2-30*cos(T*0.3))/8) *(0.5+0.5*sin(T*2.5+2))) :cb=110:cr=118, lutrgb=r=val/3:g=val:b=val/4, gblur=sigma=2, split[a][b]; [b]gblur=sigma=6,eq=brightness=0.08[bloom]; [a][bloom]blend=all_mode=screen:all_opacity=0.4",
+    "source_file": "ffmpeg-particles-stereoscopic.md",
+    "complex": true
   },
   "3d_glitch_effect": {
     "name": "19. 3D Glitch Effect",
-    "filter_chain": "split[left][right];[left]rgbashift=rh=-5:bh=5,noise=alls=20:allf=t,crop=iw-12:ih:0:0,pad=iw+12:ih:12:0:black[l];[right]rgbashift=rh=5:bh=-5,noise=alls=25:allf=t,posterize=bits=3,crop=iw-12:ih:12:0,pad=iw+12:ih:0:0:black[r];[l]scale=960:1080[ls];[r]scale=960:1080[rs];[ls][rs]hstack",
-    "source_file": "ffmpeg-particles-stereoscopic.md"
+    "filter_chain": "split[left][right]; [left]rgbashift=rh=-5:bh=5, noise=alls=20:allf=t, crop=iw-12:ih:0:0,pad=iw+12:ih:12:0:black[l]; [right]rgbashift=rh=5:bh=-5, noise=alls=25:allf=t, posterize=bits=3, crop=iw-12:ih:12:0,pad=iw+12:ih:0:0:black[r]; [l]scale=960:1080[ls]; [r]scale=960:1080[rs]; [ls][rs]hstack",
+    "source_file": "ffmpeg-particles-stereoscopic.md",
+    "complex": true
   },
   "3d_depth_pulse_breathing": {
     "name": "20. 3D Depth Pulse / Breathing",
-    "filter_chain": "split[left][right];[left]crop=",
-    "source_file": "ffmpeg-particles-stereoscopic.md"
+    "filter_chain": "split[left][right]; [left]crop=iw-abs(10*sin(T*2)):ih:0:0, pad=iw+abs(10*sin(T*2)):ih:abs(10*sin(T*2)):0:black[l]; [right]crop=iw-abs(10*sin(T*2)):ih:abs(10*sin(T*2)):0, pad=iw+abs(10*sin(T*2)):ih:0:0:black[r]; [l]scale=960:1080[ls]; [r]scale=960:1080[rs]; [ls][rs]hstack",
+    "source_file": "ffmpeg-particles-stereoscopic.md",
+    "complex": true
   },
   "stereoscopic_particle_rain": {
     "name": "21. Stereoscopic Particle Rain",
-    "filter_chain": "[0:v]geq=lum=",
-    "source_file": "ffmpeg-particles-stereoscopic.md"
+    "filter_chain": "[0:v]geq=lum= if(lt(mod((X-mod(X,1920))*7+(mod(X,1920))*3+Y*13+floor(T*900),800),2), max(0,255-abs(mod(Y+floor(T*900)+mod(X,1920)*7,200)-100)*10), 0) +if(lt(mod((X-mod(X,1920))*11+mod(X,1920)*5+Y*17+floor(T*500),1200),2), max(0,160-abs(mod(Y+floor(T*500)+mod(X,1920)*5,250)-125)*12), 0) :cb=128:cr=128, gblur=sigmaX=0:sigmaY=1.5[rain_sbs]; [1:v]scale=960:1080[left_vid]; [1:v]scale=960:1080[right_vid]; [left_vid][right_vid]hstack[vid_sbs]; [vid_sbs]eq=brightness=-0.05:saturation=0.7[dark_sbs]; [dark_sbs][rain_sbs]blend=all_mode=screen:all_opacity=0.5",
+    "source_file": "ffmpeg-particles-stereoscopic.md",
+    "complex": true
   },
   "3d_fractal_zoom": {
     "name": "22. 3D Fractal Zoom",
     "filter_chain": "stereo3d=sbsl:arcg",
-    "source_file": "ffmpeg-particles-stereoscopic.md"
+    "source_file": "ffmpeg-particles-stereoscopic.md",
+    "complex": false
   },
   "3d_fireflies_in_fog": {
     "name": "23. 3D Fireflies in Fog",
-    "filter_chain": "geq=lum=",
-    "source_file": "ffmpeg-particles-stereoscopic.md"
+    "filter_chain": "geq=lum= max(0,200*exp(-hypot(X-240-80*sin(T*0.5)-8,Y-360-60*cos(T*0.4))/15)*(0.5+0.5*sin(T*3))) +max(0,150*exp(-hypot(X-720+70*cos(T*0.6)-3,Y-720+50*sin(T*0.5))/10)*(0.5+0.5*sin(T*4+1))) +max(0,100*exp(-hypot(X-480-50*sin(T*0.7)-1,Y-540-40*cos(T*0.3))/8)*(0.5+0.5*sin(T*2.5+2))) +40*sin(X/80+T*0.3)*cos(Y/60+T*0.2)*max(0,1-Y/(1080*0.9)) :cb=110:cr=118, lutrgb=r=val/4:g=val:b=val/5, gblur=sigma=2, split[a][b]; [b]gblur=sigma=8,eq=brightness=0.08[bloom]; [a][bloom]blend=all_mode=screen:all_opacity=0.4",
+    "source_file": "ffmpeg-particles-stereoscopic.md",
+    "complex": true
   },
   "audio_reactive_3d_particle_explosion": {
     "name": "24. Audio-Reactive 3D Particle Explosion",
-    "filter_chain": "geq=lum=",
-    "source_file": "ffmpeg-particles-stereoscopic.md"
+    "filter_chain": "geq=lum=if(lt(mod(floor(atan2(Y-H/2,mod(X,1920)-960)*200),40),1), max(0,255*exp(-pow(hypot(mod(X,1920)-960,Y-H/2)-mod(T*250,700),2)/3000) *max(0,1-mod(T,3.5)/3.5)), 0):cb=118:cr=155, lutrgb=r=val:g=val*0.5:b=val/6, gblur=sigma=2, lagfun=decay=0.91, split[a][b]; [b]gblur=sigma=8,eq=brightness=0.1[bloom]; [a][bloom]blend=all_mode=screen:all_opacity=0.4",
+    "source_file": "ffmpeg-particles-stereoscopic.md",
+    "complex": true
   },
   "basic_8_bit_nes_style": {
     "name": "1. Basic 8-Bit / NES Style",
-    "filter_chain": "scale=256:240:flags=lanczos,posterize=bits=2,scale=1920:1080:flags=neighbor",
-    "source_file": "ffmpeg-retro-8bit.md"
+    "filter_chain": "scale=256:240:flags=lanczos, posterize=bits=2, scale=1920:1080:flags=neighbor",
+    "source_file": "ffmpeg-retro-8bit.md",
+    "complex": false
   },
   "atari_2600_style": {
     "name": "2. Atari 2600 Style",
-    "filter_chain": "scale=160:192:flags=lanczos,posterize=bits=2,eq=saturation=0.7:contrast=1.3,scale=960:1080:flags=neighbor",
-    "source_file": "ffmpeg-retro-8bit.md"
+    "filter_chain": "scale=160:192:flags=lanczos, posterize=bits=2, eq=saturation=0.7:contrast=1.3, scale=960:1080:flags=neighbor",
+    "source_file": "ffmpeg-retro-8bit.md",
+    "complex": false
   },
   "game_boy_original_dmg": {
     "name": "3. Game Boy (Original DMG)",
-    "filter_chain": "scale=160:144:flags=lanczos,format=gray,posterize=bits=2,lutrgb=r=",
-    "source_file": "ffmpeg-retro-8bit.md"
+    "filter_chain": "scale=160:144:flags=lanczos, format=gray, posterize=bits=2, lutrgb=r=floor(val/85)*36+15:g=floor(val/85)*52+56:b=floor(val/85)*24+8, scale=960:864:flags=neighbor",
+    "source_file": "ffmpeg-retro-8bit.md",
+    "complex": false
   },
   "commodore_64_style": {
     "name": "4. Commodore 64 Style",
-    "filter_chain": "scale=320:200:flags=lanczos,posterize=bits=2,colorbalance=rs=0.05:gs=-0.05:bs=0.15:rm=0.05:bm=0.1,eq=saturation=0.8:contrast=1.2,scale=1920:1080:flags=neighbor,gblur=sigma=0.6",
-    "source_file": "ffmpeg-retro-8bit.md"
+    "filter_chain": "scale=320:200:flags=lanczos, posterize=bits=2, colorbalance=rs=0.05:gs=-0.05:bs=0.15:rm=0.05:bm=0.1, eq=saturation=0.8:contrast=1.2, scale=1920:1080:flags=neighbor, gblur=sigma=0.6",
+    "source_file": "ffmpeg-retro-8bit.md",
+    "complex": false
   },
   "cga_early_dos_style": {
     "name": "5. CGA / Early DOS Style",
-    "filter_chain": "scale=320:200:flags=lanczos,format=gray,posterize=bits=2,lutrgb=r=",
-    "source_file": "ffmpeg-retro-8bit.md"
+    "filter_chain": "scale=320:200:flags=lanczos, format=gray, posterize=bits=2, lutrgb=r=if(gt(val,192),255,if(gt(val,128),255,if(gt(val,64),0,0))):g=if(gt(val,192),255,if(gt(val,128),0,if(gt(val,64),255,0))):b=if(gt(val,192),255,if(gt(val,128),255,if(gt(val,64),255,0))), scale=1920:1080:flags=neighbor",
+    "source_file": "ffmpeg-retro-8bit.md",
+    "complex": false
   },
   "zx_spectrum_style": {
     "name": "6. ZX Spectrum Style",
-    "filter_chain": "scale=256:192:flags=lanczos,posterize=bits=1,pixelize=w=8:h=8:mode=avg,eq=saturation=1.3:contrast=1.4,scale=1024:768:flags=neighbor,noise=alls=5:allf=t",
-    "source_file": "ffmpeg-retro-8bit.md"
+    "filter_chain": "scale=256:192:flags=lanczos, posterize=bits=1, pixelize=w=8:h=8:mode=avg, eq=saturation=1.3:contrast=1.4, scale=1024:768:flags=neighbor, noise=alls=5:allf=t",
+    "source_file": "ffmpeg-retro-8bit.md",
+    "complex": false
   },
   "arcade_crt_display": {
     "name": "7. Arcade CRT Display",
-    "filter_chain": "scale=320:240:flags=lanczos,eq=saturation=1.5:contrast=1.3:brightness=0.05,scale=1920:1080:flags=neighbor,drawgrid=w=0:h=3:t=1:c=black@0.2,gblur=sigma=0.8,vignette=angle=0.4:x0=0.5:y0=0.5,noise=alls=8:allf=t",
-    "source_file": "ffmpeg-retro-8bit.md"
+    "filter_chain": "scale=320:240:flags=lanczos, eq=saturation=1.5:contrast=1.3:brightness=0.05, scale=1920:1080:flags=neighbor, drawgrid=w=0:h=3:t=1:c=black@0.2, gblur=sigma=0.8, vignette=angle=0.4:x0=0.5:y0=0.5, noise=alls=8:allf=t",
+    "source_file": "ffmpeg-retro-8bit.md",
+    "complex": false
   },
   "vhs_composite_video_artifacts": {
     "name": "8. VHS / Composite Video Artifacts",
-    "filter_chain": "scale=320:240:flags=lanczos,rgbashift=rh=3:bh=-3,gblur=sigma=1.5,eq=saturation=0.7:contrast=0.9:brightness=-0.02,noise=alls=25:allf=t+u,scale=1920:1080:flags=bilinear,drawgrid=w=0:h=2:t=1:c=black@0.2,hue=h=",
-    "source_file": "ffmpeg-retro-8bit.md"
+    "filter_chain": "scale=320:240:flags=lanczos, rgbashift=rh=3:bh=-3, gblur=sigma=1.5, eq=saturation=0.7:contrast=0.9:brightness=-0.02, noise=alls=25:allf=t+u, scale=1920:1080:flags=bilinear, drawgrid=w=0:h=2:t=1:c=black@0.2, hue=h=2*sin(T*3)",
+    "source_file": "ffmpeg-retro-8bit.md",
+    "complex": false
   },
   "pixel_art_dithering": {
     "name": "9. Pixel Art Dithering",
-    "filter_chain": "scale=320:240:flags=lanczos,format=gray,posterize=bits=1,noise=alls=30:allf=u,posterize=bits=1,scale=1920:1080:flags=neighbor",
-    "source_file": "ffmpeg-retro-8bit.md"
+    "filter_chain": "scale=320:240:flags=lanczos, format=gray, posterize=bits=1, noise=alls=30:allf=u, posterize=bits=1, scale=1920:1080:flags=neighbor",
+    "source_file": "ffmpeg-retro-8bit.md",
+    "complex": false
   },
   "retro_computer_boot_text_mode": {
     "name": "10. Retro Computer Boot / Text Mode",
-    "filter_chain": "scale=280:192:flags=lanczos,format=gray,posterize=bits=2,lutrgb=r=0:g=",
-    "source_file": "ffmpeg-retro-8bit.md"
+    "filter_chain": "scale=280:192:flags=lanczos, format=gray, posterize=bits=2, lutrgb=r=0:g=val:b=val/4, scale=1120:768:flags=neighbor, gblur=sigma=1.0, drawgrid=w=0:h=2:t=1:c=black@0.3, vignette=angle=0.5, noise=alls=10:allf=t, eq=brightness=0.05:contrast=1.2",
+    "source_file": "ffmpeg-retro-8bit.md",
+    "complex": false
   },
   "snes_16_bit_style": {
     "name": "11. SNES / 16-Bit Style",
-    "filter_chain": "scale=256:224:flags=lanczos,posterize=bits=3,eq=saturation=1.2:contrast=1.1,scale=1024:896:flags=neighbor",
-    "source_file": "ffmpeg-retro-8bit.md"
+    "filter_chain": "scale=256:224:flags=lanczos, posterize=bits=3, eq=saturation=1.2:contrast=1.1, scale=1024:896:flags=neighbor",
+    "source_file": "ffmpeg-retro-8bit.md",
+    "complex": false
   },
   "sega_genesis_mega_drive_style": {
     "name": "12. Sega Genesis / Mega Drive Style",
-    "filter_chain": "scale=320:224:flags=lanczos,posterize=bits=3,eq=saturation=0.9:contrast=1.4,scale=1280:896:flags=neighbor",
-    "source_file": "ffmpeg-retro-8bit.md"
+    "filter_chain": "scale=320:224:flags=lanczos, posterize=bits=3, eq=saturation=0.9:contrast=1.4, scale=1280:896:flags=neighbor",
+    "source_file": "ffmpeg-retro-8bit.md",
+    "complex": false
   },
   "early_3d_ps1_style": {
     "name": "13. Early 3D / PS1 Style",
-    "filter_chain": "scale=320:240:flags=lanczos,noise=alls=12:allf=u,posterize=bits=3,gblur=sigma=0.4,eq=saturation=0.8:contrast=1.2,scale=1280:960:flags=neighbor,drawgrid=w=0:h=2:t=1:c=black@0.1",
-    "source_file": "ffmpeg-retro-8bit.md"
+    "filter_chain": "scale=320:240:flags=lanczos, noise=alls=12:allf=u, posterize=bits=3, gblur=sigma=0.4, eq=saturation=0.8:contrast=1.2, scale=1280:960:flags=neighbor, drawgrid=w=0:h=2:t=1:c=black@0.1",
+    "source_file": "ffmpeg-retro-8bit.md",
+    "complex": false
   },
   "monochrome_lcd_game_watch_tiger_electronics": {
     "name": "14. Monochrome LCD (Game & Watch / Tiger Electronics)",
-    "filter_chain": "scale=60:40:flags=lanczos,format=gray,posterize=bits=1,lagfun=decay=0.7,scale=1080:720:flags=neighbor,drawgrid=w=18:h=18:t=1:c=#808080@0.3,colorbalance=rs=-0.1:gs=0.05:bs=-0.05,eq=brightness=0.15:contrast=0.8",
-    "source_file": "ffmpeg-retro-8bit.md"
+    "filter_chain": "scale=60:40:flags=lanczos, format=gray, posterize=bits=1, lagfun=decay=0.7, scale=1080:720:flags=neighbor, drawgrid=w=18:h=18:t=1:c=#808080@0.3, colorbalance=rs=-0.1:gs=0.05:bs=-0.05, eq=brightness=0.15:contrast=0.8",
+    "source_file": "ffmpeg-retro-8bit.md",
+    "complex": false
   },
   "vector_display_asteroids_vectrex": {
     "name": "15. Vector Display (Asteroids / Vectrex)",
-    "filter_chain": "edgedetect=low=0.1:high=0.3:mode=wires,negate,format=gray,lutrgb=r=0:g=",
-    "source_file": "ffmpeg-retro-8bit.md"
+    "filter_chain": "edgedetect=low=0.1:high=0.3:mode=wires, negate, format=gray, lutrgb=r=0:g=val:b=val/3, gblur=sigma=2, eq=brightness=0.1:contrast=1.8, lagfun=decay=0.9, noise=alls=5:allf=t",
+    "source_file": "ffmpeg-retro-8bit.md",
+    "complex": false
   },
   "teletext_ceefax_style": {
     "name": "16. Teletext / Ceefax Style",
-    "filter_chain": "scale=40:25:flags=lanczos,posterize=bits=1,eq=saturation=1.5:contrast=1.5,scale=1280:800:flags=neighbor,pad=1920:1080:320:140:color=black,drawgrid=w=32:h=32:t=2:c=#222222@0.5,noise=alls=5:allf=t",
-    "source_file": "ffmpeg-retro-8bit.md"
+    "filter_chain": "scale=40:25:flags=lanczos, posterize=bits=1, eq=saturation=1.5:contrast=1.5, scale=1280:800:flags=neighbor, pad=1920:1080:320:140:color=black, drawgrid=w=32:h=32:t=2:c=#222222@0.5, noise=alls=5:allf=t",
+    "source_file": "ffmpeg-retro-8bit.md",
+    "complex": false
   },
   "retro_transition_effects": {
     "name": "17. Retro Transition Effects",
-    "filter_chain": "[0:v]scale=320:240:flags=lanczos,posterize=bits=2,scale=1920:1080:flags=neighbor[a];[1:v]scale=320:240:flags=lanczos,posterize=bits=2,scale=1920:1080:flags=neighbor[b];[a][b]blend=all_expr=",
-    "source_file": "ffmpeg-retro-8bit.md"
+    "filter_chain": "[0:v]scale=320:240:flags=lanczos,posterize=bits=2,scale=1920:1080:flags=neighbor[a]; [1:v]scale=320:240:flags=lanczos,posterize=bits=2,scale=1920:1080:flags=neighbor[b]; [a][b]blend=all_expr=if(gt(random(0),T/5),A,B)",
+    "source_file": "ffmpeg-retro-8bit.md",
+    "complex": true
   },
   "animated_palette_cycling": {
     "name": "18. Animated Palette Cycling",
-    "filter_chain": "scale=320:240:flags=lanczos,posterize=bits=2,hue=h=",
-    "source_file": "ffmpeg-retro-8bit.md"
+    "filter_chain": "scale=320:240:flags=lanczos, posterize=bits=2, hue=h=T*60, eq=saturation=1.5:contrast=1.2, scale=1920:1080:flags=neighbor",
+    "source_file": "ffmpeg-retro-8bit.md",
+    "complex": false
   },
   "logarithmic_spiral": {
     "name": "1. Logarithmic Spiral",
-    "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum=",
-    "source_file": "ffmpeg-spirals-topology.md"
+    "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum=128+60*sin(atan2(Y-H/2,X-W/2)*3+log(hypot(X-W/2,Y-H/2)+1)*5+T*2):cb=128:cr=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30:r=30,geq=lum=128+60*cos(atan2(Y-H/2,X-W/2)*3+log(hypot(X-W/2,Y-H/2)+1)*5+T*2):cb=128:cr=128,format=gray[ymap]; [0:v][xmap][ymap]displace",
+    "source_file": "ffmpeg-spirals-topology.md",
+    "complex": true
   },
   "fibonacci_golden_spiral": {
     "name": "2. Fibonacci / Golden Spiral",
-    "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum=",
-    "source_file": "ffmpeg-spirals-topology.md"
+    "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum=128+50*sin(atan2(Y-H/2,X-W/2)*1.618+log(hypot(X-W/2,Y-H/2)+1)*1.618*3+T*1.5):cb=128:cr=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30:r=30,geq=lum=128+50*cos(atan2(Y-H/2,X-W/2)*1.618+log(hypot(X-W/2,Y-H/2)+1)*1.618*3+T*1.5):cb=128:cr=128,format=gray[ymap]; [0:v][xmap][ymap]displace, eq=contrast=1.2:saturation=1.3",
+    "source_file": "ffmpeg-spirals-topology.md",
+    "complex": true
   },
   "double_helix_dna_twist": {
     "name": "3. Double Helix / DNA Twist",
-    "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum=",
-    "source_file": "ffmpeg-spirals-topology.md"
+    "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum=128+40*sin(Y/30+T*3)*cos(X/200+T*0.5):cb=128:cr=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30:r=30,geq=lum=128+25*cos(Y/30+T*3):cb=128:cr=128,format=gray[ymap]; [0:v][xmap][ymap]displace, eq=contrast=1.2:saturation=1.3",
+    "source_file": "ffmpeg-spirals-topology.md",
+    "complex": true
   },
   "torus_donut_warp": {
     "name": "4. Torus / Donut Warp",
-    "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum=",
-    "source_file": "ffmpeg-spirals-topology.md"
+    "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum=128+60*(X-W/2)/(hypot(X-W/2,Y-H/2)+100)*sin(hypot(X-W/2,Y-H/2)/80+T*2):cb=128:cr=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30:r=30,geq=lum=128+60*(Y-H/2)/(hypot(X-W/2,Y-H/2)+100)*sin(hypot(X-W/2,Y-H/2)/80+T*2):cb=128:cr=128,format=gray[ymap]; [0:v][xmap][ymap]displace, eq=contrast=1.2:saturation=1.3",
+    "source_file": "ffmpeg-spirals-topology.md",
+    "complex": true
   },
   "m_bius_strip_twist": {
     "name": "5. M\u00f6bius Strip Twist",
-    "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum=",
-    "source_file": "ffmpeg-spirals-topology.md"
+    "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum=128+40*sin(atan2(Y-H/2,X-W/2)+T*1.5)*cos(atan2(Y-H/2,X-W/2)*0.5+T*0.75):cb=128:cr=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30:r=30,geq=lum=128+40*cos(atan2(Y-H/2,X-W/2)+T*1.5)*sin(atan2(Y-H/2,X-W/2)*0.5+T*0.75):cb=128:cr=128,format=gray[ymap]; [0:v][xmap][ymap]displace, eq=contrast=1.2:saturation=1.3",
+    "source_file": "ffmpeg-spirals-topology.md",
+    "complex": true
   },
   "klein_bottle_fold": {
     "name": "6. Klein Bottle Fold",
-    "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum=",
-    "source_file": "ffmpeg-spirals-topology.md"
+    "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum=128+50*sin(atan2(Y-H/2,X-W/2)*2+T*2)*cos(hypot(X-W/2,Y-H/2)/100+atan2(Y-H/2,X-W/2)+T):cb=128:cr=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30:r=30,geq=lum=128+50*cos(atan2(Y-H/2,X-W/2)*2+T*2)*sin(hypot(X-W/2,Y-H/2)/100-atan2(Y-H/2,X-W/2)+T):cb=128:cr=128,format=gray[ymap]; [0:v][xmap][ymap]displace, lagfun=decay=0.94, eq=contrast=1.3:saturation=1.4",
+    "source_file": "ffmpeg-spirals-topology.md",
+    "complex": true
   },
   "hyperbolic_space_poincar_disk": {
     "name": "7. Hyperbolic Space / Poincar\u00e9 Disk",
-    "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum=",
-    "source_file": "ffmpeg-spirals-topology.md"
+    "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum=128+80*(X-W/2)/(1+hypot(X-W/2,Y-H/2)/300*hypot(X-W/2,Y-H/2)/300)*sin(T*2)/300:cb=128:cr=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30:r=30,geq=lum=128+80*(Y-H/2)/(1+hypot(X-W/2,Y-H/2)/300*hypot(X-W/2,Y-H/2)/300)*sin(T*2)/300:cb=128:cr=128,format=gray[ymap]; [0:v][xmap][ymap]displace, vignette=angle=0.6, eq=contrast=1.3:saturation=1.2",
+    "source_file": "ffmpeg-spirals-topology.md",
+    "complex": true
   },
   "spherical_projection_planet_effect": {
     "name": "8. Spherical Projection / Planet Effect",
-    "filter_chain": "v360=input=flat:output=ball:pitch=0:yaw=",
-    "source_file": "ffmpeg-spirals-topology.md"
+    "filter_chain": "v360=input=flat:output=ball:pitch=0:yaw=T*10:roll=0",
+    "source_file": "ffmpeg-spirals-topology.md",
+    "complex": false
   },
   "vortex_whirlpool": {
     "name": "9. Vortex / Whirlpool",
-    "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum=",
-    "source_file": "ffmpeg-spirals-topology.md"
+    "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum=128+50*(Y-H/2)/hypot(X-W/2,Y-H/2+1)*sin(hypot(X-W/2,Y-H/2)/50+T*4):cb=128:cr=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30:r=30,geq=lum=128-50*(X-W/2)/hypot(X-W/2,Y-H/2+1)*sin(hypot(X-W/2,Y-H/2)/50+T*4):cb=128:cr=128,format=gray[ymap]; [0:v][xmap][ymap]displace",
+    "source_file": "ffmpeg-spirals-topology.md",
+    "complex": true
   },
   "ripple_concentric_waves": {
     "name": "10. Ripple / Concentric Waves",
-    "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum=",
-    "source_file": "ffmpeg-spirals-topology.md"
+    "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum=128+30*(X-W/2)/hypot(X-W/2,Y-H/2+1)*sin(hypot(X-W/2,Y-H/2)/20-T*8):cb=128:cr=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30:r=30,geq=lum=128+30*(Y-H/2)/hypot(X-W/2,Y-H/2+1)*sin(hypot(X-W/2,Y-H/2)/20-T*8):cb=128:cr=128,format=gray[ymap]; [0:v][xmap][ymap]displace",
+    "source_file": "ffmpeg-spirals-topology.md",
+    "complex": true
   },
   "polar_coordinate_warp": {
     "name": "11. Polar Coordinate Warp",
-    "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum=",
-    "source_file": "ffmpeg-spirals-topology.md"
+    "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum=128+(atan2(Y-H/2,X-W/2)/3.14159*W/2-X+W/2)/3:cb=128:cr=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30:r=30,geq=lum=128+(hypot(X-W/2,Y-H/2)*H/W-Y+H/2)/3:cb=128:cr=128,format=gray[ymap]; [0:v][xmap][ymap]displace, vignette=angle=0.5",
+    "source_file": "ffmpeg-spirals-topology.md",
+    "complex": true
   },
   "trefoil_knot_warp": {
     "name": "12. Trefoil Knot Warp",
-    "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum=",
-    "source_file": "ffmpeg-spirals-topology.md"
+    "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum=128+40*sin(atan2(Y-H/2,X-W/2)*3+T*2)*cos(atan2(Y-H/2,X-W/2)*2+T*1.5):cb=128:cr=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30:r=30,geq=lum=128+40*cos(atan2(Y-H/2,X-W/2)*3+T*2)*sin(atan2(Y-H/2,X-W/2)*2+T*1.5):cb=128:cr=128,format=gray[ymap]; [0:v][xmap][ymap]displace, eq=contrast=1.3:saturation=1.4",
+    "source_file": "ffmpeg-spirals-topology.md",
+    "complex": true
   },
   "hypercube_4d_projection": {
     "name": "13. Hypercube / 4D Projection",
-    "filter_chain": "split[a][b];[a]nullsrc=s=1920x1080:d=30:r=30,geq=lum=",
-    "source_file": "ffmpeg-spirals-topology.md"
+    "filter_chain": "split[a][b]; [a]nullsrc=s=1920x1080:d=30:r=30,geq=lum=128+35*sin(X/50+T*2)*cos(Y/50+T*1.5):cb=128:cr=128,format=gray[xmap1]; nullsrc=s=1920x1080:d=30:r=30,geq=lum=128+35*cos(X/50+T*1.5)*sin(Y/50+T*2):cb=128:cr=128,format=gray[ymap1]; [0:v][xmap1][ymap1]displace[d1]; [b]nullsrc=s=1920x1080:d=30:r=30,geq=lum=128+35*sin(X/50-T*2)*cos(Y/50-T*1.5):cb=128:cr=128,format=gray[xmap2]; nullsrc=s=1920x1080:d=30:r=30,geq=lum=128+35*cos(X/50-T*1.5)*sin(Y/50-T*2):cb=128:cr=128,format=gray[ymap2]; [0:v][xmap2][ymap2]displace,hue=h=180[d2]; [d1][d2]blend=all_mode=screen:all_opacity=0.5, lagfun=decay=0.93, eq=contrast=1.4:saturation=1.6",
+    "source_file": "ffmpeg-spirals-topology.md",
+    "complex": true
   },
   "sinusoidal_terrain_landscape": {
     "name": "14. Sinusoidal Terrain / Landscape",
-    "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum=",
-    "source_file": "ffmpeg-spirals-topology.md"
+    "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum=128+20*cos(X/40+T*2)*sin(Y/35+T*1.5)+15*sin(X/20+Y/25+T*3):cb=128:cr=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30:r=30,geq=lum=128+25*sin(X/35+T*1.5)*cos(Y/40+T*2)+15*cos(X/25+Y/20+T*2.5):cb=128:cr=128,format=gray[ymap]; [0:v][xmap][ymap]displace, eq=contrast=1.2:saturation=1.2",
+    "source_file": "ffmpeg-spirals-topology.md",
+    "complex": true
   },
   "wormhole_space_tunnel": {
     "name": "15. Wormhole / Space Tunnel",
-    "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum=",
-    "source_file": "ffmpeg-spirals-topology.md"
+    "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum=128+80*(X-W/2)/(hypot(X-W/2,Y-H/2)+1)*1/(1+hypot(X-W/2,Y-H/2)/200):cb=128:cr=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30:r=30,geq=lum=128+80*(Y-H/2)/(hypot(X-W/2,Y-H/2)+1)*1/(1+hypot(X-W/2,Y-H/2)/200):cb=128:cr=128,format=gray[ymap]; [0:v][xmap][ymap]displace, zoompan=z=1+T*0.02:x=iw/2-(iw/zoom/2):y=ih/2-(ih/zoom/2):d=1:s=1920x1080:fps=30, lagfun=decay=0.96, vignette=angle=0.6, eq=contrast=1.4:saturation=1.3",
+    "source_file": "ffmpeg-spirals-topology.md",
+    "complex": true
   },
   "topology_transition_sphere_to_torus": {
     "name": "16. Topology Transition \u2014 Sphere to Torus",
-    "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum=",
-    "source_file": "ffmpeg-spirals-topology.md"
+    "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum=128 +(1-T/30)*50*(X-W/2)/(hypot(X-W/2,Y-H/2)+200)*sin(T*2) +(T/30)*60*(X-W/2)/(hypot(X-W/2,Y-H/2)+80)*sin(hypot(X-W/2,Y-H/2)/60+T*3):cb=128:cr=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30:r=30,geq=lum=128 +(1-T/30)*50*(Y-H/2)/(hypot(X-W/2,Y-H/2)+200)*cos(T*2) +(T/30)*60*(Y-H/2)/(hypot(X-W/2,Y-H/2)+80)*cos(hypot(X-W/2,Y-H/2)/60+T*3):cb=128:cr=128,format=gray[ymap]; [0:v][xmap][ymap]displace, lagfun=decay=0.94, eq=contrast=1.3:saturation=1.4, vignette=angle=0.4",
+    "source_file": "ffmpeg-spirals-topology.md",
+    "complex": true
   },
   "escher_style_impossible_geometry": {
     "name": "17. Escher-style Impossible Geometry",
-    "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum=",
-    "source_file": "ffmpeg-spirals-topology.md"
+    "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum=128+40*sin(X/30+sin(Y/40+T*2)*3)*cos(Y/25+cos(X/35+T*1.5)*3):cb=128:cr=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30:r=30,geq=lum=128+40*cos(Y/30+cos(X/40+T*2)*3)*sin(X/25+sin(Y/35+T*1.5)*3):cb=128:cr=128,format=gray[ymap]; [0:v][xmap][ymap]displace, eq=contrast=1.3:saturation=1.3",
+    "source_file": "ffmpeg-spirals-topology.md",
+    "complex": true
   },
   "cosmic_web_filament_structure": {
     "name": "18. Cosmic Web / Filament Structure",
-    "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum=",
-    "source_file": "ffmpeg-spirals-topology.md"
+    "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum=128 +20*sin(X/60+T)*cos(Y/50+T*0.8) +15*sin(X/30+Y/40+T*1.5) +10*cos(X/20-Y/30+T*2) +8*sin(X/15+Y/15+T*2.5) :cb=128:cr=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30:r=30,geq=lum=128 +20*cos(X/50+T*0.8)*sin(Y/60+T) +15*cos(X/40+Y/30+T*1.5) +10*sin(X/30-Y/20+T*2) +8*cos(X/15+Y/15+T*2.5) :cb=128:cr=128,format=gray[ymap]; [0:v][xmap][ymap]displace, split[a][b]; [b]edgedetect=low=0.05:high=0.2:mode=colormix,gblur=sigma=3,hue=s=3[web]; [a][web]blend=all_mode=screen:all_opacity=0.4, eq=contrast=1.3:saturation=1.5",
+    "source_file": "ffmpeg-spirals-topology.md",
+    "complex": true
   },
   "earthquake_camera_shake": {
     "name": "1. Earthquake / Camera Shake",
-    "filter_chain": "crop=iw-40:ih-40:20+random(0)*20:20+random(1)*20,scale=iw+40:ih+40",
-    "source_file": "ffmpeg-violent-chaotic-effects.md"
+    "filter_chain": "crop=iw-40:ih-40:20+random(0)*20:20+random(1)*20, scale=iw+40:ih+40",
+    "source_file": "ffmpeg-violent-chaotic-effects.md",
+    "complex": false
   },
   "strobe_seizure_flash": {
     "name": "2. Strobe / Seizure Flash",
-    "filter_chain": "split[a][b];[b]negate[neg];[a][neg]blend=all_expr=",
-    "source_file": "ffmpeg-violent-chaotic-effects.md"
+    "filter_chain": "split[a][b]; [b]negate[neg]; [a][neg]blend=all_expr=if(mod(N, 4), A, B)",
+    "source_file": "ffmpeg-violent-chaotic-effects.md",
+    "complex": true
   },
   "signal_destruction_total_corruption": {
     "name": "3. Signal Destruction / Total Corruption",
-    "filter_chain": "rgbashift=rh=",
-    "source_file": "ffmpeg-violent-chaotic-effects.md"
+    "filter_chain": "rgbashift=rh=20*sin(T*8):bh=-20*sin(T*8):rv=15*cos(T*6):bv=-15*cos(T*6), shuffleplanes=2:0:1:3, noise=alls=70:allf=t+u, random=frames=3:seed=-1, setpts=N/FRAME_RATE/TB, eq=contrast=2.0:saturation=3.0",
+    "source_file": "ffmpeg-violent-chaotic-effects.md",
+    "complex": false
   },
   "pixel_explosion_scatter": {
     "name": "4. Pixel Explosion / Scatter",
-    "filter_chain": "nullsrc=s=1920x1080:d=30,lutrgb=r=",
-    "source_file": "ffmpeg-violent-chaotic-effects.md"
+    "filter_chain": "nullsrc=s=1920x1080:d=30,lutrgb=r=128+(X-W/2)*T*0.3:g=128:b=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30,lutrgb=r=128+(Y-H/2)*T*0.3:g=128:b=128,format=gray[ymap]; [0:v][xmap][ymap]displace, noise=alls=min(60, T*4):allf=t",
+    "source_file": "ffmpeg-violent-chaotic-effects.md",
+    "complex": true
   },
   "temporal_seizure_time_shatter": {
     "name": "5. Temporal Seizure / Time Shatter",
-    "filter_chain": "random=frames=15:seed=-1,setpts=N/FRAME_RATE/TB,tblend=all_mode=phoenix:all_opacity=0.8,framestep=2",
-    "source_file": "ffmpeg-violent-chaotic-effects.md"
+    "filter_chain": "random=frames=15:seed=-1, setpts=N/FRAME_RATE/TB, tblend=all_mode=phoenix:all_opacity=0.8, framestep=2",
+    "source_file": "ffmpeg-violent-chaotic-effects.md",
+    "complex": false
   },
   "color_violence_oversaturation_assault": {
     "name": "6. Color Violence / Oversaturation Assault",
-    "filter_chain": "eq=saturation=5:contrast=2.5:gamma=0.7,hue=h=",
-    "source_file": "ffmpeg-violent-chaotic-effects.md"
+    "filter_chain": "eq=saturation=5:contrast=2.5:gamma=0.7, hue=h=120*sin(T*4):s=4, curves=all=0/0 0.2/0 0.5/1 0.8/1 1/0, noise=alls=15:allf=t",
+    "source_file": "ffmpeg-violent-chaotic-effects.md",
+    "complex": false
   },
   "meat_grinder_total_mangle": {
     "name": "7. Meat Grinder / Total Mangle",
-    "filter_chain": "rgbashift=rh=",
-    "source_file": "ffmpeg-violent-chaotic-effects.md"
+    "filter_chain": "rgbashift=rh=25*sin(T*12):bh=-25*sin(T*12):rv=18*cos(T*9):bv=-18*cos(T*9), lagfun=decay=0.98, noise=alls=60:allf=t+u, random=frames=8:seed=-1, setpts=N/FRAME_RATE/TB, shuffleplanes=2:0:1:3, tblend=all_mode=phoenix:all_opacity=0.7, pixelize=w=12:h=12, eq=contrast=2.5:saturation=4, hue=h=T*90:s=3, drawgrid=w=0:h=2:t=1:c=black@0.4, crop=iw-60:ih-60:30+random(0)*30:30+random(1)*30, scale=iw+60:ih+60",
+    "source_file": "ffmpeg-violent-chaotic-effects.md",
+    "complex": false
   },
   "dimension_tear_reality_rip": {
     "name": "8. Dimension Tear / Reality Rip",
-    "filter_chain": "crop=iw:ih/5:0:0,scroll=horizontal=",
-    "source_file": "ffmpeg-violent-chaotic-effects.md"
+    "filter_chain": "crop=iw:ih/5:0:0,scroll=horizontal=0.08*sin(T*4)[s0]; [0:v]crop=iw:ih/5:0:ih/5,scroll=horizontal=-0.06*sin(T*5+1)[s1]; [0:v]crop=iw:ih/5:0:2*ih/5,scroll=horizontal=0.1*sin(T*3+2)[s2]; [0:v]crop=iw:ih/5:0:3*ih/5,scroll=horizontal=-0.07*sin(T*6+3)[s3]; [0:v]crop=iw:ih/5:0:4*ih/5,scroll=horizontal=0.09*sin(T*4.5+4)[s4]; [s0][s1]vstack[t01]; [t01][s2]vstack[t012]; [t012][s3]vstack[t0123]; [t0123][s4]vstack, rgbashift=rh=4:bh=-4, noise=alls=20:allf=t",
+    "source_file": "ffmpeg-violent-chaotic-effects.md",
+    "complex": true
   },
   "feedback_overload_infinite_recursion": {
     "name": "9. Feedback Overload / Infinite Recursion",
-    "filter_chain": "split[a][b];[b]scale=iw*1.08:ih*1.08,crop=iw/1.08:ih/1.08,hue=h=15:s=1.5,eq=contrast=1.1:brightness=0.02,setpts=PTS-STARTPTS[zoom];[a][zoom]blend=all_mode=addition:all_opacity=0.6,lagfun=decay=0.97,eq=saturation=2",
-    "source_file": "ffmpeg-violent-chaotic-effects.md"
+    "filter_chain": "split[a][b]; [b]scale=iw*1.08:ih*1.08,crop=iw/1.08:ih/1.08, hue=h=15:s=1.5, eq=contrast=1.1:brightness=0.02, setpts=PTS-STARTPTS[zoom]; [a][zoom]blend=all_mode=addition:all_opacity=0.6, lagfun=decay=0.97, eq=saturation=2",
+    "source_file": "ffmpeg-violent-chaotic-effects.md",
+    "complex": true
   },
   "waveform_annihilation_audio_reactive_simulation": {
     "name": "10. Waveform Annihilation / Audio-Reactive Simulation",
-    "filter_chain": "nullsrc=s=1920x1080:d=30,lutrgb=r=",
-    "source_file": "ffmpeg-violent-chaotic-effects.md"
+    "filter_chain": "nullsrc=s=1920x1080:d=30,lutrgb=r=128+40*sin(Y/5+T*20)*sin(T*13):g=128:b=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30,lutrgb=r=128+20*sin(X/30+T*15)*cos(T*17):g=128:b=128,format=gray[ymap]; [0:v][xmap][ymap]displace, rgbashift=rh=10*sin(T*11):bh=-10*sin(T*11), noise=alls=30:allf=t, eq=contrast=1.5:saturation=1.5",
+    "source_file": "ffmpeg-violent-chaotic-effects.md",
+    "complex": true
   },
   "gravity_collapse_implosion": {
     "name": "11. Gravity Collapse / Implosion",
-    "filter_chain": "nullsrc=s=1920x1080:d=30,lutrgb=r=",
-    "source_file": "ffmpeg-violent-chaotic-effects.md"
+    "filter_chain": "nullsrc=s=1920x1080:d=30,lutrgb=r=128-(X-W/2)*T*0.3:g=128:b=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30,lutrgb=r=128-(Y-H/2)*T*0.3:g=128:b=128,format=gray[ymap]; [0:v][xmap][ymap]displace, lagfun=decay=min(0.998, 0.95+T*0.003), eq=contrast=1+T*0.1:brightness=-T*0.02",
+    "source_file": "ffmpeg-violent-chaotic-effects.md",
+    "complex": true
   },
   "fragmentation_bomb_mosaic_shatter": {
     "name": "12. Fragmentation Bomb / Mosaic Shatter",
-    "filter_chain": "pixelize=w=",
-    "source_file": "ffmpeg-violent-chaotic-effects.md"
+    "filter_chain": "pixelize=w=min(128, 2+floor(T*5)):h=min(128, 2+floor(T*5)):mode=avg, noise=alls=min(70, T*4):allf=t+u, rgbashift=rh=T*2:bh=-T*2, eq=contrast=1+T*0.1:saturation=1+T*0.15",
+    "source_file": "ffmpeg-violent-chaotic-effects.md",
+    "complex": false
   },
   "phase_cancellation_ghost_layer_assault": {
     "name": "13. Phase Cancellation / Ghost Layer Assault",
-    "filter_chain": "split=4[a][b][c][d];[b]setpts=PTS+0.1/TB,format=rgba,colorchannelmixer=aa=0.5,hue=h=60[g1];[c]setpts=PTS+0.2/TB,format=rgba,colorchannelmixer=aa=0.5,hue=h=120,negate[g2];[d]setpts=PTS+0.3/TB,format=rgba,colorchannelmixer=aa=0.5,hue=h=240[g3];[a][g1]overlay=format=auto[t1];[t1][g2]overlay=format=auto[t2];[t2][g3]overlay=format=auto,eq=contrast=1.8:saturation=2.5,noise=alls=20:allf=t",
-    "source_file": "ffmpeg-violent-chaotic-effects.md"
+    "filter_chain": "split=4[a][b][c][d]; [b]setpts=PTS+0.1/TB,format=rgba,colorchannelmixer=aa=0.5,hue=h=60[g1]; [c]setpts=PTS+0.2/TB,format=rgba,colorchannelmixer=aa=0.5,hue=h=120,negate[g2]; [d]setpts=PTS+0.3/TB,format=rgba,colorchannelmixer=aa=0.5,hue=h=240[g3]; [a][g1]overlay=format=auto[t1]; [t1][g2]overlay=format=auto[t2]; [t2][g3]overlay=format=auto, eq=contrast=1.8:saturation=2.5, noise=alls=20:allf=t",
+    "source_file": "ffmpeg-violent-chaotic-effects.md",
+    "complex": true
   },
   "recursive_mutation_self_consuming_video": {
     "name": "14. Recursive Mutation / Self-Consuming Video",
-    "filter_chain": "amplify=radius=3:factor=15:threshold=3,tblend=all_mode=grainextract:all_opacity=0.9,lagfun=decay=0.96,eq=contrast=2:saturation=3,hue=h=",
-    "source_file": "ffmpeg-violent-chaotic-effects.md"
+    "filter_chain": "amplify=radius=3:factor=15:threshold=3, tblend=all_mode=grainextract:all_opacity=0.9, lagfun=decay=0.96, eq=contrast=2:saturation=3, hue=h=T*20",
+    "source_file": "ffmpeg-violent-chaotic-effects.md",
+    "complex": false
   },
   "the_annihilator_everything_at_maximum": {
     "name": "15. The Annihilator (Everything at Maximum)",
-    "filter_chain": "nullsrc=s=1920x1080:d=30,lutrgb=r=",
-    "source_file": "ffmpeg-violent-chaotic-effects.md"
+    "filter_chain": "nullsrc=s=1920x1080:d=30,lutrgb=r=128+min(60,T*3)*sin(Y/5+T*20)*sin(T*13):g=128:b=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30,lutrgb=r=128+min(40,T*2)*sin(X/8+T*15)*cos(T*17):g=128:b=128,format=gray[ymap]; [0:v][xmap][ymap]displace, rgbashift=rh=min(30, T*3)*sin(T*12):bh=-min(30, T*3)*sin(T*12):rv=min(20, T*2)*cos(T*9):bv=-min(20, T*2)*cos(T*9), lagfun=decay=min(0.998, 0.93+T*0.004), amplify=radius=3:factor=min(20, 3+T*1.5):threshold=3, tblend=all_mode=phoenix:all_opacity=min(0.9, 0.3+T*0.04), noise=alls=min(90, 5+T*5):allf=t+u, random=frames=min(12, 2+floor(T*0.5)):seed=-1, setpts=N/FRAME_RATE/TB, shuffleplanes=2:0:1:3, pixelize=w=min(64, 2+floor(T*2)):h=min(64, 2+floor(T*2)), hue=h=T*45:s=min(5, 1+T*0.3), eq=contrast=min(3, 1+T*0.12):saturation=min(5, 1+T*0.25), drawgrid=w=0:h=2:t=1:c=black@0.4, crop=iw-60:ih-60:30+random(0)*min(30,T*3):30+random(1)*min(30,T*3), scale=iw+60:ih+60",
+    "source_file": "ffmpeg-violent-chaotic-effects.md",
+    "complex": true
   },
   "dimensional_collapse": {
     "name": "1. Dimensional Collapse",
-    "filter_chain": "split=4[a][b][c][d];[b]scale=iw/2:ih/2[b1];[c]scale=iw/4:ih/4[c1];[d]scale=iw/8:ih/8[d1];[a][b1]overlay=W*0.5:H*0.5[ab];[ab][c1]overlay=W*0.25:H*0.25[abc];[abc][d1]overlay=W*0.75:H*0.75,rgbashift=rh=10:bh=-10,eq=contrast=1.6:saturation=2.0",
-    "source_file": "ffmpeg-violent-effects.md"
+    "filter_chain": "split=4[a][b][c][d]; [b]scale=iw/2:ih/2[b1]; [c]scale=iw/4:ih/4[c1]; [d]scale=iw/8:ih/8[d1]; [a][b1]overlay=W*0.5:H*0.5[ab]; [ab][c1]overlay=W*0.25:H*0.25[abc]; [abc][d1]overlay=W*0.75:H*0.75, rgbashift=rh=10:bh=-10, eq=contrast=1.6:saturation=2.0",
+    "source_file": "ffmpeg-violent-effects.md",
+    "complex": true
   },
   "signal_annihilation": {
     "name": "2. Signal Annihilation",
-    "filter_chain": "rgbashift=rh=30:bh=-30:rv=20:bv=-20,shuffleplanes=2:0:1:3,lutrgb=r=",
-    "source_file": "ffmpeg-violent-effects.md"
+    "filter_chain": "rgbashift=rh=30:bh=-30:rv=20:bv=-20, shuffleplanes=2:0:1:3, lutrgb=r=bitand(val,192):g=bitand(val,128):b=bitand(val,64), noise=alls=80:allf=t+u, negate, eq=contrast=2.5:saturation=3.0, posterize=bits=2",
+    "source_file": "ffmpeg-violent-effects.md",
+    "complex": false
   },
   "temporal_shredder": {
     "name": "3. Temporal Shredder",
-    "filter_chain": "random=frames=30:seed=666,setpts=N/FRAME_RATE/TB,tblend=all_mode=phoenix:all_opacity=0.8,lagfun=decay=0.98,amplify=radius=3:factor=8:threshold=5,noise=alls=25:allf=t",
-    "source_file": "ffmpeg-violent-effects.md"
+    "filter_chain": "random=frames=30:seed=666, setpts=N/FRAME_RATE/TB, tblend=all_mode=phoenix:all_opacity=0.8, lagfun=decay=0.98, amplify=radius=3:factor=8:threshold=5, noise=alls=25:allf=t",
+    "source_file": "ffmpeg-violent-effects.md",
+    "complex": false
   },
   "flesh_machine": {
     "name": "4. Flesh Machine",
-    "filter_chain": "nullsrc=s=1920x1080:d=30,lutrgb=r=",
-    "source_file": "ffmpeg-violent-effects.md"
+    "filter_chain": "nullsrc=s=1920x1080:d=30,lutrgb=r=128+25*sin(X/12+T*5)*cos(Y/15+T*3):g=128:b=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30,lutrgb=r=128+30*cos(X/10+T*4)*sin(Y/8+T*6):g=128:b=128,format=gray[ymap]; [0:v][xmap][ymap]displace, lagfun=decay=0.96, colorbalance=rs=0.3:gs=-0.1:bs=-0.2, eq=contrast=1.4:saturation=1.6, noise=alls=15:allf=t",
+    "source_file": "ffmpeg-violent-effects.md",
+    "complex": true
   },
   "data_blender": {
     "name": "5. Data Blender",
-    "filter_chain": "shuffleplanes=1:2:0:3,lutrgb=r=",
-    "source_file": "ffmpeg-violent-effects.md"
+    "filter_chain": "shuffleplanes=1:2:0:3, lutrgb=r=bitand(val,240)+bitand(val,15)*16:g=mod(val*3,256):b=255-val, tblend=all_mode=negation:all_opacity=0.8, rgbashift=rh=15:bh=-15:rv=10:bv=-10, eq=contrast=2.0:saturation=2.5",
+    "source_file": "ffmpeg-violent-effects.md",
+    "complex": false
   },
   "gravity_well": {
     "name": "6. Gravity Well",
-    "filter_chain": "nullsrc=s=1920x1080:d=30,lutrgb=r=",
-    "source_file": "ffmpeg-violent-effects.md"
+    "filter_chain": "nullsrc=s=1920x1080:d=30,lutrgb=r=128+40*(X-W/2-W/4*sin(T*2))/hypot(X-W/2-W/4*sin(T*2),Y-H/2-H/4*cos(T*1.5)+1):g=128:b=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30,lutrgb=r=128+40*(Y-H/2-H/4*cos(T*1.5))/hypot(X-W/2-W/4*sin(T*2),Y-H/2-H/4*cos(T*1.5)+1):g=128:b=128,format=gray[ymap]; [0:v][xmap][ymap]displace, lagfun=decay=0.95, eq=contrast=1.3:saturation=1.5",
+    "source_file": "ffmpeg-violent-effects.md",
+    "complex": true
   },
   "infinite_mirror_fracture": {
     "name": "7. Infinite Mirror Fracture",
-    "filter_chain": "split[a][b];[b]hflip[flip];[a]crop=iw/2:ih:0:0[left];[flip]crop=iw/2:ih:0:0[right];[left][right]hstack,split[c][d];[d]vflip[vflip];[c]crop=iw:ih/2:0:0[top];[vflip]crop=iw:ih/2:0:0[bottom];[top][bottom]vstack,rgbashift=rh=6:bh=-6,eq=contrast=1.4:saturation=1.6",
-    "source_file": "ffmpeg-violent-effects.md"
+    "filter_chain": "split[a][b]; [b]hflip[flip]; [a]crop=iw/2:ih:0:0[left]; [flip]crop=iw/2:ih:0:0[right]; [left][right]hstack, split[c][d]; [d]vflip[vflip]; [c]crop=iw:ih/2:0:0[top]; [vflip]crop=iw:ih/2:0:0[bottom]; [top][bottom]vstack, rgbashift=rh=6:bh=-6, eq=contrast=1.4:saturation=1.6",
+    "source_file": "ffmpeg-violent-effects.md",
+    "complex": true
   },
   "seizure_machine": {
     "name": "8. Seizure Machine",
-    "filter_chain": "geq=lum=",
-    "source_file": "ffmpeg-violent-effects.md"
+    "filter_chain": "geq=lum=if(mod(N,4),lum(X,Y),255-lum(X,Y)):cb=if(mod(N,3),cb(X,Y),256-cb(X,Y)):cr=if(mod(N,5),cr(X,Y),256-cr(X,Y)), eq=contrast=1+2*abs(sin(T*8)):saturation=1+3*abs(sin(T*6)), rgbashift=rh=15*sin(T*10):bh=-15*sin(T*10), noise=alls=30:allf=t",
+    "source_file": "ffmpeg-violent-effects.md",
+    "complex": false
   },
   "vortex_crusher": {
     "name": "9. Vortex Crusher",
-    "filter_chain": "rotate=",
-    "source_file": "ffmpeg-violent-effects.md"
+    "filter_chain": "rotate=T*T*0.02:fillcolor=black, lagfun=decay=0.97, rgbashift=rh=10*sin(T*4):bh=-10*sin(T*4), eq=contrast=1.5:saturation=1.8, noise=alls=20:allf=t",
+    "source_file": "ffmpeg-violent-effects.md",
+    "complex": false
   },
   "cellular_automaton": {
     "name": "10. Cellular Automaton",
-    "filter_chain": "amplify=radius=3:factor=10:threshold=3,lagfun=decay=0.98,tblend=all_mode=grainextract:all_opacity=0.8,rgbashift=rh=5:bh=-5,eq=contrast=1.8:saturation=2.5,noise=alls=10:allf=t",
-    "source_file": "ffmpeg-violent-effects.md"
+    "filter_chain": "amplify=radius=3:factor=10:threshold=3, lagfun=decay=0.98, tblend=all_mode=grainextract:all_opacity=0.8, rgbashift=rh=5:bh=-5, eq=contrast=1.8:saturation=2.5, noise=alls=10:allf=t",
+    "source_file": "ffmpeg-violent-effects.md",
+    "complex": false
   },
   "meat_grinder": {
     "name": "11. Meat Grinder",
-    "filter_chain": "nullsrc=s=1920x1080:d=30,lutrgb=r=",
-    "source_file": "ffmpeg-violent-effects.md"
+    "filter_chain": "nullsrc=s=1920x1080:d=30,lutrgb=r=128+40*sin(X/8+T*7)*cos(Y/6+T*5):g=128:b=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30,lutrgb=r=128+40*cos(X/6+T*5)*sin(Y/8+T*7):g=128:b=128,format=gray[ymap]; [0:v][xmap][ymap]displace, rotate=sin(T*3)*0.3:fillcolor=none, lagfun=decay=0.97, shuffleplanes=1:2:0:3, rgbashift=rh=20*sin(T*6):bh=-20*sin(T*6):rv=15*cos(T*4):bv=-15*cos(T*4), tblend=all_mode=phoenix:all_opacity=0.7, noise=alls=35:allf=t+u, eq=contrast=2.0:saturation=2.5",
+    "source_file": "ffmpeg-violent-effects.md",
+    "complex": true
   },
   "reality_tear": {
     "name": "12. Reality Tear",
-    "filter_chain": "crop=iw:ih/5:0:0,scroll=horizontal=",
-    "source_file": "ffmpeg-violent-effects.md"
+    "filter_chain": "crop=iw:ih/5:0:0,scroll=horizontal=0.03*sin(T*4)[s0]; [0:v]crop=iw:ih/5:0:ih/5,scroll=horizontal=-0.05*sin(T*3+1)[s1]; [0:v]crop=iw:ih/5:0:2*ih/5,scroll=horizontal=0.04*sin(T*5+2)[s2]; [0:v]crop=iw:ih/5:0:3*ih/5,scroll=horizontal=-0.03*sin(T*6+3)[s3]; [0:v]crop=iw:ih/5:0:4*ih/5,scroll=horizontal=0.06*sin(T*4+4)[s4]; [s0][s1]vstack[t01]; [t01][s2]vstack[t02]; [t02][s3]vstack[t03]; [t03][s4]vstack, rgbashift=rh=5:bh=-5, noise=alls=20:allf=t",
+    "source_file": "ffmpeg-violent-effects.md",
+    "complex": true
   },
   "void_emergence": {
     "name": "13. Void Emergence",
-    "filter_chain": "geq=lum=",
-    "source_file": "ffmpeg-violent-effects.md"
+    "filter_chain": "geq=lum=if(gt(sin(X/10+T*3)*cos(Y/8+T*2)+sin(X/25)*cos(Y/20), 1.5-T*0.06), 0, lum(X,Y)):cb=if(gt(sin(X/10+T*3)*cos(Y/8+T*2)+sin(X/25)*cos(Y/20), 1.5-T*0.06), 128, cb(X,Y)):cr=if(gt(sin(X/10+T*3)*cos(Y/8+T*2)+sin(X/25)*cos(Y/20), 1.5-T*0.06), 128, cr(X,Y)), noise=alls=15:allf=t",
+    "source_file": "ffmpeg-violent-effects.md",
+    "complex": false
   },
   "chromosome_damage": {
     "name": "14. Chromosome Damage",
-    "filter_chain": "split=3[a][b][c];[b]crop=iw/3:ih/3:",
-    "source_file": "ffmpeg-violent-effects.md"
+    "filter_chain": "split=3[a][b][c]; [b]crop=iw/3:ih/3:iw/3*sin(T*2)+iw/3:ih/3*cos(T*1.5)+ih/3,scale=iw*3:ih*3,negate[mut1]; [c]crop=iw/4:ih/4:iw/2+iw/4*cos(T*3):ih/2+ih/4*sin(T*2),scale=iw*4:ih*4,hue=h=120:s=2[mut2]; [a][mut1]blend=all_mode=screen:all_opacity=0.4[layer1]; [layer1][mut2]blend=all_mode=addition:all_opacity=0.3, rgbashift=rh=8*sin(T*4):bh=-8*sin(T*4), eq=contrast=1.5:saturation=1.8",
+    "source_file": "ffmpeg-violent-effects.md",
+    "complex": true
   },
   "total_entropy": {
     "name": "15. Total Entropy",
-    "filter_chain": "nullsrc=s=1920x1080:d=30,lutrgb=r=",
-    "source_file": "ffmpeg-violent-effects.md"
+    "filter_chain": "nullsrc=s=1920x1080:d=30,lutrgb=r=128+(10+T*3)*sin(X/(20-T*0.5)+T*5)*cos(Y/(15-T*0.4)+T*3):g=128:b=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30,lutrgb=r=128+(10+T*3)*cos(X/(15-T*0.4)+T*4)*sin(Y/(10-T*0.3)+T*6):g=128:b=128,format=gray[ymap]; [0:v][xmap][ymap]displace, rgbashift=rh=T*2*sin(T*5):bh=-T*2*sin(T*5):rv=T*cos(T*3):bv=-T*cos(T*3), lagfun=decay=min(0.999, 0.93+T*0.004), random=frames=min(30, 2+T):seed=42, setpts=N/FRAME_RATE/TB, tblend=all_mode=phoenix:all_opacity=min(0.9, 0.3+T*0.03), shuffleplanes=2:0:1:3, noise=alls=min(80, 5+T*4):allf=t+u, posterize=bits=max(1, 4-floor(T/8)), drawgrid=w=0:h=2:t=1:c=black@0.3, eq=contrast=min(3.0, 1.0+T*0.1):saturation=min(4.0, 1.0+T*0.15)",
+    "source_file": "ffmpeg-violent-effects.md",
+    "complex": true
   }
 }

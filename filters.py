@@ -25,20 +25,28 @@ def _slugify(name: str) -> str:
 
 def _extract_vf(code_block: str) -> str | None:
     """Extract the -vf "..." filter chain from an ffmpeg command."""
-    # Match -vf "..." or -vf '...'
-    m = re.search(r'-vf\s+["\'](.+?)["\']', code_block, re.DOTALL)
-    if m:
-        # Clean up multi-line filter chains (join continuation lines)
-        chain = m.group(1)
-        chain = re.sub(r'\s*\\\s*\n\s*', '', chain)
-        return chain.strip()
+    # First join backslash-continuation lines so the filter is one line.
+    block = re.sub(r'\s*\\\s*\n\s*', ' ', code_block)
 
-    # Also try -filter_complex "..."
-    m = re.search(r'-filter_complex\s+["\'](.+?)["\']', code_block, re.DOTALL)
+    # Match -vf "..." using greedy match within double quotes.
+    # Double-quote delimited (may contain single quotes for expressions).
+    m = re.search(r'-vf\s+"([^"]+)"', block)
     if m:
-        chain = m.group(1)
-        chain = re.sub(r'\s*\\\s*\n\s*', '', chain)
-        return chain.strip()
+        return m.group(1).strip()
+
+    # Try single-quote delimited.
+    m = re.search(r"-vf\s+'([^']+)'", block)
+    if m:
+        return m.group(1).strip()
+
+    # Try -filter_complex "..."
+    m = re.search(r'-filter_complex\s+"([^"]+)"', block)
+    if m:
+        return m.group(1).strip()
+
+    m = re.search(r"-filter_complex\s+'([^']+)'", block)
+    if m:
+        return m.group(1).strip()
 
     return None
 

@@ -119,16 +119,32 @@ def _effect_flag_prefix(effect_id: str) -> str:
     return prefixes.get(effect_id, effect_id)
 
 
-def _render_filter(filter_id: str, filter_chain: str, input_path: str,
+def _render_filter(filter_id: str, filter_entry: dict, input_path: str,
                    out_path: str, tools: dict):
     """Apply an ffmpeg filter chain."""
-    cmd = [
-        tools['ffmpeg'], '-y', '-v', 'error',
-        '-i', input_path,
-        '-vf', filter_chain,
-        '-c:a', 'copy',
-        out_path,
-    ]
+    chain = filter_entry['filter_chain']
+    is_complex = filter_entry.get('complex', False)
+
+    if is_complex:
+        # Prepend [0:v] if the chain doesn't start with an input label.
+        if not chain.startswith('['):
+            chain = f'[0:v]{chain}'
+        cmd = [
+            tools['ffmpeg'], '-y', '-v', 'error',
+            '-i', input_path,
+            '-filter_complex', chain,
+            '-map', '0:v',
+            '-c:a', 'copy',
+            out_path,
+        ]
+    else:
+        cmd = [
+            tools['ffmpeg'], '-y', '-v', 'error',
+            '-i', input_path,
+            '-vf', chain,
+            '-c:a', 'copy',
+            out_path,
+        ]
     return cmd
 
 
@@ -183,9 +199,10 @@ def render_scene(scene: dict, timeline: dict, filter_library: dict,
             current_path = next_path
 
         elif entry['type'] == 'filter':
-            chain = filter_library[entry['id']]['filter_chain']
-            cmd = _render_filter(entry['id'], chain, current_path, next_path, tools)
-            print(f'  [scene {sid}] filter: {entry["id"]}')
+            fentry = filter_library[entry['id']]
+            cmd = _render_filter(entry['id'], fentry, current_path, next_path, tools)
+            cplx = ' (complex)' if fentry.get('complex') else ''
+            print(f'  [scene {sid}] filter: {entry["id"]}{cplx}')
             _run(cmd, f'scene {sid} filter:{entry["id"]}')
             current_path = next_path
 
@@ -207,9 +224,10 @@ def apply_post_chain(post_chain: list, input_path: str, audio_path: str,
             current_path = next_path
 
         elif entry['type'] == 'filter':
-            chain = filter_library[entry['id']]['filter_chain']
-            cmd = _render_filter(entry['id'], chain, current_path, next_path, tools)
-            print(f'  [global] filter: {entry["id"]}')
+            fentry = filter_library[entry['id']]
+            cmd = _render_filter(entry['id'], fentry, current_path, next_path, tools)
+            cplx = ' (complex)' if fentry.get('complex') else ''
+            print(f'  [global] filter: {entry["id"]}{cplx}')
             _run(cmd, f'global filter:{entry["id"]}')
             current_path = next_path
 
