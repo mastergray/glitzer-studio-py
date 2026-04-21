@@ -103,6 +103,7 @@ def parse_recipe_file(path: str) -> dict[str, dict]:
                 variant_name = slug.replace('_', ' ').title()
                 recipes[slug] = {
                     'name': variant_name,
+                    'category': cat,
                     'filter_chain': chain,
                 }
                 found_any = True
