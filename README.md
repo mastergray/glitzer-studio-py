@@ -194,7 +194,7 @@ After all scenes:
 
 ## Managed Filter Library
 
-Glitzle Studio maintains a library of 220 ffmpeg filter recipes in
+Glitzle Studio maintains a library of 422 ffmpeg filter recipes in
 `filter_library.json`. Filters are referenced by ID in the timeline.
 
 ```
@@ -203,8 +203,12 @@ python3 studio.py filters
 
 Lists all available filter IDs with preview of their filter chains.
 
-Filters were extracted from the ffmpeg recipe documentation. The library
-is version-controlled — adding new filters means updating
+Filters were extracted from the ffmpeg recipe documentation (13 markdown
+files covering afterimage, decay, fractals, glitch, gradients, laser/glow,
+lens/time-warp, particles, retro/8bit, spirals/topology, and violent
+effects). Each recipe variant is extracted — e.g. a section with base +
+feedback + progressive variants yields three separate filter IDs. The
+library is version-controlled — adding new filters means updating
 `filter_library.json`.
 
 ## Validation
@@ -215,7 +219,7 @@ Before rendering, the studio validates EVERY referenced name:
 - **Dazzle post** — 26 post-production effects (mirror_quad, kaleidoscope, ...)
 - **Palettes** — 8 color palettes (rainbow, fire, ice, ...)
 - **Glitch effects** — 13 glitch-maker effects (tear, pixel_sort, ...)
-- **FFmpeg filters** — 220 managed filter IDs
+- **FFmpeg filters** — 422 managed filter IDs
 
 Unknown names produce clear error messages before any rendering starts.
 
@@ -249,7 +253,7 @@ python3 studio.py render TIMELINE [-o OUTPUT] [options]
 python3 studio.py filters
 ```
 
-Lists all 220 managed ffmpeg filter IDs.
+Lists all 422 managed ffmpeg filter IDs.
 
 ## Output Naming Convention
 
@@ -285,7 +289,7 @@ glitzle-studio-py/
   timeline.py            # JSON schema, validation, skeleton generation
   renderer.py            # per-scene render orchestration + concatenation
   filters.py             # ffmpeg recipe parser (dev tool for updating library)
-  filter_library.json    # 220 managed ffmpeg filter definitions
+  filter_library.json    # 422 managed ffmpeg filter definitions
   analyze_audio.py       # vendored audio analyzer
   README.md
 ```
@@ -318,6 +322,162 @@ glitzle-studio-py/
 `databend`, `channel_swap`, `bit_crush`, `invert_blocks`, `slitscan`,
 `warp`, `noise`, `clip_cut`
 
-### FFmpeg filters (220)
+### FFmpeg filters (422)
 
 Run `python3 studio.py filters` for the full list with filter chain previews.
+
+#### Afterimage Experimental (42)
+
+`afterimage`, `afterimage_building`, `afterimage_complementary`,
+`atmospheric_perspective`, `audio_overlay`, `audio_reactive`,
+`bullet_time`, `comet_trail`, `datamosh_bloom`, `depth_fog`,
+`dreamscape`, `dreamscape_dissociation`, `echo_bounce`, `echo_chamber`,
+`feedback_intensify`, `fractal_feedback`, `gravity_trail`,
+`infinity_mirror`, `infinity_mirror_color`, `light_leak`,
+`light_leak_golden`, `luma_displace`, `motion_saturation`,
+`motion_trail`, `multiexposure_glow`, `negative_space`,
+`negative_space_v2`, `phosphor_amber`, `phosphor_green`, `radar`,
+`risograph`, `risograph_halftone`, `shadow_echo`, `shadow_multi`,
+`spatial_color_bleed`, `spectral_echo`, `spectral_spatial`,
+`spectrum_warp`, `strobe_echo`, `strobe_echo_fade`, `thermal_bloom`,
+`thermal_cooling`
+
+#### Decay Effects (25)
+
+`acid_burn`, `acid_spread`, `bleach_progressive`, `chem_burn`,
+`disintegrate`, `disintegrate_blocks`, `dissolve_static`, `erosion`,
+`erosion_progressive`, `film_decay`, `film_decay_progressive`, `fog`,
+`fog_organic`, `glitch_decay`, `melt`, `melt_progressive`, `melt_warp`,
+`paper_burn`, `paper_burn_glow`, `rust`, `rust_spread`, `thermal_melt`,
+`thermal_melt_intensify`, `vhs_degrade`, `vhs_tracking`
+
+#### Fractals Generative (29)
+
+`cellauto_colored`, `cellauto_displace`, `cellauto_glitch`,
+`cellauto_overlay`, `fractal_displace`, `fractal_glitch`,
+`fractal_noise`, `fractal_noise_overlay`, `harmonograph`,
+`julia_approx`, `life_dual`, `life_growth`, `lissajous`,
+`mandelbrot_displace`, `mandelbrot_displace_glitch`, `mandelbrot_gold`,
+`mandelbrot_inferno`, `mandelbrot_neon`, `mandelbrot_overlay`,
+`mandelbrot_spectral`, `mandelbrot_takeover`, `mandelbrot_texture`,
+`moire`, `reaction_diffusion`, `reaction_diffusion_strong`, `spiral`,
+`spiral_overlay`, `xor_corruption`, `xor_fractal`
+
+#### Glitch Recipes (38)
+
+`amplify`, `bitcrush`, `bitcrush_animated`, `bitcrush_extreme`,
+`bitplane`, `chromakey_corrupt`, `chromakey_random`, `color_corrupt`,
+`datamosh`, `echo`, `edge_glow`, `feedback`, `feedback_spiral`,
+`full_glitch`, `ghost`, `ghost_triple`, `hyper_glitch`,
+`hyper_glitch_max`, `interlace`, `invert`, `jpeg_style`,
+`nightvision`, `noise`, `pixelate`, `posterize`, `rgb_shift`,
+`scanlines`, `solarize`, `stutter`, `tblend`, `tear`, `tear_sliced`,
+`thermal`, `thermal_realistic`, `vroll`, `vroll_drift`, `wave`,
+`zoom_pulse`
+
+#### Gradients & Vector Fields (36)
+
+`audio_color_wash`, `audio_divergence`, `audio_flow_displaced`,
+`audio_flow_field`, `audio_gradient_map`, `audio_gradient_pulse`,
+`audio_magnetic`, `blue_grade`, `color_wheel`, `curl_field`,
+`divergence_field`, `edge_blur`, `electric_field`, `gradient_conical`,
+`gradient_displace`, `gradient_glitch`, `gradient_linear`,
+`gradient_multi_radial`, `gradient_multicolor`, `gradient_radial`,
+`gradient_rotate`, `laminar_colored`, `laminar_flow`, `magnetic_field`,
+`magnetic_field_moving`, `mesh_gradient`, `motion_field`, `plasma`,
+`plasma_cells`, `plasma_displace`, `radial_selective`, `sunset_grade`,
+`teal_orange_grade`, `turbulent_flow`, `vector_field_overlay`,
+`vortex_shedding`
+
+#### Laser, Glow & Audio (39)
+
+`audio_bars`, `audio_displace`, `audio_grid_wave`,
+`audio_ring_scanner`, `audio_spectrum`, `audio_spectrum_warp`,
+`audio_stereo_wave`, `audio_vectorscope`,
+`black_background_generation_for_external_compositing`, `bloom`,
+`bloom_threshold`, `composite_test`, `floating_grid`, `full_scene`,
+`grid_element`, `grid_pulse`, `halation`, `hex_grid`, `hex_grid_glow`,
+`laser_array`, `laser_composite`, `laser_diagonal`, `laser_fan`,
+`laser_hscan`, `laser_lighthouse`, `laser_lighthouse_rgb`, `laser_ring`,
+`laser_ring_trail`, `laser_rings_repeat`, `laser_vscan`, `neon_blue`,
+`neon_edge`, `neon_over_dark`, `neon_pink`, `neon_text`,
+`neon_text_flicker`, `synthwave_full`, `synthwave_grid`,
+`wireframe_sphere`
+
+#### Lens & Time Warp (43)
+
+`accelerate`, `anamorphic`, `anamorphic_flare`, `broken_interpolation`,
+`chromatic_lens`, `chromatic_simple`, `chronostasis`,
+`chronostasis_multi`, `einstein_ring`, `fisheye_breathe`,
+`fisheye_v360`, `freeze_stutter`, `funhouse`, `funhouse_multi`,
+`gravity_lens`, `kaleidoscope_4way`, `kaleidoscope_rotate`, `liquid`,
+`liquid_viscous`, `magnifier`, `page_curl`, `pendulum`,
+`pendulum_blur`, `prism`, `prism_sweep`, `reverse_pockets`,
+`reverse_pockets_moving`, `rubber`, `rubber_multi`, `slitscan_approx`,
+`slitscan_chromatic`, `slitscan_horiz`, `slowmo_hit`,
+`smooth_slowmo_2x`, `smooth_slowmo_4x`, `speed_ramp_sine`,
+`strobe_4fps`, `strobe_variable`, `tiltshift`, `tiltshift_smooth`,
+`time_echo`, `time_echo_colored`, `time_freeze`
+
+#### Master Guide (11)
+
+`audio_step1`, `broken_arcade`, `cyberpunk_scanner`, `destroy`,
+`fractal_universe`, `glitch_portrait`, `haunted_vhs`, `living_painting`,
+`psychedelic_wormhole`, `retro_terminal`, `underwater_alien`
+
+#### Particles & Stereoscopic (35)
+
+`3d_audio_explosion_sbs`, `3d_audio_sbs`, `3d_breathe_sbs`,
+`3d_fireflies_sbs`, `3d_fractal_sbs`, `3d_glitch_sbs`,
+`3d_particles_sbs`, `3d_rain_sbs`, `anaglyph`, `anaglyph_depth`,
+`anaglyph_simple`, `audio_particles`, `bubbles`, `bubbles_underwater`,
+`depth_3d`, `dust`, `dust_beam`, `explosion`, `fireflies`, `lightning`,
+`lightning_multi`, `overunder_3d`, `rain`, `rain_composite`,
+`rain_heavy`, `sbs_3d`, `sbs_depth`, `smoke`, `smoke_composite`,
+`snow`, `snow_depth`, `sparks`, `sparks_composite`, `starfield_streak`,
+`starfield_v1`
+
+#### Retro & 8-Bit (37)
+
+`8bit`, `8bit_crt`, `amber_phosphor`, `arcade_crt`,
+`arcade_crt_phosphor`, `atari2600`, `atari2600_authentic`, `blue_phosphor`,
+`c64`, `c64_bordered`, `cga_palette0`, `cga_palette1`, `composite`,
+`dither_bw`, `dither_color`, `dither_ordered`, `gameboy`, `gameboy_lcd`,
+`genesis`, `genesis_grit`, `green_phosphor`, `lcd_handheld`,
+`palette_cycle`, `palette_cycle_rgb`, `ps1`, `ps1_jitter`,
+`retro_dissolve`, `retro_iris`, `retro_wipe`, `snes`, `snes_tv`,
+`spectrum`, `spectrum_clash`, `teletext`, `vector`, `vector_bloom`,
+`vhs_full`
+
+#### Spirals & Topology (33)
+
+`cosmic_web`, `double_helix`, `double_helix_color`, `drain`, `escher`,
+`escher_recursive`, `fibonacci_spiral`, `fibonacci_zoom`, `fisheye`,
+`hyperbolic`, `hyperbolic_tile`, `hypercube`, `klein`,
+`klein_intersect`, `log_spiral`, `log_spiral_intensify`, `mobius`,
+`mobius_twist`, `planet`, `polar`, `polar_rotate`, `ripple`,
+`ripple_multi`, `sphere`, `sphere_to_torus`, `terrain`,
+`terrain_shaded`, `torus`, `torus_rotate`, `trefoil`, `trefoil_glow`,
+`wormhole`, `wormhole_spiral`
+
+#### Violent & Chaotic Effects (28)
+
+`annihilator`, `color_violence`, `explode`, `explode_corrupt`,
+`feedback_overload`, `fragment`, `implosion`, `interference`,
+`mutation`, `mutation_escalate`, `palette_assault`, `phase_cancel`,
+`reality_rip`, `reality_rip_grow`, `shake`, `shake_crescendo`,
+`shake_violent`, `shatter_corrupt`, `signal_death`, `signal_destroy`,
+`spiral_collapse`, `strobe`, `strobe_accel`, `strobe_multi`,
+`stutter_burst`, `time_seizure`, `time_shatter`, `waveform_destroy`
+
+#### Violent Effects (26)
+
+`cellular`, `cellular_edge`, `chromosome_damage`, `data_blender`,
+`data_blender_feedback`, `dimensional_collapse`,
+`dimensional_collapse_anim`, `flesh_machine`, `flesh_machine_mutate`,
+`gravity_well`, `gravity_well_intensify`, `kaleidoscope_fracture`,
+`meat_grinder`, `mirror_fracture`, `reality_tear`,
+`reality_tear_intensify`, `seizure_machine`, `signal_annihilation`,
+`signal_annihilation_pulse`, `temporal_shredder`,
+`temporal_shredder_extreme`, `total_entropy`, `void`, `void_glow`,
+`vortex`, `vortex_collapse`
