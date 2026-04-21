@@ -23,42 +23,57 @@ def _slugify(name: str) -> str:
     return slug
 
 
-def _extract_vf(code_block: str) -> str | None:
-    """Extract the -vf "..." filter chain from an ffmpeg command."""
+def _extract_vf(code_block: str) -> tuple[str | None, str | None]:
+    """Extract the -vf/-filter_complex chain and output filename from an ffmpeg command.
+
+    Returns (filter_chain, output_slug) where output_slug is derived from the
+    output filename (e.g. 'output_radar.mp4' → 'radar').
+    """
     # First join backslash-continuation lines so the filter is one line.
     block = re.sub(r'\s*\\\s*\n\s*', ' ', code_block)
+
+    # Extract output filename slug (output_NAME.mp4 → NAME).
+    out_match = re.search(r'output_([a-z0-9_]+)\.mp4', block)
+    out_slug = out_match.group(1) if out_match else None
 
     # Match -vf "..." using greedy match within double quotes.
     # Double-quote delimited (may contain single quotes for expressions).
     m = re.search(r'-vf\s+"([^"]+)"', block)
     if m:
-        return m.group(1).strip()
+        return m.group(1).strip(), out_slug
 
     # Try single-quote delimited.
     m = re.search(r"-vf\s+'([^']+)'", block)
     if m:
-        return m.group(1).strip()
+        return m.group(1).strip(), out_slug
 
     # Try -filter_complex "..."
     m = re.search(r'-filter_complex\s+"([^"]+)"', block)
     if m:
-        return m.group(1).strip()
+        return m.group(1).strip(), out_slug
 
     m = re.search(r"-filter_complex\s+'([^']+)'", block)
     if m:
-        return m.group(1).strip()
+        return m.group(1).strip(), out_slug
 
-    return None
+    return None, out_slug
 
 
 def parse_recipe_file(path: str) -> dict[str, dict]:
     """Parse a single markdown recipe file.
 
     Returns dict of slug → {name, filter_chain, source_file}.
+    Extracts ALL code blocks per section — each variant gets its own entry
+    keyed by the output filename slug (e.g. output_radar.mp4 → 'radar').
+    Falls back to the section header slug when no output filename is present.
     """
     recipes = {}
     text = Path(path).read_text()
     source = os.path.basename(path)
+    # Derive category prefix from filename (e.g. ffmpeg-decay-effects.md → decay_effects)
+    cat = os.path.splitext(source)[0]  # ffmpeg-decay-effects
+    cat = cat.replace('ffmpeg-', '')     # decay-effects
+    cat = cat.replace('-', '_')          # decay_effects
 
     # Split on ## headers
     sections = re.split(r'^## ', text, flags=re.MULTILINE)
@@ -69,22 +84,25 @@ def parse_recipe_file(path: str) -> dict[str, dict]:
             continue
 
         name = lines[0].strip()
-        slug = _slugify(name)
-        if not slug:
+        header_slug = _slugify(name)
+        if not header_slug:
             continue
 
         # Find code blocks
         code_blocks = re.findall(r'```(?:bash)?\s*\n(.+?)```', section, re.DOTALL)
 
+        found_any = False
         for block in code_blocks:
-            chain = _extract_vf(block)
+            chain, out_slug = _extract_vf(block)
             if chain:
+                # Prefer output filename as slug, fall back to header.
+                slug = out_slug if out_slug else header_slug
                 recipes[slug] = {
                     'name': name,
                     'filter_chain': chain,
                     'source_file': source,
                 }
-                break  # take first matching code block per recipe
+                found_any = True
 
     return recipes
 
