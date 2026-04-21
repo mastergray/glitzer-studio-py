@@ -83,8 +83,10 @@ def parse_recipe_file(path: str) -> dict[str, dict]:
         if not lines:
             continue
 
-        name = lines[0].strip()
-        header_slug = _slugify(name)
+        raw_name = lines[0].strip()
+        # Strip leading "N. " numbering from section headers.
+        name = re.sub(r'^\d+\.\s*', '', raw_name)
+        header_slug = _slugify(raw_name)
         if not header_slug:
             continue
 
@@ -100,7 +102,6 @@ def parse_recipe_file(path: str) -> dict[str, dict]:
                 recipes[slug] = {
                     'name': name,
                     'filter_chain': chain,
-                    'source_file': source,
                 }
                 found_any = True
 
