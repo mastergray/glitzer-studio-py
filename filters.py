@@ -99,8 +99,10 @@ def parse_recipe_file(path: str) -> dict[str, dict]:
             if chain:
                 # Prefer output filename as slug, fall back to header.
                 slug = out_slug if out_slug else header_slug
+                # Derive name from slug so every variant has a unique name.
+                variant_name = slug.replace('_', ' ').title()
                 recipes[slug] = {
-                    'name': name,
+                    'name': variant_name,
                     'filter_chain': chain,
                 }
                 found_any = True

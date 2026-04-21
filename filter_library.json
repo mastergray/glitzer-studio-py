@@ -1,616 +1,616 @@
 {
   "afterimage": {
-    "name": "Classic Afterimage / Retinal Burn",
+    "name": "Afterimage",
     "filter_chain": "split[live][ghost]; [ghost]negate,lagfun=decay=0.97[afterimage]; [live][afterimage]blend=all_mode=screen:all_opacity=0.35, eq=contrast=1.2:saturation=1.1",
     "complex": true
   },
   "afterimage_complementary": {
-    "name": "Classic Afterimage / Retinal Burn",
+    "name": "Afterimage Complementary",
     "filter_chain": "split[live][ghost]; [ghost]hue=h=180,lagfun=decay=0.96,eq=brightness=-0.1:saturation=0.7[afterimage]; [live][afterimage]blend=all_mode=screen:all_opacity=0.3, eq=contrast=1.15",
     "complex": true
   },
   "afterimage_building": {
-    "name": "Classic Afterimage / Retinal Burn",
+    "name": "Afterimage Building",
     "filter_chain": "split[live][ghost]; [ghost]negate,hue=h=180, lagfun=decay=0.993, amplify=radius=2:factor=3:threshold=10[afterimage]; [live][afterimage]blend=all_mode=screen:all_opacity=0.4, eq=contrast=1.2:saturation=1.05",
     "complex": true
   },
   "motion_trail": {
-    "name": "Motion Trail / Comet Tail",
+    "name": "Motion Trail",
     "filter_chain": "lagfun=decay=0.96:planes=15, eq=contrast=1.3:saturation=1.4",
     "complex": false
   },
   "comet_trail": {
-    "name": "Motion Trail / Comet Tail",
+    "name": "Comet Trail",
     "filter_chain": "split[live][trail]; [trail]lagfun=decay=0.98:planes=15, hue=h='T*20':s=1.5[colored_trail]; [live][colored_trail]blend=all_mode=screen:all_opacity=0.5, eq=contrast=1.2:saturation=1.3",
     "complex": true
   },
   "gravity_trail": {
-    "name": "Motion Trail / Comet Tail",
+    "name": "Gravity Trail",
     "filter_chain": "lagfun=decay=0.97:planes=15, scroll=v=0.003:h=0, lagfun=decay=0.97:planes=15, eq=contrast=1.2:saturation=1.2",
     "complex": false
   },
   "strobe_echo": {
-    "name": "Stroboscopic Echo / Multi-Exposure",
+    "name": "Strobe Echo",
     "filter_chain": "tmix=frames=8:weights='1 0 0 1 0 0 1 0",
     "complex": false
   },
   "strobe_echo_fade": {
-    "name": "Stroboscopic Echo / Multi-Exposure",
+    "name": "Strobe Echo Fade",
     "filter_chain": "tmix=frames=12:weights='1 0 0 0.7 0 0 0.4 0 0 0.2 0 0",
     "complex": false
   },
   "multiexposure_glow": {
-    "name": "Stroboscopic Echo / Multi-Exposure",
+    "name": "Multiexposure Glow",
     "filter_chain": "tmix=frames=15:weights='1 0.9 0.8 0.7 0.6 0.5 0.4 0.35 0.3 0.25 0.2 0.15 0.1 0.08 0.05', split[a][b]; [b]gblur=sigma=4,eq=brightness=0.08[glow]; [a][glow]blend=all_mode=screen:all_opacity=0.3, eq=contrast=1.3:saturation=1.2",
     "complex": true
   },
   "phosphor_green": {
-    "name": "Phosphor Persistence (CRT Memory)",
+    "name": "Phosphor Green",
     "filter_chain": "format=gray, lagfun=decay=0.92, lutrgb=r='val/4':g='val':b='val/3', gblur=sigma=1.0, drawgrid=w=0:h=2:t=1:c=black@0.2, vignette=angle=0.4, noise=alls=8:allf=t",
     "complex": false
   },
   "phosphor_amber": {
-    "name": "Phosphor Persistence (CRT Memory)",
+    "name": "Phosphor Amber",
     "filter_chain": "format=gray, lagfun=decay=0.95, lutrgb=r='val':g='val*0.65':b='val/8', gblur=sigma=0.8, drawgrid=w=0:h=2:t=1:c=black@0.15, vignette=angle=0.35, noise=alls=6:allf=t",
     "complex": false
   },
   "radar": {
-    "name": "Phosphor Persistence (CRT Memory)",
+    "name": "Radar",
     "filter_chain": "format=gray, lagfun=decay=0.985, lutrgb=r=0:g='val':b='val/4', gblur=sigma=1.5, vignette=angle=0.6, noise=alls=10:allf=t, eq=brightness=-0.05:contrast=1.4",
     "complex": false
   },
   "shadow_echo": {
-    "name": "Shadow Echo / Dark Afterimage",
+    "name": "Shadow Echo",
     "filter_chain": "split[live][shadow]; [shadow]lagfun=decay=0.96, eq=brightness=-0.4:contrast=1.5:saturation=0[dark]; [live][dark]blend=all_mode=multiply:all_opacity=0.5, eq=contrast=1.1",
     "complex": true
   },
   "shadow_multi": {
-    "name": "Shadow Echo / Dark Afterimage",
+    "name": "Shadow Multi",
     "filter_chain": "split=3[live][s1][s2]; [s1]lagfun=decay=0.93,eq=brightness=-0.3:saturation=0[shadow1]; [s2]lagfun=decay=0.97,eq=brightness=-0.5:saturation=0[shadow2]; [live][shadow2]blend=all_mode=multiply:all_opacity=0.3[layer1]; [layer1][shadow1]blend=all_mode=multiply:all_opacity=0.4, eq=contrast=1.15",
     "complex": true
   },
   "spectral_echo": {
-    "name": "Spectral Decomposition / Chromatic Echo",
+    "name": "Spectral Echo",
     "filter_chain": "split=3[r][g][b]; [r]lagfun=decay=0.98,extractplanes=r[rp]; [g]lagfun=decay=0.95,extractplanes=g[gp]; [b]lagfun=decay=0.91,extractplanes=b[bp]; [rp][gp][bp]mergeplanes=0x001020:yuv444p, format=yuv420p, eq=contrast=1.3:saturation=1.5",
     "complex": true
   },
   "spectral_spatial": {
-    "name": "Spectral Decomposition / Chromatic Echo",
+    "name": "Spectral Spatial",
     "filter_chain": "split=3[r][g][b]; [r]lagfun=decay=0.98,scroll=v=0.001:h=0,extractplanes=r[rp]; [g]lagfun=decay=0.95,extractplanes=g[gp]; [b]lagfun=decay=0.91,scroll=v=-0.001:h=0,extractplanes=b[bp]; [rp][gp][bp]mergeplanes=0x001020:yuv444p, format=yuv420p, eq=contrast=1.3:saturation=1.6",
     "complex": true
   },
   "feedback": {
-    "name": "Feedback Loop / Recursive Zoom",
+    "name": "Feedback",
     "filter_chain": "split[a][b]; [b]scale=iw*1.02:ih*1.02,crop=iw/1.02:ih/1.02,setpts=PTS-STARTPTS[zoomed]; [a][zoomed]blend=all_mode=screen:all_opacity=0.4",
     "complex": true
   },
   "feedback_spiral": {
-    "name": "Feedback Loop / Recursive Zoom",
+    "name": "Feedback Spiral",
     "filter_chain": "split[a][b]; [b]scale=iw*1.05:ih*1.05,crop=iw/1.05:ih/1.05,hue=h=5,setpts=PTS-STARTPTS[zoomed]; [a][zoomed]blend=all_mode=addition:all_opacity=0.5, lagfun=decay=0.94",
     "complex": true
   },
   "feedback_intensify": {
-    "name": "Video Feedback / Larsen Effect",
+    "name": "Feedback Intensify",
     "filter_chain": "split[a][b]; [b]scale='iw*(1.01+T*0.002)':'ih*(1.01+T*0.002)', crop=iw:ih:(ow-iw)/2:(oh-ih)/2, rotate='0.01+T*0.001':fillcolor=black, hue=h='2+T*0.3':s='1+T*0.02', eq=brightness='0.01+T*0.001'[feedback]; [a][feedback]blend=all_mode=screen:all_opacity='min(0.7, 0.3+T*0.02)', lagfun=decay='min(0.99, 0.95+T*0.002)",
     "complex": true
   },
   "infinity_mirror": {
-    "name": "Infinity Mirror / Tunnel Recursion",
+    "name": "Infinity Mirror",
     "filter_chain": "split=4[a][b][c][d]; [b]scale=iw*0.6:ih*0.6[s1]; [c]scale=iw*0.36:ih*0.36[s2]; [d]scale=iw*0.216:ih*0.216[s3]; [a][s1]overlay=(W-w)/2:(H-h)/2[l1]; [l1][s2]overlay=(W-w)/2:(H-h)/2[l2]; [l2][s3]overlay=(W-w)/2:(H-h)/2, eq=contrast=1.2:saturation=1.1",
     "complex": true
   },
   "infinity_mirror_color": {
-    "name": "Infinity Mirror / Tunnel Recursion",
+    "name": "Infinity Mirror Color",
     "filter_chain": "split=4[a][b][c][d]; [b]scale=iw*0.55:ih*0.55,hue=h=15:s=1.1[s1]; [c]scale=iw*0.3:ih*0.3,hue=h=30:s=1.2[s2]; [d]scale=iw*0.165:ih*0.165,hue=h=45:s=1.3[s3]; [a][s1]overlay=(W-w)/2:(H-h)/2[l1]; [l1][s2]overlay=(W-w)/2:(H-h)/2[l2]; [l2][s3]overlay=(W-w)/2:(H-h)/2, lagfun=decay=0.9, eq=contrast=1.3:saturation=1.3",
     "complex": true
   },
   "fractal_feedback": {
-    "name": "Fractal Zoom Feedback",
+    "name": "Fractal Feedback",
     "filter_chain": "split[a][b]; [b]scale=iw*1.08:ih*1.08,crop=iw/1.08:ih/1.08, rotate='0.03':fillcolor=black, hue=h=8:s=1.2[zoom]; [a][zoom]blend=all_mode=addition:all_opacity=0.4, lagfun=decay=0.985, tblend=all_mode=grainextract:all_opacity=0.3, eq=contrast=1.5:saturation=1.8",
     "complex": true
   },
   "audio_reactive": {
-    "name": "Audio-Reactive Displacement",
+    "name": "Audio Reactive",
     "filter_chain": "[0:a]showwaves=s=1920x1080:mode=cline:rate=30:colors=white[waves]; [waves]format=gray[xmap]; [waves]format=gray,negate[ymap]; [0:v][xmap][ymap]displace, eq=contrast=1.2:saturation=1.3",
     "complex": true
   },
   "spectrum_warp": {
-    "name": "Audio-Reactive Displacement",
+    "name": "Spectrum Warp",
     "filter_chain": "[0:a]showspectrum=s=1920x1080:mode=combined:slide=scroll:color=intensity:scale=cbrt[spec]; [spec]format=gray[xmap]; [spec]format=gray,negate[ymap]; [0:v][xmap][ymap]displace, rgbashift=rh=4:bh=-4, lagfun=decay=0.93, eq=contrast=1.3:saturation=1.5",
     "complex": true
   },
   "audio_overlay": {
-    "name": "Audio-Reactive Displacement",
+    "name": "Audio Overlay",
     "filter_chain": "[0:a]showwaves=s=1920x1080:mode=p2p:rate=30:colors=cyan@0.6[waves]; [0:v][waves]overlay=format=auto, eq=contrast=1.1:saturation=1.2",
     "complex": true
   },
   "depth_fog": {
-    "name": "Depth Fog / Z-Buffer Simulation",
+    "name": "Depth Fog",
     "filter_chain": "split[a][b]; [b]gblur=sigma=8, colorbalance=rs=0.05:gs=0.05:bs=0.15, eq=brightness=0.15:saturation=0.5[fog]; [a]format=gray[depth]; [a][fog]blend=all_expr='A*(lum(X,Y)/255)+B*(1-lum(X,Y)/255)', eq=contrast=1.1",
     "complex": true
   },
   "atmospheric_perspective": {
-    "name": "Depth Fog / Z-Buffer Simulation",
+    "name": "Atmospheric Perspective",
     "filter_chain": "split=3[a][b][c]; [b]gblur=sigma=12, colorbalance=rs=-0.05:gs=0.0:bs=0.2, eq=brightness=0.2:saturation=0.3[far_fog]; [c]gblur=sigma=4, eq=brightness=0.08:saturation=0.7[near_fog]; [a][near_fog]blend=all_expr='A*min(1,lum(X,Y)/180)+B*max(0,1-lum(X,Y)/180)'[layer1]; [layer1][far_fog]blend=all_expr='A*min(1,lum(X,Y)/100)+B*max(0,1-lum(X,Y)/100)', eq=contrast=1.05",
     "complex": true
   },
   "datamosh": {
-    "name": "Pixel Smear / Datamosh-lite",
+    "name": "Datamosh",
     "filter_chain": "lagfun=decay=0.97:planes=15",
     "complex": false
   },
   "datamosh_bloom": {
-    "name": "Datamosh (True I-Frame Removal)",
+    "name": "Datamosh Bloom",
     "filter_chain": "select='not(eq(pict_type,I))',setpts=N/FRAME_RATE/TB",
     "complex": false
   },
   "bullet_time": {
-    "name": "Bullet Time / Matrix Effect",
+    "name": "Bullet Time",
     "filter_chain": "select='between(n,150,150)',setpts=N/30/TB, loop=loop=150:size=1, nullsrc=s=1920x1080:d=5:r=30,geq=lum='128+30*sin(atan2(Y-H/2,X-W/2)+T*3)*cos(hypot(X-W/2,Y-H/2)/100)':cb=128:cr=128,format=gray[xmap]; nullsrc=s=1920x1080:d=5:r=30,geq=lum='128+30*cos(atan2(Y-H/2,X-W/2)+T*3)*sin(hypot(X-W/2,Y-H/2)/100)':cb=128:cr=128,format=gray[ymap]; [0:v][xmap][ymap]displace, eq=contrast=1.2:saturation=1.1",
     "complex": true
   },
   "thermal_bloom": {
-    "name": "Thermal Bloom / Heat Signature Persistence",
+    "name": "Thermal Bloom",
     "filter_chain": "format=gray, lagfun=decay=0.97, pseudocolor=preset=inferno, split[a][b]; [b]gblur=sigma=5,eq=brightness=0.08[bloom]; [a][bloom]blend=all_mode=screen:all_opacity=0.3, eq=contrast=1.3:saturation=1.4",
     "complex": true
   },
   "thermal_cooling": {
-    "name": "Thermal Bloom / Heat Signature Persistence",
+    "name": "Thermal Cooling",
     "filter_chain": "split[current][history]; [current]format=gray,pseudocolor=preset=inferno[live]; [history]format=gray,lagfun=decay=0.98, pseudocolor=preset=magma, eq=brightness=-0.1:saturation=0.8[cooling]; [live][cooling]blend=all_mode=screen:all_opacity=0.4, eq=contrast=1.2",
     "complex": true
   },
   "spatial_color_bleed": {
-    "name": "Dimensional Bleed / Cross-Channel Leakage",
+    "name": "Spatial Color Bleed",
     "filter_chain": "split[orig][color]; [color]lutrgb=r='mod(val+X/8,256)':g='mod(val+Y/6,256)':b='mod(val+(X+Y)/10,256)'[bled]; [orig][bled]blend=all_mode=screen:all_opacity=0.3, eq=contrast=1.2:saturation=1.4",
     "complex": true
   },
   "luma_displace": {
-    "name": "Dimensional Bleed / Cross-Channel Leakage",
+    "name": "Luma Displace",
     "filter_chain": "split[orig][dispmap]; [dispmap]format=gray,gblur=sigma=3[xmap]; [dispmap]format=gray,gblur=sigma=3,negate[ymap]; [orig][xmap][ymap]displace, eq=contrast=1.2",
     "complex": true
   },
   "motion_saturation": {
-    "name": "Dimensional Bleed / Cross-Channel Leakage",
+    "name": "Motion Saturation",
     "filter_chain": "tblend=all_mode=difference, format=gray, gblur=sigma=3[motion]; [0:v]split[orig][sat]; [sat]eq=saturation=2.5[vivid]; [orig][vivid]blend=all_expr='A",
     "complex": true
   },
   "echo_chamber": {
-    "name": "Echo Chamber / Reverb Visualization",
+    "name": "Echo Chamber",
     "filter_chain": "split=4[a][b][c][d]; [b]scale=iw*0.8:ih*0.8,hflip,format=rgba,colorchannelmixer=aa=0.3[echo1]; [c]scale=iw*0.6:ih*0.6,vflip,format=rgba,colorchannelmixer=aa=0.2[echo2]; [d]scale=iw*0.4:ih*0.4,hflip,vflip,format=rgba,colorchannelmixer=aa=0.15[echo3]; [a]format=rgba[base]; [base][echo1]overlay=(W-w)/2:(H-h)/2[l1]; [l1][echo2]overlay=(W-w)/2:(H-h)/2[l2]; [l2][echo3]overlay=(W-w)/2:(H-h)/2, format=yuv420p, lagfun=decay=0.92, eq=contrast=1.2:saturation=1.1",
     "complex": true
   },
   "echo_bounce": {
-    "name": "Echo Chamber / Reverb Visualization",
+    "name": "Echo Bounce",
     "filter_chain": "split=4[a][b][c][d]; [b]scale=iw*0.5:ih*0.5,hflip,format=rgba,colorchannelmixer=aa=0.25[echo1]; [c]scale=iw*0.5:ih*0.5,vflip,format=rgba,colorchannelmixer=aa=0.2[echo2]; [d]scale=iw*0.35:ih*0.35,hflip,vflip,format=rgba,colorchannelmixer=aa=0.15[echo3]; [a]format=rgba[base]; [base][echo1]overlay=W-w:0[l1]; [l1][echo2]overlay=0:H-h[l2]; [l2][echo3]overlay=W-w:H-h, format=yuv420p, lagfun=decay=0.9, eq=contrast=1.2",
     "complex": true
   },
   "risograph": {
-    "name": "Glitch Art Printing / Risograph Effect",
+    "name": "Risograph",
     "filter_chain": "split=3[r][g][b]; [r]extractplanes=r,lutrgb=r='if(gt(val,128),255,0)',rgbashift=rh=3:rv=1[rp]; [g]extractplanes=g,lutrgb=g='if(gt(val,100),255,0)'[gp]; [b]extractplanes=b,lutrgb=b='if(gt(val,128),255,0)',rgbashift=bh=-2:bv=-1[bp]; [rp][gp][bp]mergeplanes=0x001020:yuv444p, format=yuv420p, noise=alls=12:allf=u, eq=contrast=1.4:saturation=1.6",
     "complex": true
   },
   "risograph_halftone": {
-    "name": "Glitch Art Printing / Risograph Effect",
+    "name": "Risograph Halftone",
     "filter_chain": "split=3[r][g][b]; [r]extractplanes=r,noise=alls=20:allf=u,posterize=bits=1,rgbashift=rh=4:rv=2[rp]; [g]extractplanes=g,noise=alls=15:allf=u,posterize=bits=1[gp]; [b]extractplanes=b,noise=alls=20:allf=u,posterize=bits=1,rgbashift=bh=-3:bv=-1[bp]; [rp][gp][bp]mergeplanes=0x001020:yuv444p, format=yuv420p, scale=iw/2:ih/2:flags=lanczos,scale=iw*2:ih*2:flags=neighbor, eq=contrast=1.5:saturation=1.8, noise=alls=8:allf=u",
     "complex": true
   },
   "light_leak": {
-    "name": "Light Leak / Lens Flare",
+    "name": "Light Leak",
     "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum='max(0, 180*exp(-hypot(X-W*0.2-W*0.3*sin(T*0.5),Y-H*0.3-H*0.2*cos(T*0.3))/300) +120*exp(-hypot(X-W*0.7+W*0.2*cos(T*0.4),Y-H*0.6+H*0.15*sin(T*0.6))/250) )':cb='128+30*sin(T*0.5)':cr='128+40*cos(T*0.3)', gblur=sigma=30[leak]; [0:v][leak]blend=all_mode=screen:all_opacity=0.35, eq=contrast=0.95:saturation=1.1",
     "complex": true
   },
   "light_leak_golden": {
-    "name": "Light Leak / Lens Flare",
+    "name": "Light Leak Golden",
     "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum='max(0, 200*exp(-hypot(X-W*0.15-W*0.4*sin(T*0.4),Y-H*0.2)/350) +150*exp(-hypot(X-W*0.8,Y-H*0.1-H*0.3*sin(T*0.6))/280) )':cb=118:cr=148, gblur=sigma=40[leak]; [0:v][leak]blend=all_mode=screen:all_opacity=0.4, colorbalance=hs=0.1:ms=0.05:rs=0.08:hh=-0.05, eq=contrast=0.95:saturation=1.05",
     "complex": true
   },
   "negative_space": {
-    "name": "Negative Space Inversion",
+    "name": "Negative Space",
     "filter_chain": "split[a][b]; [b]tblend=all_mode=difference,format=gray,gblur=sigma=5, lutrgb=r='if(gt(val,30),255,0)':g='if(gt(val,30),255,0)':b='if(gt(val,30),255,0)'[motion_mask]; [a]split[orig][inverted]; [inverted]negate,hue=h=180,eq=saturation=1.5[neg]; [orig][neg]blend=all_expr='if(gt(B,128),B,A)'[composed]; [a][composed]blend=all_mode=normal:all_opacity=1",
     "complex": true
   },
   "negative_space_v2": {
-    "name": "Negative Space Inversion",
+    "name": "Negative Space V2",
     "filter_chain": "split[a][b]; [a]tblend=all_mode=difference,format=gray,gblur=sigma=4[motion]; [b]split[orig][neg_src]; [neg_src]negate,hue=h=90[negative]; [orig][negative][motion]maskedmerge, eq=contrast=1.2:saturation=1.3",
     "complex": true
   },
   "dreamscape": {
-    "name": "Dreamscape / Ethereal Composite",
+    "name": "Dreamscape",
     "filter_chain": "split=3[sharp][soft][trail]; [soft]gblur=sigma=6[blurred]; [trail]lagfun=decay=0.93,eq=brightness=0.05:saturation=0.6[ghost]; [sharp][blurred]blend=all_mode=screen:all_opacity=0.25[bloomed]; [bloomed][ghost]blend=all_mode=screen:all_opacity=0.2, eq=saturation=0.7:contrast=0.9:brightness=0.04, colorbalance=hs=0.05:ms=0.03:bs=0.08:hh=-0.03:mh=0.02:bh=0.05, vignette=angle=0.4, noise=alls=5:allf=u",
     "complex": true
   },
   "dreamscape_dissociation": {
-    "name": "Dreamscape / Ethereal Composite",
+    "name": "Dreamscape Dissociation",
     "filter_chain": "split=3[sharp][soft][trail]; [soft]gblur=sigma=10,hue=h=5[blurred]; [trail]lagfun=decay=0.96,eq=brightness=0.08:saturation=0.4,hue=h=-5[ghost]; [sharp][blurred]blend=all_mode=screen:all_opacity=0.35[bloomed]; [bloomed][ghost]blend=all_mode=screen:all_opacity=0.3, eq=saturation=0.5:contrast=0.85:brightness=0.06, colorbalance=hs=0.08:bs=0.12:hh=-0.05:bh=0.08, vignette=angle=0.5, gblur=sigma=0.5, noise=alls=8:allf=u",
     "complex": true
   },
   "film_decay": {
-    "name": "Film Decay / Vinegar Syndrome",
+    "name": "Film Decay",
     "filter_chain": "curves=vintage, eq=saturation=0.5:contrast=0.9:brightness=-0.05, noise=alls=30:allf=t+u, hue=h='10*sin(T*0.5)':s=0.7, unsharp=5:5:1.5",
     "complex": false
   },
   "film_decay_progressive": {
-    "name": "Film Decay / Vinegar Syndrome",
+    "name": "Film Decay Progressive",
     "filter_chain": "curves=vintage, eq=saturation='max(0.1, 0.8-T*0.03)':contrast='max(0.5, 1.0-T*0.02)':brightness='-0.02*T', noise=alls='min(80, 10+T*3)':allf=t+u, hue=h='15*sin(T*0.3)':s='max(0.2, 0.8-T*0.03)",
     "complex": false
   },
   "rust": {
-    "name": "Rust / Corrosion Overlay",
+    "name": "Rust",
     "filter_chain": "colorbalance=rs=0.4:gs=-0.1:bs=-0.3:rm=0.3:gm=-0.05:bm=-0.2, curves=r='0/0 0.5/0.6 1/0.8':g='0/0 0.5/0.35 1/0.5':b='0/0 0.5/0.15 1/0.25', noise=alls=25:allf=u, eq=contrast=1.3:saturation=1.2, unsharp=7:7:2.0",
     "complex": false
   },
   "rust_spread": {
-    "name": "Rust / Corrosion Overlay",
+    "name": "Rust Spread",
     "filter_chain": "split[orig][rust]; [rust]colorbalance=rs=0.5:gs=-0.1:bs=-0.4:rm=0.4:gm=-0.1:bm=-0.3, curves=r='0/0 0.5/0.65 1/0.85':g='0/0 0.5/0.3 1/0.45':b='0/0 0.5/0.1 1/0.2', noise=alls=40:allf=u, unsharp=9:9:3.0[rusted]; [orig][rusted]blend=all_expr='if(gt(hypot(X-W/2,Y-H/2), W/2-W/2*T/20), B, A)",
     "complex": true
   },
   "melt": {
-    "name": "Melting / Dripping",
+    "name": "Melt",
     "filter_chain": "lagfun=decay=0.985:planes=15, scroll=v='0.003+0.001*sin(T*2)':h=0, eq=contrast=1.2:saturation=1.3",
     "complex": false
   },
   "melt_warp": {
-    "name": "Melting / Dripping",
+    "name": "Melt Warp",
     "filter_chain": "nullsrc=s=1920x1080:d=30,lutrgb=r=128:g='128+5*sin(X/30+T*2)':b=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30,lutrgb=r='128+15*sin(Y/10+T*1.5)+T*2':g=128:b=128,format=gray[ymap]; [0:v][xmap][ymap]displace, lagfun=decay=0.99:planes=15, eq=contrast=1.1:saturation=1.4",
     "complex": true
   },
   "melt_progressive": {
-    "name": "Melting / Dripping",
+    "name": "Melt Progressive",
     "filter_chain": "lagfun=decay='min(0.999, 0.95+T*0.002)':planes=15, scroll=v='0.001*T*0.5':h=0, noise=alls='min(40, T*2)':allf=t",
     "complex": false
   },
   "disintegrate": {
-    "name": "Disintegration / Particle Breakup",
+    "name": "Disintegrate",
     "filter_chain": "split[orig][noise_src]; [noise_src]geq=random(1)*255:128:128[noisy]; [orig][noisy]blend=all_expr='if(gt(random(0), 1-T/20), B, A)', noise=alls=10:allf=t",
     "complex": true
   },
   "disintegrate_blocks": {
-    "name": "Disintegration / Particle Breakup",
+    "name": "Disintegrate Blocks",
     "filter_chain": "split[orig][blocks]; [blocks]pixelize=w=32:h=32:mode=avg, geq=lum='if(gt(random(1), 1-T/15), 0, lum(X,Y))':cb=128:cr=128[broken]; [orig][broken]blend=all_expr='if(gt(random(0), 1-T/20), B, A)",
     "complex": true
   },
   "dissolve_static": {
-    "name": "Disintegration / Particle Breakup",
+    "name": "Dissolve Static",
     "filter_chain": "geq=lum='if(gt(random(1), 1-T/15), random(0)*255, lum(X,Y))':cb='if(gt(random(1), 1-T/15), 128, cb(X,Y))':cr='if(gt(random(1), 1-T/15), 128, cr(X,Y))', noise=alls='min(60, T*3)':allf=t",
     "complex": false
   },
   "chem_burn": {
-    "name": "Chemical Burn / Bleach Bypass",
+    "name": "Chem Burn",
     "filter_chain": "curves=all='0/0 0.3/0.1 0.6/0.7 1/1', eq=saturation=0.4:contrast=1.6:gamma=1.3, colorbalance=hs=0.2:ms=0.1:bs=-0.1:hh=-0.1:mh=0.05, noise=alls=15:allf=u",
     "complex": false
   },
   "bleach_progressive": {
-    "name": "Chemical Burn / Bleach Bypass",
+    "name": "Bleach Progressive",
     "filter_chain": "curves=all='0/0 0.3/0.1 0.7/0.8 1/1', eq=saturation='max(0.1, 0.7-T*0.03)':contrast='1.0+T*0.03':gamma='1.0+T*0.02', colorbalance=hs='0.1+T*0.02':bs='-0.1-T*0.01', noise=alls='10+T*1.5':allf=u",
     "complex": false
   },
   "vhs_degrade": {
-    "name": "VHS Tape Degradation",
+    "name": "Vhs Degrade",
     "filter_chain": "rgbashift=rh=4:bh=-4:rv=1:bv=-1, noise=alls=35:allf=t+u, drawgrid=w=0:h=2:t=1:c=black@0.3, eq=saturation=0.6:contrast=0.9, hue=h='3*sin(T*2)', gblur=sigma=0.8, scroll=v='0.001*sin(T*5)':h=0",
     "complex": false
   },
   "vhs_tracking": {
-    "name": "VHS Tape Degradation",
+    "name": "Vhs Tracking",
     "filter_chain": "rgbashift=rh=5:bh=-5, noise=alls=40:allf=t+u, drawgrid=w=0:h=2:t=1:c=black@0.3, eq=saturation=0.5:contrast=0.85, geq=lum='if(between(Y, mod(T*500,H), mod(T*500,H)+8), lum(X,Y)*0.3+random(1)*80, lum(X,Y))':cb=cb(X,Y):cr=cr(X,Y), gblur=sigma=1.0, scroll=v='0.002*sin(T*8)':h=0",
     "complex": false
   },
   "acid_burn": {
-    "name": "Acid Burn / Color Erosion",
+    "name": "Acid Burn",
     "filter_chain": "split[a][b]; [b]negate,hue=h=90:s=3,eq=brightness=0.2[acid]; [a][acid]blend=all_expr='if(gt(sin(X/15+T*3)*cos(Y/12+T*2), 0.3), B, A)', noise=alls=20:allf=t, eq=contrast=1.4:saturation=1.5",
     "complex": true
   },
   "acid_spread": {
-    "name": "Acid Burn / Color Erosion",
+    "name": "Acid Spread",
     "filter_chain": "split[a][b]; [b]pseudocolor=preset=magma,eq=brightness=0.1[acid]; [a][acid]blend=all_expr='if(gt(sin(X/20+T*2)*cos(Y/18+T*1.5)+sin(X/8)*cos(Y/6), 0.8-T*0.04), A, B)', noise=alls=15:allf=t",
     "complex": true
   },
   "erosion": {
-    "name": "Erosion / Weathering",
+    "name": "Erosion",
     "filter_chain": "split[orig][erode]; [erode]edgedetect=low=0.1:high=0.4:mode=wires, negate[edges]; [orig][edges]blend=all_mode=multiply:all_opacity=0.7, noise=alls=20:allf=u, eq=saturation=0.6:contrast=1.2, gblur=sigma=0.5",
     "complex": true
   },
   "erosion_progressive": {
-    "name": "Erosion / Weathering",
+    "name": "Erosion Progressive",
     "filter_chain": "gblur=sigma='T*0.15', eq=saturation='max(0.1, 0.8-T*0.03)':contrast='max(0.4, 1.1-T*0.03)', noise=alls='min(50, 10+T*2)':allf=u, curves=all='0/0 0.5/0.45 1/0.9",
     "complex": false
   },
   "thermal_melt": {
-    "name": "Thermal Meltdown / Heat Distortion",
+    "name": "Thermal Melt",
     "filter_chain": "nullsrc=s=1920x1080:d=30,lutrgb=r='128+8*sin(X/25+T*6)':g=128:b=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30,lutrgb=r='128+12*sin(Y/15+T*4)+5*sin(X/40+T*3)':g=128:b=128,format=gray[ymap]; [0:v][xmap][ymap]displace, lagfun=decay=0.97, colorbalance=rs=0.3:gs=-0.05:bs=-0.2:rm=0.2:bm=-0.15, eq=contrast=1.2:saturation=1.3",
     "complex": true
   },
   "thermal_melt_intensify": {
-    "name": "Thermal Meltdown / Heat Distortion",
+    "name": "Thermal Melt Intensify",
     "filter_chain": "nullsrc=s=1920x1080:d=30,lutrgb=r='128+(5+T*0.5)*sin(X/25+T*6)':g=128:b=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30,lutrgb=r='128+(8+T)*sin(Y/15+T*4)':g=128:b=128,format=gray[ymap]; [0:v][xmap][ymap]displace, lagfun=decay='min(0.999, 0.95+T*0.002)', colorbalance=rs='0.1+T*0.02':bs='-0.1-T*0.01', noise=alls='min(40, T*2)':allf=t, eq=saturation='max(0.3, 1.2-T*0.04)",
     "complex": true
   },
   "fog": {
-    "name": "Fog / Fade to Nothing",
+    "name": "Fog",
     "filter_chain": "split[orig][fog]; [fog]gblur=sigma='1+T*2', eq=brightness='T*0.04':contrast='max(0.3, 1-T*0.04)':saturation='max(0.1, 1-T*0.05)'[foggy]; [orig][foggy]blend=all_expr='A*(1-T/20)+B*(T/20)",
     "complex": true
   },
   "fog_organic": {
-    "name": "Fog / Fade to Nothing",
+    "name": "Fog Organic",
     "filter_chain": "eq=brightness='T*0.03':contrast='max(0.3, 1.0-T*0.03)':saturation='max(0.0, 1.0-T*0.05)', gblur=sigma='0.5+T*1.5', noise=alls='min(60, 5+T*3)':allf=u",
     "complex": false
   },
   "glitch_decay": {
-    "name": "Glitch Decay Combo",
+    "name": "Glitch Decay",
     "filter_chain": "rgbashift=rh='3+T*0.3':bh='-3-T*0.3', lagfun=decay='min(0.995, 0.95+T*0.002)', colorbalance=rs='T*0.02':bs='-T*0.015', noise=alls='min(60, 10+T*2)':allf=t+u, eq=saturation='max(0.2, 0.8-T*0.03)':contrast='max(0.5, 1.1-T*0.02)', drawgrid=w=0:h=2:t=1:c=black@0.3, scroll=v='0.001*sin(T*3)':h=0",
     "complex": false
   },
   "paper_burn": {
-    "name": "Paper Burn / Vignette Consume",
+    "name": "Paper Burn",
     "filter_chain": "split[orig][burn]; [burn]colorbalance=rs=0.5:gs=0.1:bs=-0.3, eq=brightness=-0.4:contrast=1.5:saturation=0.3, noise=alls=30:allf=u[burned]; [orig][burned]blend=all_expr='if(gt(hypot(X-W/2, Y-H/2), max(0, W/2-T*15)), B, A)",
     "complex": true
   },
   "paper_burn_glow": {
-    "name": "Paper Burn / Vignette Consume",
+    "name": "Paper Burn Glow",
     "filter_chain": "split=3[orig][burn][glow]; [burn]eq=brightness=-0.8:saturation=0[dark]; [glow]colorbalance=rs=0.6:gs=0.2:bs=-0.4, eq=brightness=0.3:contrast=2:saturation=2[hot]; [orig][hot]blend=all_expr='if(between(hypot(X-W/2,Y-H/2), max(0,W/2-T*15-10), max(0,W/2-T*15)), B, A)'[with_edge]; [with_edge][dark]blend=all_expr='if(gt(hypot(X-W/2,Y-H/2), max(0,W/2-T*15)), B, A)",
     "complex": true
   },
   "mandelbrot_inferno": {
-    "name": "Mandelbrot \u2014 Stylized Color Palettes",
+    "name": "Mandelbrot Inferno",
     "filter_chain": "pseudocolor=preset=inferno",
     "complex": false
   },
   "mandelbrot_neon": {
-    "name": "Mandelbrot \u2014 Stylized Color Palettes",
+    "name": "Mandelbrot Neon",
     "filter_chain": "hue=h=120:s=3,eq=contrast=1.5:brightness=0.05,negate",
     "complex": false
   },
   "mandelbrot_gold": {
-    "name": "Mandelbrot \u2014 Stylized Color Palettes",
+    "name": "Mandelbrot Gold",
     "filter_chain": "colorbalance=rs=0.4:gs=0.2:bs=-0.3:rm=0.3:gm=0.15:bm=-0.2,eq=contrast=1.8",
     "complex": false
   },
   "mandelbrot_spectral": {
-    "name": "Mandelbrot \u2014 Stylized Color Palettes",
+    "name": "Mandelbrot Spectral",
     "filter_chain": "pseudocolor=preset=spectral,eq=saturation=2.0:contrast=1.3",
     "complex": false
   },
   "mandelbrot_overlay": {
-    "name": "Mandelbrot \u2014 Composited Over Video",
+    "name": "Mandelbrot Overlay",
     "filter_chain": "[0:v]pseudocolor=preset=magma[fractal]; [1:v][fractal]blend=all_mode=screen:all_opacity=0.5",
     "complex": true
   },
   "mandelbrot_texture": {
-    "name": "Mandelbrot \u2014 Composited Over Video",
+    "name": "Mandelbrot Texture",
     "filter_chain": "[0:v]negate[fractal]; [1:v][fractal]blend=all_mode=multiply:all_opacity=0.6",
     "complex": true
   },
   "mandelbrot_takeover": {
-    "name": "Mandelbrot \u2014 Composited Over Video",
+    "name": "Mandelbrot Takeover",
     "filter_chain": "[0:v]pseudocolor=preset=inferno[fractal]; [1:v][fractal]blend=all_expr='A*(1-T/20)+B*(T/20)",
     "complex": true
   },
   "mandelbrot_displace": {
-    "name": "Mandelbrot \u2014 As Displacement Source",
+    "name": "Mandelbrot Displace",
     "filter_chain": "[0:v]format=gray,lutrgb=r='val':g='val':b='val'[xmap]; [0:v]format=gray,negate[ymap]; [1:v][xmap][ymap]displace",
     "complex": true
   },
   "mandelbrot_displace_glitch": {
-    "name": "Mandelbrot \u2014 As Displacement Source",
+    "name": "Mandelbrot Displace Glitch",
     "filter_chain": "[0:v]format=gray[xmap]; [0:v]format=gray,negate[ymap]; [1:v][xmap][ymap]displace, rgbashift=rh=8:bh=-8, lagfun=decay=0.96, eq=contrast=1.4:saturation=1.6",
     "complex": true
   },
   "cellauto_colored": {
-    "name": "Cellular Automaton \u2014 Stylized & Composited",
+    "name": "Cellauto Colored",
     "filter_chain": "pseudocolor=preset=plasma,gblur=sigma=1,eq=contrast=1.5:saturation=2.0",
     "complex": false
   },
   "cellauto_overlay": {
-    "name": "Cellular Automaton \u2014 Stylized & Composited",
+    "name": "Cellauto Overlay",
     "filter_chain": "[0:v]pseudocolor=preset=viridis[cells]; [1:v][cells]blend=all_mode=screen:all_opacity=0.4",
     "complex": true
   },
   "cellauto_displace": {
-    "name": "Cellular Automaton \u2014 Stylized & Composited",
+    "name": "Cellauto Displace",
     "filter_chain": "[0:v]format=gray[xmap]; [0:v]format=gray,negate[ymap]; [1:v][xmap][ymap]displace, rgbashift=rh=5:bh=-5",
     "complex": true
   },
   "interference": {
-    "name": "Waveform Annihilation / Audio-Reactive Simulation",
+    "name": "Interference",
     "filter_chain": "nullsrc=s=1920x1080:d=30,lutrgb=r='128+30*sin(Y/4+T*25)+20*sin(Y/7+T*18)+10*sin(Y/12+T*31)':g=128:b=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30,lutrgb=r='128+15*sin(X/20+T*22)+10*cos(X/35+T*14)':g=128:b=128,format=gray[ymap]; [0:v][xmap][ymap]displace, rgbashift=rh='15*sin(T*14)':bh='-15*sin(T*14)':rv='8*cos(T*19)':bv='-8*cos(T*19)', tblend=all_mode=phoenix:all_opacity=0.4, noise=alls=25:allf=t, eq=contrast=1.8:saturation=2",
     "complex": true
   },
   "moire": {
-    "name": "Mathematical Fractals with GEQ",
+    "name": "Moire",
     "filter_chain": "geq=lum='128+64*sin(X/5+T*2)+64*sin(Y/7+T*3)+64*sin(hypot(X-W/2,Y-H/2)/10+T*4)':cb='128+64*sin(X/8+T*1.5)':cr='128+64*cos(Y/6+T*2.5)",
     "complex": false
   },
   "spiral": {
-    "name": "Mathematical Fractals with GEQ",
+    "name": "Spiral",
     "filter_chain": "geq=lum='128+127*sin(atan2(Y-H/2,X-W/2)*5+hypot(X-W/2,Y-H/2)/20+T*3)':cb='128+80*sin(atan2(Y-H/2,X-W/2)*3+T*2)':cr='128+80*cos(hypot(X-W/2,Y-H/2)/30+T*2.5)",
     "complex": false
   },
   "xor_fractal": {
-    "name": "Mathematical Fractals with GEQ",
+    "name": "Xor Fractal",
     "filter_chain": "geq=lum='mod(bitand(X+floor(T*20),Y+floor(T*15))*8,256)':cb=128:cr=128,scale=1920:1080",
     "complex": false
   },
   "spiral_overlay": {
-    "name": "GEQ Fractals \u2014 Composited Over Video",
+    "name": "Spiral Overlay",
     "filter_chain": "[0:v]geq=lum='128+127*sin(atan2(Y-H/2,X-W/2)*6+hypot(X-W/2,Y-H/2)/15+T*4)':cb='128+80*sin(atan2(Y-H/2,X-W/2)*4+T*3)':cr='128+80*cos(hypot(X-W/2,Y-H/2)/25+T*2)'[pattern]; [1:v][pattern]blend=all_mode=screen:all_opacity=0.4",
     "complex": true
   },
   "fractal_displace": {
-    "name": "GEQ Fractals \u2014 Composited Over Video",
+    "name": "Fractal Displace",
     "filter_chain": "[0:v]geq=lum='128+40*sin(X/10+T*3)*cos(Y/8+T*2)+40*sin(hypot(X-W/2,Y-H/2)/20+T*4)':cb=128:cr=128,format=gray[xmap]; [0:v]geq=lum='128+40*cos(X/8+T*2)*sin(Y/10+T*3)+40*cos(hypot(X-W/2,Y-H/2)/15+T*5)':cb=128:cr=128,format=gray[ymap]; [1:v][xmap][ymap]displace, rgbashift=rh=6:bh=-6, eq=contrast=1.3:saturation=1.5",
     "complex": true
   },
   "reaction_diffusion": {
-    "name": "Reaction-Diffusion Simulation",
+    "name": "Reaction Diffusion",
     "filter_chain": "split[a][b]; [b]edgedetect=low=0.05:high=0.2:mode=colormix, gblur=sigma=3, hue=s=3[edges]; [a][edges]blend=all_mode=addition:all_opacity=0.5, amplify=radius=3:factor=6:threshold=4, lagfun=decay=0.985, gblur=sigma=0.5, eq=contrast=1.4:saturation=2.0",
     "complex": true
   },
   "reaction_diffusion_strong": {
-    "name": "Reaction-Diffusion Simulation",
+    "name": "Reaction Diffusion Strong",
     "filter_chain": "split[a][b]; [b]edgedetect=low=0.03:high=0.15:mode=colormix, gblur=sigma=4, pseudocolor=preset=turbo[edges]; [a][edges]blend=all_mode=screen:all_opacity=0.6, amplify=radius=4:factor=10:threshold=3, lagfun=decay=0.99, tblend=all_mode=grainextract:all_opacity=0.4, gblur=sigma=0.8, eq=contrast=1.6:saturation=2.5",
     "complex": true
   },
   "lissajous": {
-    "name": "Lissajous / Harmonograph Patterns",
+    "name": "Lissajous",
     "filter_chain": "geq=lum='if(lt(hypot(X-W/2-W/3*sin(T*3+N*0.01),Y-H/2-H/3*sin(T*4+N*0.01)),5),255,0)':cb=128:cr=128, lagfun=decay=0.99, pseudocolor=preset=plasma",
     "complex": false
   },
   "harmonograph": {
-    "name": "Lissajous / Harmonograph Patterns",
+    "name": "Harmonograph",
     "filter_chain": "geq=lum='if(lt(hypot(X-W/2-W/3*sin(N*0.02)*cos(N*0.03),Y-H/2-H/3*cos(N*0.03)*sin(N*0.05)),3),255,0)':cb=128:cr=128, lagfun=decay=0.995, pseudocolor=preset=magma, eq=contrast=1.5:saturation=1.5",
     "complex": false
   },
   "fractal_noise": {
-    "name": "Fractal Noise / Perlin-like Texture",
+    "name": "Fractal Noise",
     "filter_chain": "geq=lum=' 128 +50*sin(X/40+T*1.5)*cos(Y/35+T*1.2) +25*sin(X/20+T*2.5)*cos(Y/18+T*2.0) +12*sin(X/10+T*3.5)*cos(Y/9+T*3.0) +6*sin(X/5+T*4.5)*cos(Y/4.5+T*4.0) ':cb='128+30*sin(X/30+T*2)*cos(Y/25+T*1.5)':cr='128+30*cos(X/35+T*1.8)*sin(Y/30+T*2.2)",
     "complex": false
   },
   "fractal_noise_overlay": {
-    "name": "Fractal Noise / Perlin-like Texture",
+    "name": "Fractal Noise Overlay",
     "filter_chain": "[0:v]geq=lum=' 128 +50*sin(X/40+T*1.5)*cos(Y/35+T*1.2) +25*sin(X/20+T*2.5)*cos(Y/18+T*2.0) +12*sin(X/10+T*3.5)*cos(Y/9+T*3.0) ':cb=128:cr=128[noise]; [1:v][noise]blend=all_mode=overlay:all_opacity=0.4",
     "complex": true
   },
   "life_growth": {
-    "name": "Life-like Pattern Generator",
+    "name": "Life Growth",
     "filter_chain": "lagfun=decay=0.97, pseudocolor=preset=viridis, gblur=sigma=1, eq=contrast=1.3:saturation=1.8",
     "complex": false
   },
   "life_dual": {
-    "name": "Life-like Pattern Generator",
+    "name": "Life Dual",
     "filter_chain": "[0:v]pseudocolor=preset=inferno[r30]; [1:v]pseudocolor=preset=viridis[r90]; [r30][r90]blend=all_mode=screen:all_opacity=0.5, lagfun=decay=0.96, eq=contrast=1.4:saturation=2.0",
     "complex": true
   },
   "julia_approx": {
-    "name": "Julia Set Approximation",
+    "name": "Julia Approx",
     "filter_chain": "geq=lum=' mod( floor(255 * (sin(((X-W/2)/200)*((X-W/2)/200) - ((Y-H/2)/200)*((Y-H/2)/200) + 0.355+0.05*sin(T*0.5)) * 8 + T*2) + 1) / 2 , 256)':cb='128+60*sin(X/100+T)':cr='128+60*cos(Y/100+T*1.3)', eq=contrast=1.5:saturation=1.8",
     "complex": false
   },
   "fractal_glitch": {
-    "name": "Fractal + Glitch Fusion",
+    "name": "Fractal Glitch",
     "filter_chain": "[0:v]format=gray[xmap]; [0:v]format=gray,negate[ymap]; [1:v][xmap][ymap]displace, rgbashift=rh='10*sin(T*5)':bh='-10*sin(T*5)', lagfun=decay=0.96, noise=alls=25:allf=t, tblend=all_mode=phoenix:all_opacity=0.5, eq=contrast=1.5:saturation=2.0",
     "complex": true
   },
   "cellauto_glitch": {
-    "name": "Fractal + Glitch Fusion",
+    "name": "Cellauto Glitch",
     "filter_chain": "[0:v]format=gray[xmap]; [0:v]format=gray,negate[ymap]; [1:v][xmap][ymap]displace, shuffleplanes=2:0:1:3, rgbashift=rh=8:bh=-8, noise=alls=30:allf=t+u, posterize=bits=3, eq=contrast=1.8:saturation=2.5",
     "complex": true
   },
   "xor_corruption": {
-    "name": "Fractal + Glitch Fusion",
+    "name": "Xor Corruption",
     "filter_chain": "[0:v]geq=lum='mod(bitand(X+floor(T*30),Y+floor(T*20))*8,256)':cb=128:cr=128,scale=1920:1080[xor]; [1:v]negate,shuffleplanes=2:0:1:3[corrupt]; [1:v][corrupt]blend=all_mode=screen:all_opacity=0.3[base]; [base][xor]blend=all_expr='if(gt(B, 128+128*(1-T/20)), A, B*2-A)",
     "complex": true
   },
   "rgb_shift": {
-    "name": "RGB Split / Chromatic Aberration",
+    "name": "Rgb Shift",
     "filter_chain": "rgbashift=rh=-8:bh=8:rv=2:bv=-2",
     "complex": false
   },
   "scanlines": {
-    "name": "Scan Lines / CRT Effect",
+    "name": "Scanlines",
     "filter_chain": "drawgrid=w=0:h=2:t=1:c=black@0.4,noise=alls=15:allf=t,eq=contrast=1.2:brightness=-0.05",
     "complex": false
   },
   "noise": {
-    "name": "Static / VHS Noise",
+    "name": "Noise",
     "filter_chain": "noise=alls=40:allf=t+u,eq=saturation=0.8",
     "complex": false
   },
   "pixelate": {
-    "name": "Pixel Corruption / Mosaic",
+    "name": "Pixelate",
     "filter_chain": "pixelize=w=16:h=16:mode=avg,noise=alls=20:allf=t",
     "complex": false
   },
   "color_corrupt": {
-    "name": "Color Channel Corruption",
+    "name": "Color Corrupt",
     "filter_chain": "shuffleplanes=0:2:1:3,hue=h=30:s=2,curves=vintage",
     "complex": false
   },
   "stutter": {
-    "name": "Frame Stutter / Time Glitch",
+    "name": "Stutter",
     "filter_chain": "random=frames=8:seed=42,setpts=N/FRAME_RATE/TB",
     "complex": false
   },
   "wave": {
-    "name": "Wave / Wobble Distortion",
+    "name": "Wave",
     "filter_chain": "nullsrc=s=1920x1080:d=10,lutrgb=r='128+30*sin(X/20+T*4)':g=128:b=128,format=gray[xmap]; nullsrc=s=1920x1080:d=10,lutrgb=r='128+20*sin(Y/15+T*3)':g=128:b=128,format=gray[ymap]; [0:v][xmap][ymap]displace",
     "complex": true
   },
   "tblend": {
-    "name": "Motion Blur / Frame Blending",
+    "name": "Tblend",
     "filter_chain": "tblend=all_mode=grainextract:all_opacity=0.7",
     "complex": false
   },
   "bitplane": {
-    "name": "Bitplane Noise / Data Visualization",
+    "name": "Bitplane",
     "filter_chain": "bitplanenoise=bitplane=3:filter=1,pseudocolor=preset=magma",
     "complex": false
   },
   "amplify": {
-    "name": "Temporal Amplify / Micro-Motion",
+    "name": "Amplify",
     "filter_chain": "amplify=radius=2:factor=5:threshold=8",
     "complex": false
   },
   "echo": {
-    "name": "Echo / Stroboscope",
+    "name": "Echo",
     "filter_chain": "tmix=frames=5:weights='1 1 1 1 1",
     "complex": false
   },
   "interlace": {
-    "name": "Interlace Glitch",
+    "name": "Interlace",
     "filter_chain": "tinterlace=mode=merge:flags=vlpf,fieldorder=tff",
     "complex": false
   },
   "posterize": {
-    "name": "Color Quantization / Posterize",
+    "name": "Posterize",
     "filter_chain": "normalize,posterize=bits=3",
     "complex": false
   },
   "tear": {
-    "name": "Horizontal Tear / Line Shift",
+    "name": "Tear",
     "filter_chain": "scroll=h=0:v=0.002,rgbashift=rh=3:bh=-3",
     "complex": false
   },
   "tear_sliced": {
-    "name": "Horizontal Tear / Line Shift",
+    "name": "Tear Sliced",
     "filter_chain": "crop=iw:ih/3:0:0,scroll=horizontal=0.05[top]; [0:v]crop=iw:ih/3:0:ih/3[mid]; [0:v]crop=iw:ih/3:0:2*ih/3,scroll=horizontal=-0.03[bot]; [top][mid]vstack[tm]; [tm][bot]vstack",
     "complex": true
   },
   "jpeg_style": {
-    "name": "JPEG Corruption / Compression Artifacts",
+    "name": "Jpeg Style",
     "filter_chain": "noise=alls=10:allf=t,pixelize=w=8:h=8:mode=avg,eq=contrast=1.4",
     "complex": false
   },
   "solarize": {
-    "name": "Inverse / Solarize",
+    "name": "Solarize",
     "filter_chain": "curves=all='0/0 0.25/0.6 0.5/0.3 0.75/0.9 1/0",
     "complex": false
   },
   "invert": {
-    "name": "Inverse / Solarize",
+    "name": "Invert",
     "filter_chain": "negate,hue=h=180:s=1.5",
     "complex": false
   },
   "zoom_pulse": {
-    "name": "Zoom Pulse / Breathing",
+    "name": "Zoom Pulse",
     "filter_chain": "zoompan=z='1+0.15*sin(in*0.3)':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=1:s=1920x1080:fps=30",
     "complex": false
   },
   "edge_glow": {
-    "name": "Edge Glow / Neon Wireframe",
+    "name": "Edge Glow",
     "filter_chain": "split[orig][edges]; [edges]edgedetect=low=0.1:high=0.3:mode=colormix,eq=brightness=0.1:contrast=2,hue=s=3[glow]; [orig][glow]blend=all_mode=screen:all_opacity=0.7",
     "complex": true
   },
   "bitcrush": {
-    "name": "Bit Crushing / Bit Depth Reduction",
+    "name": "Bitcrush",
     "filter_chain": "lutrgb=r='bitand(val,224)':g='bitand(val,224)':b='bitand(val,224)",
     "complex": false
   },
   "bitcrush_extreme": {
-    "name": "Bit Crushing / Bit Depth Reduction",
+    "name": "Bitcrush Extreme",
     "filter_chain": "lutrgb=r='bitand(val,128)':g='bitand(val,128)':b='bitand(val,128)',eq=contrast=1.5",
     "complex": false
   },
   "bitcrush_animated": {
-    "name": "Bit Crushing / Bit Depth Reduction",
+    "name": "Bitcrush Animated",
     "filter_chain": "lutyuv=y='bitand(val, 256-pow(2,1+floor(4*sin(T)*sin(T))))",
     "complex": false
   },
@@ -620,1307 +620,1307 @@
     "complex": false
   },
   "hyper_glitch_max": {
-    "name": "Hyper Glitch",
+    "name": "Hyper Glitch Max",
     "filter_chain": "split[a][b]; [b]edgedetect=low=0.08:high=0.2:mode=colormix,hue=s=4[edges]; [a]rgbashift=rh='15*sin(T*7)':bh='-15*sin(T*7)':rv='8*cos(T*4)':bv='-8*cos(T*4)', lagfun=decay=0.97, noise=alls=60:allf=t+u, random=frames=6:seed=99, setpts=N/FRAME_RATE/TB, posterize=bits=2, shuffleplanes=0:2:1:3[main]; [main][edges]blend=all_mode=screen:all_opacity=0.6, drawgrid=w=0:h=2:t=1:c=black@0.4, eq=contrast=1.6:saturation=2.5",
     "complex": true
   },
   "chromakey_corrupt": {
-    "name": "Chromakey Corruption",
+    "name": "Chromakey Corrupt",
     "filter_chain": "split[a][b]; [b]negate,setpts=PTS+1/TB[delayed]; [a]colorkey=color=0x00AA00:similarity=0.3:blend=0.1[keyed]; [delayed][keyed]overlay",
     "complex": true
   },
   "chromakey_random": {
-    "name": "Chromakey Corruption",
+    "name": "Chromakey Random",
     "filter_chain": "split[a][b]; [b]shuffleplanes=2:0:1:3,lagfun=decay=0.95[fill]; [a]colorkey=color=0x888888:similarity=0.25:blend=0.15[holes]; [fill][holes]overlay",
     "complex": true
   },
   "vroll": {
-    "name": "Vertical Roll / Sync Loss",
+    "name": "Vroll",
     "filter_chain": "scroll=v=0.01:h=0",
     "complex": false
   },
   "vroll_drift": {
-    "name": "Vertical Roll / Sync Loss",
+    "name": "Vroll Drift",
     "filter_chain": "scroll=v='0.005+0.01*sin(T*0.8)*sin(T*0.8)':h=0,noise=alls=10:allf=t",
     "complex": false
   },
   "ghost": {
-    "name": "Ghosting / Double Exposure",
+    "name": "Ghost",
     "filter_chain": "split[a][b]; [b]setpts=PTS+0.5/TB,format=rgba,colorchannelmixer=aa=0.4[ghost]; [a][ghost]overlay=format=auto",
     "complex": true
   },
   "ghost_triple": {
-    "name": "Ghosting / Double Exposure",
+    "name": "Ghost Triple",
     "filter_chain": "split=3[a][b][c]; [b]setpts=PTS+0.3/TB,format=rgba,colorchannelmixer=aa=0.3,hue=h=30[g1]; [c]setpts=PTS+0.6/TB,format=rgba,colorchannelmixer=aa=0.2,hue=h=-30[g2]; [a][g1]overlay=format=auto[tmp]; [tmp][g2]overlay=format=auto",
     "complex": true
   },
   "thermal": {
-    "name": "Thermal / False Color",
+    "name": "Thermal",
     "filter_chain": "pseudocolor=preset=magma",
     "complex": false
   },
   "thermal_realistic": {
-    "name": "Thermal / False Color",
+    "name": "Thermal Realistic",
     "filter_chain": "format=gray,gblur=sigma=2, pseudocolor=preset=inferno, noise=alls=8:allf=t",
     "complex": false
   },
   "nightvision": {
-    "name": "Thermal / False Color",
+    "name": "Nightvision",
     "filter_chain": "format=gray,lutrgb=r=0:b=0,noise=alls=15:allf=t,eq=brightness=0.1",
     "complex": false
   },
   "full_glitch": {
-    "name": "Full Glitch Stack (All-in-One)",
+    "name": "Full Glitch",
     "filter_chain": "rgbashift=rh=-6:bh=6:rv=2:bv=-2, lagfun=decay=0.95, noise=alls=25:allf=t, drawgrid=w=0:h=2:t=1:c=black@0.3, eq=contrast=1.3:saturation=1.4",
     "complex": false
   },
   "gradient_linear": {
-    "name": "Linear Gradient Sweep",
+    "name": "Gradient Linear",
     "filter_chain": "geq=lum='mod(X*0.5+T*80, 256)':cb='128+40*sin(T*0.5)':cr='128+40*cos(T*0.7)",
     "complex": false
   },
   "gradient_rotate": {
-    "name": "Linear Gradient Sweep",
+    "name": "Gradient Rotate",
     "filter_chain": "geq=lum='mod((X-W/2)*cos(T*0.3)+(Y-H/2)*sin(T*0.3)+T*60+128, 256)':cb='128+30*sin(T*0.8)':cr='128+30*cos(T*0.6)",
     "complex": false
   },
   "gradient_multicolor": {
-    "name": "Linear Gradient Sweep",
+    "name": "Gradient Multicolor",
     "filter_chain": "geq= lum='128+127*sin((X-W/2)*cos(T*0.3)/200+(Y-H/2)*sin(T*0.3)/200+T*1.5)': cb='128+50*sin((X-W/2)*cos(T*0.3+1)/250+(Y-H/2)*sin(T*0.3+1)/250+T*1.2)': cr='128+50*cos((X-W/2)*cos(T*0.3+2)/300+(Y-H/2)*sin(T*0.3+2)/300+T*0.9)",
     "complex": false
   },
   "gradient_radial": {
-    "name": "Radial Gradient / Spotlight",
+    "name": "Gradient Radial",
     "filter_chain": "geq=lum='max(0, 255-hypot(X-W/2-W/3*sin(T*0.8), Y-H/2-H/3*cos(T*0.6))*0.5)':cb='128-20':cr='128+20', gblur=sigma=2",
     "complex": false
   },
   "gradient_multi_radial": {
-    "name": "Radial Gradient / Spotlight",
+    "name": "Gradient Multi Radial",
     "filter_chain": "geq= lum='min(255, max(0, 200-hypot(X-W/4-W/6*sin(T*0.7), Y-H/3-H/6*cos(T*0.5))*0.6) + max(0, 180-hypot(X-3*W/4+W/6*cos(T*0.9), Y-2*H/3+H/6*sin(T*0.6))*0.5) + max(0, 160-hypot(X-W/2-W/4*sin(T*1.1), Y-H/2-H/4*cos(T*0.8))*0.4))': cb='128+30*sin(atan2(Y-H/2,X-W/2)+T*0.5)': cr='128+30*cos(atan2(Y-H/2,X-W/2)+T*0.7)', gblur=sigma=3",
     "complex": false
   },
   "mesh_gradient": {
-    "name": "Mesh Gradient / Blob Gradient",
+    "name": "Mesh Gradient",
     "filter_chain": "geq= lum='128 +60*exp(-hypot(X-W/4-W/6*sin(T*0.4),Y-H/3-H/6*cos(T*0.3))/250) +50*exp(-hypot(X-3*W/4+W/5*cos(T*0.5),Y-2*H/3+H/5*sin(T*0.4))/200) +40*exp(-hypot(X-W/2-W/4*sin(T*0.6),Y-H/2+H/4*cos(T*0.35))/220) ': cb='128 -25*exp(-hypot(X-W/4-W/6*sin(T*0.4),Y-H/3-H/6*cos(T*0.3))/250) +20*exp(-hypot(X-3*W/4+W/5*cos(T*0.5),Y-2*H/3+H/5*sin(T*0.4))/200) +15*exp(-hypot(X-W/2-W/4*sin(T*0.6),Y-H/2+H/4*cos(T*0.35))/220) ': cr='128 +20*exp(-hypot(X-W/4-W/6*sin(T*0.4),Y-H/3-H/6*cos(T*0.3))/250) -25*exp(-hypot(X-3*W/4+W/5*cos(T*0.5),Y-2*H/3+H/5*sin(T*0.4))/200) +10*exp(-hypot(X-W/2-W/4*sin(T*0.6),Y-H/2+H/4*cos(T*0.35))/220) ', gblur=sigma=20",
     "complex": false
   },
   "gradient_conical": {
-    "name": "Conical / Angular Gradient",
+    "name": "Gradient Conical",
     "filter_chain": "geq= lum='128+127*sin(atan2(Y-H/2,X-W/2)*1+T*1.5)': cb='128+60*sin(atan2(Y-H/2,X-W/2)*2+T*1.2)': cr='128+60*cos(atan2(Y-H/2,X-W/2)*3+T*0.9)",
     "complex": false
   },
   "color_wheel": {
-    "name": "Conical / Angular Gradient",
+    "name": "Color Wheel",
     "filter_chain": "geq= lum='180': cb='128+60*sin(atan2(Y-H/2,X-W/2)+T*0.5)': cr='128+60*cos(atan2(Y-H/2,X-W/2)+T*0.5)', eq=saturation=2.0",
     "complex": false
   },
   "plasma": {
-    "name": "Plasma / Lava Lamp Gradient",
+    "name": "Plasma",
     "filter_chain": "geq= lum='128 +40*sin(X/80+T*1.2)*cos(Y/70+T*0.9) +30*sin(X/40+T*2.1)*cos(Y/35+T*1.6) +20*cos(X/20+Y/25+T*2.8) ': cb='128 +35*sin(X/90+T*0.8)*cos(Y/80+T*0.6) +25*cos(X/45+T*1.5)*sin(Y/40+T*1.2) ': cr='128 +35*cos(X/70+T*1.0)*sin(Y/90+T*0.7) +25*sin(X/35+T*1.8)*cos(Y/45+T*1.4) ', gblur=sigma=5, eq=saturation=1.5:contrast=1.2",
     "complex": false
   },
   "plasma_cells": {
-    "name": "Plasma / Lava Lamp Gradient",
+    "name": "Plasma Cells",
     "filter_chain": "geq= lum='128 +40*sin(X/80+T*1.2)*cos(Y/70+T*0.9) +30*sin(X/40+T*2.1)*cos(Y/35+T*1.6) +20*cos(X/20+Y/25+T*2.8) ': cb='128 +35*sin(X/90+T*0.8)*cos(Y/80+T*0.6) +25*cos(X/45+T*1.5)*sin(Y/40+T*1.2) ': cr='128 +35*cos(X/70+T*1.0)*sin(Y/90+T*0.7) +25*sin(X/35+T*1.8)*cos(Y/45+T*1.4) ', posterize=bits=4, gblur=sigma=2, eq=saturation=1.8:contrast=1.4",
     "complex": false
   },
   "gradient_displace": {
-    "name": "Gradient as Displacement Source",
+    "name": "Gradient Displace",
     "filter_chain": "[0:v]geq=lum='128+60*sin(hypot(X-W/2,Y-H/2)/40+T*3)':cb=128:cr=128,format=gray[xmap]; [0:v]geq=lum='128+60*cos(hypot(X-W/2,Y-H/2)/40+T*3)':cb=128:cr=128,format=gray[ymap]; [1:v][xmap][ymap]displace",
     "complex": true
   },
   "plasma_displace": {
-    "name": "Gradient as Displacement Source",
+    "name": "Plasma Displace",
     "filter_chain": "[0:v]geq=lum='128+30*sin(X/60+T*1.5)*cos(Y/50+T*1.2)+20*sin(X/30+T*2.5)*cos(Y/25+T*2)':cb=128:cr=128,format=gray[xmap]; [0:v]geq=lum='128+30*cos(X/50+T*1.2)*sin(Y/60+T*1.5)+20*cos(X/25+T*2)*sin(Y/30+T*2.5)':cb=128:cr=128,format=gray[ymap]; [1:v][xmap][ymap]displace, eq=contrast=1.1:saturation=1.1",
     "complex": true
   },
   "laminar_flow": {
-    "name": "Laminar Flow / Parallel Streamlines",
+    "name": "Laminar Flow",
     "filter_chain": "geq=lum='max(0, 255-abs(sin(Y/20+sin(X/100+T*2)*3+T*1.5))*300)':cb=100:cr=128, lutrgb=r=0:g='val':b='val/2', gblur=sigma=2, lagfun=decay=0.85",
     "complex": false
   },
   "laminar_colored": {
-    "name": "Laminar Flow / Parallel Streamlines",
+    "name": "Laminar Colored",
     "filter_chain": "geq= lum='max(0, 255-abs(sin(Y/20+sin(X/80+T*2)*4+T*1.5))*350)': cb='128-30*sin(X/80+T*2)': cr='128+30*cos(X/80+T*2)', gblur=sigma=2, lagfun=decay=0.88, eq=saturation=1.8:contrast=1.3",
     "complex": false
   },
   "turbulent_flow": {
-    "name": "Turbulent Flow / Chaotic Streamlines",
+    "name": "Turbulent Flow",
     "filter_chain": "geq=lum='max(0, 255-abs(sin( Y/15 +sin(X/60+T*2)*3 +sin(X/30+T*3)*2 +sin(X/15+T*4)*1 +T*1.5))*400)':cb=100:cr=128, lutrgb=r=0:g='val':b='val', gblur=sigma=2, lagfun=decay=0.87",
     "complex": false
   },
   "vortex_shedding": {
-    "name": "Turbulent Flow / Chaotic Streamlines",
+    "name": "Vortex Shedding",
     "filter_chain": "geq=lum='max(0, 255-abs(sin( Y/15 +sin(X/50+T*2)*3 +sin(X/25+T*3.5)*2 +4*exp(-hypot(X-W/3,Y-H/2)/100)*sin(atan2(Y-H/2,X-W/3)*3+T*5) +T*1.5))*400)':cb='128-15*exp(-hypot(X-W/3,Y-H/2)/150)':cr='128+20*exp(-hypot(X-W/3,Y-H/2)/150)', lutrgb=r=0:g='val':b='val', gblur=sigma=2, lagfun=decay=0.88",
     "complex": false
   },
   "curl_field": {
-    "name": "Curl / Rotational Vector Field",
+    "name": "Curl Field",
     "filter_chain": "geq=lum='max(0, max( 255-abs(sin(atan2(Y-H/4,X-W/4)*4+T*3+hypot(X-W/4,Y-H/4)/30))*300*exp(-hypot(X-W/4,Y-H/4)/300), max(255-abs(sin(atan2(Y-3*H/4,X-3*W/4)*4-T*3+hypot(X-3*W/4,Y-3*H/4)/30))*300*exp(-hypot(X-3*W/4,Y-3*H/4)/300), 255-abs(sin(atan2(Y-H/2,X-W/2)*6+T*2+hypot(X-W/2,Y-H/2)/25))*250*exp(-hypot(X-W/2,Y-H/2)/350)) ))':cb='128+20*sin(T*0.5)':cr='128+20*cos(T*0.7)', lutrgb=r='val/3':g='val':b='val', gblur=sigma=2, lagfun=decay=0.9",
     "complex": false
   },
   "divergence_field": {
-    "name": "Divergence Field / Source-Sink Flow",
+    "name": "Divergence Field",
     "filter_chain": "geq=lum='max(0, max( 255-abs(sin(hypot(X-W/3,Y-H/3)/15-T*4))*300*exp(-hypot(X-W/3,Y-H/3)/250), 255-abs(sin(hypot(X-2*W/3,Y-2*H/3)/15+T*4))*300*exp(-hypot(X-2*W/3,Y-2*H/3)/250) ))': cb='128-20*exp(-hypot(X-W/3,Y-H/3)/200)+20*exp(-hypot(X-2*W/3,Y-2*H/3)/200)': cr='128+25*exp(-hypot(X-W/3,Y-H/3)/200)-25*exp(-hypot(X-2*W/3,Y-2*H/3)/200)', lutrgb=r='val':g='val/2':b='val', gblur=sigma=2, lagfun=decay=0.9",
     "complex": false
   },
   "magnetic_field": {
-    "name": "Magnetic Field Lines",
+    "name": "Magnetic Field",
     "filter_chain": "geq=lum='max(0, 255-abs(sin( atan2(Y-H/2, X-W/3+W/6*sin(T*0.5)) - atan2(Y-H/2, X-2*W/3-W/6*sin(T*0.5)) +T*0.5)*6)*300)': cb='128+15*sin(T*0.8)':cr='128+15*cos(T*0.6)', lutrgb=r='val/2':g='val/2':b='val', gblur=sigma=2, split[a][b]; [b]gblur=sigma=6,eq=brightness=0.08[bloom]; [a][bloom]blend=all_mode=screen:all_opacity=0.4",
     "complex": true
   },
   "magnetic_field_moving": {
-    "name": "Magnetic Field Lines",
+    "name": "Magnetic Field Moving",
     "filter_chain": "geq=lum='max(0, 255-abs(sin( atan2(Y-H/2-H/4*sin(T*0.4), X-W/3-W/6*cos(T*0.5)) - atan2(Y-H/2+H/4*sin(T*0.4), X-2*W/3+W/6*cos(T*0.5)) +T*0.3)*8)*350)': cb='128+20*sin(T*0.5)':cr='128+20*cos(T*0.7)', lutrgb=r='val/2':g='val/2':b='val', gblur=sigma=3, split[a][b]; [b]gblur=sigma=8,eq=brightness=0.1[bloom]; [a][bloom]blend=all_mode=screen:all_opacity=0.4, lagfun=decay=0.88",
     "complex": true
   },
   "electric_field": {
-    "name": "Electric Field / Force Lines with Charges",
+    "name": "Electric Field",
     "filter_chain": "geq=lum='max(0, 255-abs(sin( 3*atan2(Y-H/3,X-W/4+W/8*sin(T*0.6)) -2*atan2(Y-2*H/3,X-3*W/4-W/8*cos(T*0.5)) +2*atan2(Y-H/2,X-W/2+W/6*sin(T*0.8)) )*1)*250)': cb='128+20*sin(T*0.6)':cr='128+20*cos(T*0.8)', lutrgb=r='val':g='val/2':b='val', gblur=sigma=2, split[a][b]; [b]gblur=sigma=6,eq=brightness=0.1[bloom]; [a][bloom]blend=all_mode=screen:all_opacity=0.35",
     "complex": true
   },
   "vector_field_overlay": {
-    "name": "Vector Field Over Video",
+    "name": "Vector Field Overlay",
     "filter_chain": "[0:v]geq=lum='max(0, max( 255-abs(sin(Y/15+sin(X/60+T*2)*3+T*1.5))*400, 255-abs(sin(X/15+sin(Y/60+T*1.5)*3+T*2))*400 ))':cb=100:cr=128, lutrgb=r=0:g='val':b='val/2', gblur=sigma=2, lagfun=decay=0.87[field]; [1:v][field]blend=all_mode=screen:all_opacity=0.5, eq=contrast=1.1:saturation=1.2",
     "complex": true
   },
   "motion_field": {
-    "name": "Vector Field Over Video",
+    "name": "Motion Field",
     "filter_chain": "split[orig][field]; [field]tblend=all_mode=difference,format=gray, gblur=sigma=2, lagfun=decay=0.92, lutrgb=r=0:g='val*2':b='val', split[fa][fb]; [fb]gblur=sigma=6,eq=brightness=0.1[bloom]; [fa][bloom]blend=all_mode=screen:all_opacity=0.4[glow_field]; [orig][glow_field]blend=all_mode=screen:all_opacity=0.5, eq=contrast=1.1",
     "complex": true
   },
   "audio_gradient_pulse": {
-    "name": "Audio-Reactive Gradient Pulse",
+    "name": "Audio Gradient Pulse",
     "filter_chain": "[0:a]showvolume=w=1920:h=20:f=0.9:dm=1:o=h[vol]; [vol]format=gray,scale=1920:1080:flags=neighbor[vol_map]; [0:v]split[orig][base]; [base]geq= lum='128+60*sin(X/80+T*1.5)*cos(Y/70+T*1.2)+40*sin(X/40+T*2.5)*cos(Y/35+T*2)': cb='128+40*sin(X/90+T*0.8)*cos(Y/80+T*0.6)': cr='128+40*cos(X/70+T*1.0)*sin(Y/90+T*0.7)', gblur=sigma=10[gradient]; [gradient][vol_map]blend=all_mode=multiply[reactive_gradient]; [orig][reactive_gradient]blend=all_mode=screen:all_opacity=0.5",
     "complex": true
   },
   "audio_flow_field": {
-    "name": "Audio-Reactive Flow Field",
+    "name": "Audio Flow Field",
     "filter_chain": "[0:a]showwaves=s=1920x1080:mode=cline:rate=30:colors=white:scale=sqrt[waves]; [waves]format=gray,gblur=sigma=5[audio_field]; [0:v]split[orig][warp_src]; [warp_src][audio_field]blend=all_mode=screen:all_opacity=0.3[base]; [base]geq=lum='max(0, 255-abs(sin(Y/15+sin(X/50+T*3)*3+T*2))*400)':cb=100:cr=128, lutrgb=r=0:g='val':b='val', gblur=sigma=2, lagfun=decay=0.9[flow]; [orig][flow]blend=all_mode=screen:all_opacity=0.5",
     "complex": true
   },
   "audio_flow_displaced": {
-    "name": "Audio-Reactive Flow Field",
+    "name": "Audio Flow Displaced",
     "filter_chain": "[0:a]showwaves=s=1920x1080:mode=cline:rate=30:colors=white:scale=sqrt[waves]; [waves]format=gray[xmap]; [waves]format=gray,negate[ymap]; color=s=1920x1080:d=30:c=black,geq=lum='max(0, 255-abs(sin(Y/12+sin(X/40+T*3)*4+T*2))*500)':cb=100:cr=128, lutrgb=r=0:g='val':b='val/2', gblur=sigma=2[flow]; [flow][xmap][ymap]displace, lagfun=decay=0.88, split[a][b]; [b]gblur=sigma=6,eq=brightness=0.1[bloom]; [a][bloom]blend=all_mode=screen:all_opacity=0.4[reactive_flow]; [0:v][reactive_flow]blend=all_mode=screen:all_opacity=0.6",
     "complex": true
   },
   "audio_magnetic": {
-    "name": "Audio-Reactive Magnetic Field",
+    "name": "Audio Magnetic",
     "filter_chain": "[0:a]showwaves=s=1920x1080:mode=cline:rate=30:colors=white:scale=sqrt[waves]; [waves]format=gray,gblur=sigma=20[audio_energy]; color=s=1920x1080:d=30:c=black, geq=lum='max(0, 255-abs(sin( atan2(Y-H/2,X-W/3+W/8*sin(T*0.6)) - atan2(Y-H/2,X-2*W/3-W/8*sin(T*0.6)) +T*0.5)*8)*350)':cb='128+15*sin(T*0.8)':cr='128+15*cos(T*0.6)', lutrgb=r='val/2':g='val/2':b='val', gblur=sigma=2[field]; [field][audio_energy]blend=all_mode=multiply[reactive_field]; [reactive_field]split[a][b]; [b]gblur=sigma=8,eq=brightness=0.1[bloom]; [a][bloom]blend=all_mode=screen:all_opacity=0.4, lagfun=decay=0.88[glow_field]; [0:v][glow_field]blend=all_mode=screen:all_opacity=0.6",
     "complex": true
   },
   "audio_gradient_map": {
-    "name": "Audio Spectrum as Gradient Map",
+    "name": "Audio Gradient Map",
     "filter_chain": "[0:a]showspectrum=s=1920x1080:mode=combined:slide=replace:color=channel:scale=cbrt:fscale=log[spec]; [spec]gblur=sigma=15, eq=saturation=2.0:contrast=0.8, gblur=sigma=10[gradient_map]; [0:v][gradient_map]blend=all_mode=screen:all_opacity=0.35, eq=contrast=1.05:saturation=1.1",
     "complex": true
   },
   "audio_color_wash": {
-    "name": "Audio Spectrum as Gradient Map",
+    "name": "Audio Color Wash",
     "filter_chain": "[0:a]showspectrum=s=1920x1080:mode=combined:slide=replace:color=intensity:scale=sqrt:fscale=log[spec]; [spec]gblur=sigma=40, pseudocolor=preset=magma, gblur=sigma=20, eq=saturation=1.5[color_wash]; [0:v][color_wash]blend=all_mode=screen:all_opacity=0.25, eq=contrast=1.0:saturation=1.1",
     "complex": true
   },
   "audio_divergence": {
-    "name": "Audio-Reactive Divergence Pulses",
+    "name": "Audio Divergence",
     "filter_chain": "[0:a]showwaves=s=1920x1080:mode=cline:rate=30:colors=white:scale=sqrt[waves]; [waves]format=gray,gblur=sigma=30[energy]; color=s=1920x1080:d=30:c=black, geq=lum='max(0, max(255-abs(sin(hypot(X-W/4,Y-H/3)/12-T*5))*300*exp(-hypot(X-W/4,Y-H/3)/250), max(255-abs(sin(hypot(X-3*W/4,Y-2*H/3)/12-T*6))*300*exp(-hypot(X-3*W/4,Y-2*H/3)/250), 255-abs(sin(hypot(X-W/2,Y-H/2)/15-T*4))*250*exp(-hypot(X-W/2,Y-H/2)/300))) )':cb='128+20*sin(T*0.5)':cr='128+20*cos(T*0.7)', lutrgb=r=0:g='val':b='val', gblur=sigma=2[pulses]; [pulses][energy]blend=all_mode=multiply[reactive_pulses]; [reactive_pulses]split[a][b]; [b]gblur=sigma=8,eq=brightness=0.1[bloom]; [a][bloom]blend=all_mode=screen:all_opacity=0.4, lagfun=decay=0.9[glow_pulses]; [0:v][glow_pulses]blend=all_mode=screen:all_opacity=0.6",
     "complex": true
   },
   "sunset_grade": {
-    "name": "Gradient as Color Grading Layer",
+    "name": "Sunset Grade",
     "filter_chain": "[0:v]geq=lum='200-Y*150/H':cb=115:cr=155, gblur=sigma=30[grade]; [1:v][grade]blend=all_mode=multiply:all_opacity=0.25, eq=contrast=1.1:saturation=1.15",
     "complex": true
   },
   "blue_grade": {
-    "name": "Gradient as Color Grading Layer",
+    "name": "Blue Grade",
     "filter_chain": "[0:v]geq=lum='128+Y*80/H':cb=145:cr=118, gblur=sigma=30[grade]; [1:v][grade]blend=all_mode=overlay:all_opacity=0.2, eq=contrast=1.05:saturation=1.05",
     "complex": true
   },
   "teal_orange_grade": {
-    "name": "Gradient as Color Grading Layer",
+    "name": "Teal Orange Grade",
     "filter_chain": "[0:v]geq=lum='128':cb='128+30*(Y/(H)-0.5)':cr='128-25*(Y/(H)-0.5)', gblur=sigma=40[grade]; [1:v][grade]blend=all_mode=overlay:all_opacity=0.2, eq=contrast=1.1:saturation=1.2",
     "complex": true
   },
   "edge_blur": {
-    "name": "Gradient Mask for Selective Effects",
+    "name": "Edge Blur",
     "filter_chain": "split[sharp][blurred]; [blurred]gblur=sigma=10[soft]; [sharp][soft]blend=all_expr='A*(1-pow(hypot(X-W/2,Y-H/2)/(W/2),2)) + B*pow(hypot(X-W/2,Y-H/2)/(W/2),2)",
     "complex": true
   },
   "gradient_glitch": {
-    "name": "Gradient Mask for Selective Effects",
+    "name": "Gradient Glitch",
     "filter_chain": "split[clean][glitch]; [glitch]rgbashift=rh=10:bh=-10,noise=alls=40:allf=t,posterize=bits=2[fx]; [clean][fx]blend=all_expr='A*(Y/H) + B*(1-Y/H)",
     "complex": true
   },
   "radial_selective": {
-    "name": "Gradient Mask for Selective Effects",
+    "name": "Radial Selective",
     "filter_chain": "split[orig][fx]; [fx]lagfun=decay=0.97,rgbashift=rh=8:bh=-8,noise=alls=25:allf=t[effect]; [orig][effect]blend=all_expr='A*max(0,1-pow(hypot(X-W/2,Y-H/2)/(W/3),2)) + B*min(1,pow(hypot(X-W/2,Y-H/2)/(W/3),2))",
     "complex": true
   },
   "laser_hscan": {
-    "name": "Scanning Laser Line",
+    "name": "Laser Hscan",
     "filter_chain": "geq=lum='max(0, 255-abs(Y-H*mod(T/5,1))*8)':cb=100:cr=100, lutrgb=r=0:g='val':b='val/3', gblur=sigma=3",
     "complex": false
   },
   "laser_vscan": {
-    "name": "Scanning Laser Line",
+    "name": "Laser Vscan",
     "filter_chain": "geq=lum='max(0, 255-abs(X-W*mod(T/4,1))*8)':cb=128:cr=128, lutrgb=r='val':g='val/5':b=0, gblur=sigma=3",
     "complex": false
   },
   "laser_diagonal": {
-    "name": "Scanning Laser Line",
+    "name": "Laser Diagonal",
     "filter_chain": "geq=lum='max(0, 255-abs(X*0.7+Y*0.7-(W+H)*0.7*mod(T/6,1))*6)':cb=100:cr=128, lutrgb=r=0:g='val':b='val', gblur=sigma=4",
     "complex": false
   },
   "laser_composite": {
-    "name": "Scanning Laser Line",
+    "name": "Laser Composite",
     "filter_chain": "[0:v]geq=lum='max(0, 255-abs(Y-H*mod(T/4,1))*6)':cb=100:cr=100, lutrgb=r=0:g='val':b='val/3', gblur=sigma=4[laser]; [1:v][laser]blend=all_mode=screen:all_opacity=0.8",
     "complex": true
   },
   "laser_array": {
-    "name": "Multi-Beam Laser Array",
+    "name": "Laser Array",
     "filter_chain": "geq=lum='max(0, max(255-abs(Y-H*mod(T/4,1))*10, max(255-abs(Y-H*mod(T/4+0.25,1))*10, max(255-abs(Y-H*mod(T/4+0.5,1))*10, 255-abs(Y-H*mod(T/4+0.75,1))*10))))':cb=100:cr=128, lutrgb=r=0:g='val':b='val', gblur=sigma=3",
     "complex": false
   },
   "laser_fan": {
-    "name": "Multi-Beam Laser Array",
+    "name": "Laser Fan",
     "filter_chain": "geq=lum='max(0, max(255-abs(Y-H/2-(X-W/2)*tan(0.3+0.2*sin(T*2)))*8, max(255-abs(Y-H/2-(X-W/2)*tan(-0.1+0.15*sin(T*2.5)))*8, max(255-abs(Y-H/2-(X-W/2)*tan(0.5+0.25*sin(T*1.5)))*8, 255-abs(Y-H/2-(X-W/2)*tan(-0.4+0.2*sin(T*3)))*8))))':cb=100:cr=100, lutrgb=r=0:g='val':b='val/3', gblur=sigma=4",
     "complex": false
   },
   "laser_lighthouse": {
-    "name": "Rotating Laser Beams / Lighthouse",
+    "name": "Laser Lighthouse",
     "filter_chain": "geq=lum='max(0, max(255-abs(sin(atan2(Y-H/2,X-W/2)-T*3))*300, max(255-abs(sin(atan2(Y-H/2,X-W/2)-T*3+1.047))*300, 255-abs(sin(atan2(Y-H/2,X-W/2)-T*3+2.094))*300)))':cb=100:cr=100, lutrgb=r=0:g='val':b='val/2', gblur=sigma=5, eq=brightness=0.05:contrast=1.3",
     "complex": false
   },
   "laser_lighthouse_rgb": {
-    "name": "Rotating Laser Beams / Lighthouse",
+    "name": "Laser Lighthouse Rgb",
     "filter_chain": "geq= lum='max(0,max(255-abs(sin(atan2(Y-H/2,X-W/2)-T*2))*400, max(255-abs(sin(atan2(Y-H/2,X-W/2)-T*2+2.094))*400, 255-abs(sin(atan2(Y-H/2,X-W/2)-T*2+4.189))*400)))': cb='128+if(gt(255-abs(sin(atan2(Y-H/2,X-W/2)-T*2))*400,200),-28, if(gt(255-abs(sin(atan2(Y-H/2,X-W/2)-T*2+2.094))*400,200),0,28))': cr='128+if(gt(255-abs(sin(atan2(Y-H/2,X-W/2)-T*2))*400,200),28, if(gt(255-abs(sin(atan2(Y-H/2,X-W/2)-T*2+2.094))*400,200),-28,0))', gblur=sigma=5, eq=brightness=0.05:contrast=1.3",
     "complex": false
   },
   "laser_ring": {
-    "name": "Pulsing Laser Ring / Expanding Circle",
+    "name": "Laser Ring",
     "filter_chain": "geq=lum='max(0, 255-abs(hypot(X-W/2,Y-H/2)-mod(T*200,800))*5)':cb=100:cr=128, lutrgb=r=0:g='val':b='val', gblur=sigma=4",
     "complex": false
   },
   "laser_rings_repeat": {
-    "name": "Pulsing Laser Ring / Expanding Circle",
+    "name": "Laser Rings Repeat",
     "filter_chain": "geq=lum='max(0, 255-abs(sin(hypot(X-W/2,Y-H/2)/30-T*4))*150-80)':cb=100:cr=100, lutrgb=r=0:g='val':b='val/3', gblur=sigma=3",
     "complex": false
   },
   "laser_ring_trail": {
-    "name": "Pulsing Laser Ring / Expanding Circle",
+    "name": "Laser Ring Trail",
     "filter_chain": "geq=lum='max(0, 255-abs(hypot(X-W/2,Y-H/2)-mod(T*150,600))*4)':cb=100:cr=128, lutrgb=r=0:g='val':b='val', gblur=sigma=5, lagfun=decay=0.93",
     "complex": false
   },
   "synthwave_grid": {
-    "name": "Retro Synthwave Grid (Perspective Floor)",
+    "name": "Synthwave Grid",
     "filter_chain": "geq=lum='max(0, max(255-abs(sin(X/60))*400, 255-abs(sin((Y-H/2)*4/(Y-H/2+1)+T*3))*300) *max(0,(Y-H/2))/(H/2))':cb=90:cr=128, lutrgb=r='val/2':g=0:b='val', gblur=sigma=2, eq=brightness=-0.02:contrast=1.3",
     "complex": false
   },
   "synthwave_full": {
-    "name": "Retro Synthwave Grid (Perspective Floor)",
+    "name": "Synthwave Full",
     "filter_chain": "geq=lum='max( max(0,max(255-abs(sin(X/60))*400, 255-abs(sin((Y-H/2)*4/(Y-H/2+1)+T*3))*300)*max(0,(Y-H/2))/(H/2)), max(0, 255-abs(Y-H/2)*4) * max(0, 1-abs(Y-H/2)/10), max(0, 200-hypot(X-W/2,(Y-H/2+80))*1.5) )':cb='128-20*max(0,1-Y/(H/2))':cr='128+30*max(0,1-Y/(H/2))', lutrgb=r='clip(val*1.5+if(gt(Y,H/2),0,80*exp(-hypot(X-W/2,Y-H/2+80)/200)),0,255)':g=0:b='val', gblur=sigma=2, eq=brightness=-0.02:contrast=1.3",
     "complex": false
   },
   "floating_grid": {
-    "name": "Floating Grid / Matrix Rain Grid",
+    "name": "Floating Grid",
     "filter_chain": "geq=lum='max(0, max(255-abs(sin((X+10*sin(Y/80+T*2))/80))*500, 255-abs(sin((Y+10*sin(X/80+T*1.5))/80))*500))':cb=100:cr=128, lutrgb=r=0:g='val':b='val/2', gblur=sigma=2, noise=alls=5:allf=t",
     "complex": false
   },
   "grid_pulse": {
-    "name": "Floating Grid / Matrix Rain Grid",
+    "name": "Grid Pulse",
     "filter_chain": "geq=lum='max(0, max(255-abs(sin((X+8*sin(Y/60+T*2))/80))*500, max(255-abs(sin((Y+8*sin(X/60+T*1.5))/80))*500, if(lt(abs(sin((X+8*sin(Y/60+T*2))/80)),0.05)*lt(abs(sin((Y+8*sin(X/60+T*1.5))/80)),0.05), 255*(0.5+0.5*sin(T*6)),0))))':cb=100:cr=128, lutrgb=r=0:g='val':b='val/2', gblur=sigma=3",
     "complex": false
   },
   "hex_grid": {
-    "name": "Hexagonal Grid",
+    "name": "Hex Grid",
     "filter_chain": "geq=lum='max(0, 255 - 300*min( min(abs(sin(X/52+T*0.5)), abs(sin(X/52+Y/90+T*0.5))), abs(sin(X/52-Y/90+T*0.5)) ))':cb=90:cr=128, lutrgb=r='val/3':g=0:b='val', gblur=sigma=2, noise=alls=3:allf=t",
     "complex": false
   },
   "hex_grid_glow": {
-    "name": "Hexagonal Grid",
+    "name": "Hex Grid Glow",
     "filter_chain": "geq=lum='max(0, 255 - 350*min( min(abs(sin((X+T*30)/52)), abs(sin((X+T*30)/52+(Y+T*15)/90))), abs(sin((X+T*30)/52-(Y+T*15)/90)) ))':cb=90:cr=128, lutrgb=r='val/3':g=0:b='val', gblur=sigma=3, split[a][b]; [b]gblur=sigma=8,eq=brightness=0.1[bloom]; [a][bloom]blend=all_mode=screen:all_opacity=0.4",
     "complex": true
   },
   "wireframe_sphere": {
-    "name": "Wireframe Sphere / Globe Grid",
+    "name": "Wireframe Sphere",
     "filter_chain": "geq=lum='if(lt(hypot(X-W/2,Y-H/2),W/2-20), max(0, max( 255-abs(sin(asin((Y-H/2)/(W/2))*6))*400, 255-abs(sin((atan2(Y-H/2,X-W/2)+T*1.5)*4)*cos(asin(clip((Y-H/2)/(W/2),-1,1))))*350 )*max(0,1-hypot(X-W/2,Y-H/2)/(W/2-10)*0.3), 0)':cb=100:cr=128, lutrgb=r=0:g='val':b='val/2', gblur=sigma=2, scale=1920:1080:flags=lanczos",
     "complex": false
   },
   "neon_edge": {
-    "name": "Neon Edge Glow",
+    "name": "Neon Edge",
     "filter_chain": "edgedetect=low=0.1:high=0.3:mode=colormix, eq=brightness=0.1:contrast=2.0:saturation=3.0, split[a][b]; [b]gblur=sigma=6,eq=brightness=0.15[bloom]; [a][bloom]blend=all_mode=screen:all_opacity=0.5",
     "complex": true
   },
   "neon_pink": {
-    "name": "Neon Edge Glow",
+    "name": "Neon Pink",
     "filter_chain": "edgedetect=low=0.08:high=0.25:mode=wires, negate, lutrgb=r='val':g='val/4':b='val*0.8', split[a][b]; [b]gblur=sigma=8,eq=brightness=0.12[bloom]; [a][bloom]blend=all_mode=screen:all_opacity=0.5, eq=contrast=1.5:saturation=1.5",
     "complex": true
   },
   "neon_blue": {
-    "name": "Neon Edge Glow",
+    "name": "Neon Blue",
     "filter_chain": "edgedetect=low=0.08:high=0.25:mode=wires, negate, lutrgb=r='val/5':g='val/3':b='val', split[a][b]; [b]gblur=sigma=8,eq=brightness=0.12[bloom]; [a][bloom]blend=all_mode=screen:all_opacity=0.5, eq=contrast=1.5:saturation=1.5",
     "complex": true
   },
   "neon_over_dark": {
-    "name": "Neon Edge Glow",
+    "name": "Neon Over Dark",
     "filter_chain": "split[dark][edges]; [dark]eq=brightness=-0.3:saturation=0.3[dimmed]; [edges]edgedetect=low=0.08:high=0.25:mode=colormix, eq=brightness=0.1:contrast=2.5:saturation=4, split[sharp][glow]; [glow]gblur=sigma=8,eq=brightness=0.15[bloom]; [sharp][bloom]blend=all_mode=screen:all_opacity=0.5[neon]; [dimmed][neon]blend=all_mode=screen:all_opacity=0.8",
     "complex": true
   },
   "bloom": {
-    "name": "Bloom / Soft Glow",
+    "name": "Bloom",
     "filter_chain": "split[a][b]; [b]gblur=sigma=15,eq=brightness=0.1[bloom]; [a][bloom]blend=all_mode=screen:all_opacity=0.3, eq=contrast=1.05:saturation=1.1",
     "complex": true
   },
   "bloom_threshold": {
-    "name": "Bloom / Soft Glow",
+    "name": "Bloom Threshold",
     "filter_chain": "split[a][b]; [b]curves=all='0/0 0.6/0 0.8/0.5 1/1', gblur=sigma=20,eq=brightness=0.08[bloom]; [a][bloom]blend=all_mode=screen:all_opacity=0.4, eq=contrast=1.05:saturation=1.1",
     "complex": true
   },
   "halation": {
-    "name": "Bloom / Soft Glow",
+    "name": "Halation",
     "filter_chain": "split=3[a][b][c]; [b]gblur=sigma=10,eq=brightness=0.05[bloom1]; [c]gblur=sigma=30,eq=brightness=0.08,colorbalance=rs=0.1:bs=-0.05[bloom2]; [a][bloom1]blend=all_mode=screen:all_opacity=0.3[layer1]; [layer1][bloom2]blend=all_mode=screen:all_opacity=0.25, eq=contrast=0.95:saturation=1.05",
     "complex": true
   },
   "neon_text": {
-    "name": "Neon Text / Title Glow Effect",
+    "name": "Neon Text",
     "filter_chain": "drawtext=text='NEON':fontsize=200:fontcolor=white:x=(w-tw)/2:y=(h-th)/2:fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf, split[a][b]; [b]lutrgb=r='val':g=0:b='val*0.8', gblur=sigma=10,eq=brightness=0.1[glow]; [a]lutrgb=r='if(gt(val,200),val,0)':g='if(gt(val,200),0,0)':b='if(gt(val,200),val*0.8,0)'[text]; [a][glow]blend=all_mode=screen:all_opacity=0.5",
     "complex": true
   },
   "neon_text_flicker": {
-    "name": "Neon Text / Title Glow Effect",
+    "name": "Neon Text Flicker",
     "filter_chain": "eq=brightness=-0.3:saturation=0.4, drawtext=text='GLOW':fontsize=180:fontcolor=white:x=(w-tw)/2:y=(h-th)/2:fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf, split=3[a][b][c]; [b]lutrgb=r='val':g='val/4':b='val*0.9', gblur=sigma=6[inner]; [c]lutrgb=r='val*0.8':g='val/6':b='val*0.7', gblur=sigma=20,eq=brightness=0.08[outer]; [a][inner]blend=all_mode=screen:all_opacity='0.4+0.1*sin(T*8)'[with_inner]; [with_inner][outer]blend=all_mode=screen:all_opacity=0.3",
     "complex": true
   },
   "audio_grid_wave": {
-    "name": "Audio-Reactive Waveform Grid",
+    "name": "Audio Grid Wave",
     "filter_chain": "[0:a]showwaves=s=1920x1080:mode=cline:rate=30:colors=white:scale=sqrt[waves]; [waves]lutrgb=r=0:g='val':b='val/2', gblur=sigma=4, split[a][b]; [b]gblur=sigma=10,eq=brightness=0.1[bloom]; [a][bloom]blend=all_mode=screen:all_opacity=0.4[glow_waves]; [0:v][glow_waves]blend=all_mode=screen:all_opacity=0.7",
     "complex": true
   },
   "audio_stereo_wave": {
-    "name": "Audio-Reactive Waveform Grid",
+    "name": "Audio Stereo Wave",
     "filter_chain": "[0:a]showwaves=s=1920x1080:mode=p2p:rate=30:split_channels=1:colors=cyan|magenta:scale=sqrt[waves]; [waves]gblur=sigma=3, split[a][b]; [b]gblur=sigma=8,eq=brightness=0.08[bloom]; [a][bloom]blend=all_mode=screen:all_opacity=0.4[glow_waves]; [0:v][glow_waves]blend=all_mode=screen:all_opacity=0.6",
     "complex": true
   },
   "audio_spectrum": {
-    "name": "Audio-Reactive Spectrum Bars",
+    "name": "Audio Spectrum",
     "filter_chain": "[0:a]showspectrum=s=1920x1080:mode=combined:slide=scroll:color=intensity:scale=cbrt:fscale=log:orientation=vertical[spec]; [spec]lutrgb=r='val':g='val/3':b='val*0.8', split[a][b]; [b]gblur=sigma=6,eq=brightness=0.1[bloom]; [a][bloom]blend=all_mode=screen:all_opacity=0.4[glow_spec]; [0:v][glow_spec]blend=all_mode=screen:all_opacity=0.6",
     "complex": true
   },
   "audio_bars": {
-    "name": "Audio-Reactive Spectrum Bars",
+    "name": "Audio Bars",
     "filter_chain": "[0:a]showfreqs=s=1920x1080:mode=bar:fscale=log:ascale=log:colors=cyan:win_size=2048[bars]; [bars]split[a][b]; [b]gblur=sigma=8,eq=brightness=0.1[bloom]; [a][bloom]blend=all_mode=screen:all_opacity=0.4[glow_bars]; [0:v][glow_bars]blend=all_mode=screen:all_opacity=0.7",
     "complex": true
   },
   "audio_vectorscope": {
-    "name": "Audio-Reactive Vector Scope",
+    "name": "Audio Vectorscope",
     "filter_chain": "[0:a]avectorscope=s=1080x1080:mode=lissajous_xy:draw=line:scale=sqrt:zoom=1.5[scope]; [scope]lutrgb=r=0:g='val':b='val', gblur=sigma=2, lagfun=decay=0.9, split[a][b]; [b]gblur=sigma=8,eq=brightness=0.12[bloom]; [a][bloom]blend=all_mode=screen:all_opacity=0.5, scale=1920:1080:flags=lanczos[glow_scope]; [0:v][glow_scope]blend=all_mode=screen:all_opacity=0.5",
     "complex": true
   },
   "audio_displace": {
-    "name": "Audio-Reactive Laser Displacement",
+    "name": "Audio Displace",
     "filter_chain": "[0:a]showwaves=s=1920x1080:mode=cline:rate=30:colors=white:scale=sqrt[waves]; [waves]format=gray[xmap]; [waves]format=gray,negate[ymap]; [0:v][xmap][ymap]displace, rgbashift=rh=4:bh=-4, eq=contrast=1.2:saturation=1.3",
     "complex": true
   },
   "audio_spectrum_warp": {
-    "name": "Audio-Reactive Laser Displacement",
+    "name": "Audio Spectrum Warp",
     "filter_chain": "[0:a]showspectrum=s=1920x1080:mode=combined:slide=replace:color=intensity:scale=sqrt[spec]; [spec]format=gray,gblur=sigma=3[xmap]; [spec]format=gray,gblur=sigma=3,negate[ymap]; [0:v][xmap][ymap]displace, split[a][b]; [b]edgedetect=low=0.1:high=0.3:mode=colormix,gblur=sigma=4,hue=s=3[edges]; [a][edges]blend=all_mode=screen:all_opacity=0.3, rgbashift=rh=5:bh=-5, lagfun=decay=0.92, eq=contrast=1.3:saturation=1.5",
     "complex": true
   },
   "audio_ring_scanner": {
-    "name": "Audio-Reactive Ring Scanner",
+    "name": "Audio Ring Scanner",
     "filter_chain": "[0:a]showwaves=s=1920x1080:mode=cline:rate=30:colors=white:scale=sqrt[waves]; [waves]format=gray,geq=lum='val*max(0,255-abs(hypot(X-W/2,Y-H/2)-mod(T*200,600))*3)/255':cb=128:cr=128, lutrgb=r=0:g='val':b='val', gblur=sigma=4, lagfun=decay=0.93[rings]; [0:v][rings]blend=all_mode=screen:all_opacity=0.6",
     "complex": true
   },
   "black_background_generation_for_external_compositing": {
-    "name": "Black Background Generation (for External Compositing)",
+    "name": "Black Background Generation For External Compositing",
     "filter_chain": "geq=lum='max(0, 255-abs(Y-H*mod(T/4,1))*6)':cb=100:cr=100, lutrgb=r=0:g='val':b='val/3', gblur=sigma=4",
     "complex": false
   },
   "grid_element": {
-    "name": "Black Background Generation (for External Compositing)",
+    "name": "Grid Element",
     "filter_chain": "geq=lum='max(0,max(255-abs(sin(X/80))*500, 255-abs(sin(Y/80))*500))':cb=100:cr=128, lutrgb=r=0:g='val':b='val', gblur=sigma=2",
     "complex": false
   },
   "composite_test": {
-    "name": "Black Background Generation (for External Compositing)",
+    "name": "Composite Test",
     "filter_chain": "[0:v][1:v]blend=all_mode=screen:all_opacity=0.7",
     "complex": false
   },
   "full_scene": {
-    "name": "Layer Multiple Elements",
+    "name": "Full Scene",
     "filter_chain": "[0:v]geq=lum='max(0,max(255-abs(sin(atan2(Y-H/2,X-W/2)-T*3))*300, 255-abs(sin(atan2(Y-H/2,X-W/2)-T*3+2.094))*300))':cb=100:cr=100, lutrgb=r=0:g='val':b='val/3', gblur=sigma=4[lasers]; [1:v]geq=lum='max(0,max(255-abs(sin(X/80))*500, 255-abs(sin(Y/80))*500))':cb=100:cr=128, lutrgb=r='val/3':g=0:b='val', gblur=sigma=2,eq=brightness=-0.05[grid]; [2:v][grid]blend=all_mode=screen:all_opacity=0.3[with_grid]; [with_grid][lasers]blend=all_mode=screen:all_opacity=0.5, eq=contrast=1.1:saturation=1.2",
     "complex": true
   },
   "fisheye": {
-    "name": "Spherical Projection / Planet Effect",
+    "name": "Fisheye",
     "filter_chain": "v360=input=flat:output=fisheye:id_fov=180:d_fov=180",
     "complex": false
   },
   "fisheye_v360": {
-    "name": "Fisheye Lens",
+    "name": "Fisheye V360",
     "filter_chain": "v360=input=flat:output=fisheye:id_fov=120:d_fov=180",
     "complex": false
   },
   "fisheye_breathe": {
-    "name": "Fisheye Lens",
+    "name": "Fisheye Breathe",
     "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum='128+(40+20*sin(T*2))*(X-W/2)*(hypot(X-W/2,Y-H/2))/(W*W/4+1)':cb=128:cr=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30:r=30,geq=lum='128+(40+20*sin(T*2))*(Y-H/2)*(hypot(X-W/2,Y-H/2))/(H*H/4+1)':cb=128:cr=128,format=gray[ymap]; [0:v][xmap][ymap]displace",
     "complex": true
   },
   "tiltshift": {
-    "name": "Tilt-Shift / Miniature Effect",
+    "name": "Tiltshift",
     "filter_chain": "split=3[sharp][top][bot]; [top]crop=iw:ih/3:0:0,gblur=sigma=8[t]; [bot]crop=iw:ih/3:0:2*ih/3,gblur=sigma=8[b]; [sharp]crop=iw:ih/3:0:ih/3[s]; [t][s]vstack[ts]; [ts][b]vstack, eq=saturation=1.8:contrast=1.2:brightness=0.03",
     "complex": true
   },
   "tiltshift_smooth": {
-    "name": "Tilt-Shift / Miniature Effect",
+    "name": "Tiltshift Smooth",
     "filter_chain": "split[a][b]; [b]gblur=sigma=10[blurred]; [a][blurred]blend=all_expr='A*max(0,1-pow((Y-H/2)/(H/4),2))+B*min(1,pow((Y-H/2)/(H/4),2))', eq=saturation=1.8:contrast=1.2:brightness=0.03, vignette=angle=0.3",
     "complex": true
   },
   "anamorphic": {
-    "name": "Anamorphic Lens Squeeze",
+    "name": "Anamorphic",
     "filter_chain": "scale=iw*1.33:ih:flags=lanczos, crop=iw/1.33:ih, lenscorrection=k1=0.05:k2=0.02, eq=contrast=1.1:saturation=1.15, pad=iw:ih*1.1:0:(oh-ih)/2:color=black",
     "complex": false
   },
   "anamorphic_flare": {
-    "name": "Anamorphic Lens Squeeze",
+    "name": "Anamorphic Flare",
     "filter_chain": "scale=iw*1.33:ih:flags=lanczos, crop=iw/1.33:ih, lenscorrection=k1=0.05:k2=0.02, split[a][b]; [b]gblur=sigmaX=30:sigmaY=0,eq=brightness=0.15[flare]; [a][flare]blend=all_mode=screen:all_opacity=0.15, eq=contrast=1.1:saturation=1.15, pad=iw:ih*1.1:0:(oh-ih)/2:color=black",
     "complex": true
   },
   "chromatic_simple": {
-    "name": "Chromatic Aberration (Lens)",
+    "name": "Chromatic Simple",
     "filter_chain": "rgbashift=rh=-4:bh=4:rv=-2:bv=2",
     "complex": false
   },
   "chromatic_lens": {
-    "name": "Chromatic Aberration (Lens)",
+    "name": "Chromatic Lens",
     "filter_chain": "split=3[r][g][b]; [r]lenscorrection=k1=0.08:k2=0.04,extractplanes=r[rp]; [g]extractplanes=g[gp]; [b]lenscorrection=k1=-0.08:k2=-0.04,extractplanes=b[bp]; [rp][gp][bp]mergeplanes=0x001020:yuv444p, format=yuv420p",
     "complex": true
   },
   "kaleidoscope_4way": {
-    "name": "Kaleidoscope Lens",
+    "name": "Kaleidoscope 4Way",
     "filter_chain": "split[a][b]; [b]hflip[flip]; [a]crop=iw/2:ih:0:0[left]; [flip]crop=iw/2:ih:0:0[right]; [left][right]hstack, split[c][d]; [d]vflip[vf]; [c]crop=iw:ih/2:0:0[top]; [vf]crop=iw:ih/2:0:0[bottom]; [top][bottom]vstack",
     "complex": true
   },
   "kaleidoscope_rotate": {
-    "name": "Kaleidoscope Lens",
+    "name": "Kaleidoscope Rotate",
     "filter_chain": "rotate='T*0.5':fillcolor=black, crop=iw/2:ih:0:0, split[a][b]; [b]hflip[flip]; [a][flip]hstack, split[c][d]; [d]vflip[vf]; [c]crop=iw:ih/2:0:0[top]; [vf]crop=iw:ih/2:0:0[bot]; [top][bot]vstack, scale=1920:1080:flags=lanczos, eq=saturation=1.4:contrast=1.2",
     "complex": true
   },
   "prism": {
-    "name": "Prism / Light Refraction",
+    "name": "Prism",
     "filter_chain": "split=3[r][g][b]; [r]rotate='0.02':fillcolor=black@0,extractplanes=r[rp]; [g]extractplanes=g[gp]; [b]rotate='-0.02':fillcolor=black@0,extractplanes=b[bp]; [rp][gp][bp]mergeplanes=0x001020:yuv444p, format=yuv420p, eq=saturation=1.5:contrast=1.2",
     "complex": true
   },
   "prism_sweep": {
-    "name": "Prism / Light Refraction",
+    "name": "Prism Sweep",
     "filter_chain": "split=3[r][g][b]; [r]rotate='0.03*sin(T*2)':fillcolor=black@0,extractplanes=r[rp]; [g]extractplanes=g[gp]; [b]rotate='-0.03*sin(T*2)':fillcolor=black@0,extractplanes=b[bp]; [rp][gp][bp]mergeplanes=0x001020:yuv444p, format=yuv420p, eq=saturation=1.6:contrast=1.3",
     "complex": true
   },
   "rubber": {
-    "name": "Rubber Sheet / Elastic Stretch",
+    "name": "Rubber",
     "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum='128 +30*(X-W/4)/(hypot(X-W/4,Y-H/2)+200)*sin(T*3) +30*(X-3*W/4)/(hypot(X-3*W/4,Y-H/2)+200)*sin(T*4+1) ':cb=128:cr=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30:r=30,geq=lum='128 +30*(Y-H/2)/(hypot(X-W/4,Y-H/2)+200)*sin(T*3) +30*(Y-H/2)/(hypot(X-3*W/4,Y-H/2)+200)*sin(T*4+1) ':cb=128:cr=128,format=gray[ymap]; [0:v][xmap][ymap]displace",
     "complex": true
   },
   "rubber_multi": {
-    "name": "Rubber Sheet / Elastic Stretch",
+    "name": "Rubber Multi",
     "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum='128 +25*(X-W/4)/(hypot(X-W/4,Y-H/4)+150)*sin(T*3) +25*(X-3*W/4)/(hypot(X-3*W/4,Y-H/4)+150)*sin(T*4+1) +20*(X-W/2)/(hypot(X-W/2,Y-3*H/4)+150)*sin(T*3.5+2) +15*(X-W/4)/(hypot(X-W/4,Y-3*H/4)+150)*cos(T*2.5) ':cb=128:cr=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30:r=30,geq=lum='128 +25*(Y-H/4)/(hypot(X-W/4,Y-H/4)+150)*sin(T*3) +25*(Y-H/4)/(hypot(X-3*W/4,Y-H/4)+150)*sin(T*4+1) +20*(Y-3*H/4)/(hypot(X-W/2,Y-3*H/4)+150)*sin(T*3.5+2) +15*(Y-3*H/4)/(hypot(X-W/4,Y-3*H/4)+150)*cos(T*2.5) ':cb=128:cr=128,format=gray[ymap]; [0:v][xmap][ymap]displace, eq=contrast=1.1:saturation=1.1",
     "complex": true
   },
   "gravity_lens": {
-    "name": "Gravity Bend / Gravitational Lensing",
+    "name": "Gravity Lens",
     "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum='128+120*(X-W/2-W/3*sin(T*1.5))/(hypot(X-W/2-W/3*sin(T*1.5),Y-H/2-H/3*cos(T))+1)/(1+hypot(X-W/2-W/3*sin(T*1.5),Y-H/2-H/3*cos(T))/100)':cb=128:cr=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30:r=30,geq=lum='128+120*(Y-H/2-H/3*cos(T))/(hypot(X-W/2-W/3*sin(T*1.5),Y-H/2-H/3*cos(T))+1)/(1+hypot(X-W/2-W/3*sin(T*1.5),Y-H/2-H/3*cos(T))/100)':cb=128:cr=128,format=gray[ymap]; [0:v][xmap][ymap]displace",
     "complex": true
   },
   "einstein_ring": {
-    "name": "Gravity Bend / Gravitational Lensing",
+    "name": "Einstein Ring",
     "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum='128+150*(X-W/2-W/3*sin(T))/(hypot(X-W/2-W/3*sin(T),Y-H/2-H/3*cos(T*0.7))+1)/(1+hypot(X-W/2-W/3*sin(T),Y-H/2-H/3*cos(T*0.7))/80)':cb=128:cr=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30:r=30,geq=lum='128+150*(Y-H/2-H/3*cos(T*0.7))/(hypot(X-W/2-W/3*sin(T),Y-H/2-H/3*cos(T*0.7))+1)/(1+hypot(X-W/2-W/3*sin(T),Y-H/2-H/3*cos(T*0.7))/80)':cb=128:cr=128,format=gray[ymap]; [0:v][xmap][ymap]displace, split[a][b]; [b]edgedetect=low=0.08:high=0.25:mode=colormix,gblur=sigma=4,hue=s=3[ring]; [a][ring]blend=all_mode=screen:all_opacity=0.3, eq=contrast=1.2:saturation=1.3",
     "complex": true
   },
   "page_curl": {
-    "name": "Page Curl / Paper Bend",
+    "name": "Page Curl",
     "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum='128+if(gt(X,W-W*T/15), 30*sin((X-W+W*T/15)/30), 0)':cb=128:cr=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30:r=30,geq=lum='128+if(gt(X,W-W*T/15), 15*cos((X-W+W*T/15)/30)*sin(Y/100), 0)':cb=128:cr=128,format=gray[ymap]; [0:v][xmap][ymap]displace, split[a][b]; [b]eq=brightness=-0.3[shadow]; [a][shadow]blend=all_expr='if(gt(X,W-W*T/15-20)*lt(X,W-W*T/15), B, A)",
     "complex": true
   },
   "funhouse": {
-    "name": "Funhouse Mirror",
+    "name": "Funhouse",
     "filter_chain": "scale=iw*0.7:ih*1.3:flags=lanczos, pad=1920:1080:(1920-iw)/2:(1080-ih)/2:color=black, nullsrc=s=1920x1080:d=30:r=30,geq=lum='128+20*sin(Y/30+T*3)':cb=128:cr=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30:r=30,geq=lum='128+10*sin(X/40+T*2)':cb=128:cr=128,format=gray[ymap]; [0:v][xmap][ymap]displace",
     "complex": true
   },
   "funhouse_multi": {
-    "name": "Funhouse Mirror",
+    "name": "Funhouse Multi",
     "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum='128 +if(lt(X,W/3), 25*sin(Y/20+T*4), if(lt(X,2*W/3), 15*sin(Y/50+T*2), 30*sin(Y/15+T*5)))':cb=128:cr=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30:r=30,geq=lum='128 +if(lt(X,W/3), 10*cos(X/30+T*3), if(lt(X,2*W/3), 20*cos(X/20+T*4), 8*cos(X/40+T*2)))':cb=128:cr=128,format=gray[ymap]; [0:v][xmap][ymap]displace, eq=contrast=1.1",
     "complex": true
   },
   "liquid": {
-    "name": "Liquid / Fluid Distortion",
+    "name": "Liquid",
     "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum='128 +20*sin(X/60+T*1.2)*cos(Y/50+T*0.9) +12*sin(X/30+T*2.1)*cos(Y/25+T*1.7) +6*cos(X/15+T*3)*sin(Y/12+T*2.5) ':cb=128:cr=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30:r=30,geq=lum='128 +20*cos(X/50+T*0.9)*sin(Y/60+T*1.2) +12*cos(X/25+T*1.7)*sin(Y/30+T*2.1) +6*sin(X/12+T*2.5)*cos(Y/15+T*3) ':cb=128:cr=128,format=gray[ymap]; [0:v][xmap][ymap]displace, eq=contrast=1.1:saturation=1.1",
     "complex": true
   },
   "liquid_viscous": {
-    "name": "Liquid / Fluid Distortion",
+    "name": "Liquid Viscous",
     "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum='128 +30*sin(X/80+T*0.5)*cos(Y/70+T*0.4) +15*sin(X/40+T*0.9)*cos(Y/35+T*0.7) ':cb=128:cr=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30:r=30,geq=lum='128 +30*cos(X/70+T*0.4)*sin(Y/80+T*0.5) +15*cos(X/35+T*0.7)*sin(Y/40+T*0.9) ':cb=128:cr=128,format=gray[ymap]; [0:v][xmap][ymap]displace, lagfun=decay=0.92, gblur=sigma=0.5, eq=contrast=1.1:saturation=1.1",
     "complex": true
   },
   "magnifier": {
-    "name": "Magnifying Glass / Loupe",
+    "name": "Magnifier",
     "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum='128+if(lt(hypot(X-W/2-W/4*sin(T*1.5),Y-H/2-H/4*cos(T)),150), 30*(X-W/2-W/4*sin(T*1.5))/(hypot(X-W/2-W/4*sin(T*1.5),Y-H/2-H/4*cos(T))+1), 0)':cb=128:cr=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30:r=30,geq=lum='128+if(lt(hypot(X-W/2-W/4*sin(T*1.5),Y-H/2-H/4*cos(T)),150), 30*(Y-H/2-H/4*cos(T))/(hypot(X-W/2-W/4*sin(T*1.5),Y-H/2-H/4*cos(T))+1), 0)':cb=128:cr=128,format=gray[ymap]; [0:v][xmap][ymap]displace",
     "complex": true
   },
   "slitscan_approx": {
-    "name": "Slit-Scan / Time Displacement",
+    "name": "Slitscan Approx",
     "filter_chain": "lagfun=decay=0.99:planes=15, scroll=v=0.005:h=0, eq=contrast=1.2:saturation=1.3",
     "complex": false
   },
   "slitscan_horiz": {
-    "name": "Slit-Scan / Time Displacement",
+    "name": "Slitscan Horiz",
     "filter_chain": "lagfun=decay=0.99:planes=15, scroll=v=0:h=0.003, rgbashift=rh=3:bh=-3, eq=contrast=1.2:saturation=1.2",
     "complex": false
   },
   "slitscan_chromatic": {
-    "name": "Slit-Scan / Time Displacement",
+    "name": "Slitscan Chromatic",
     "filter_chain": "split=3[r][g][b]; [r]lagfun=decay=0.99,scroll=v=0.004:h=0,extractplanes=r[rp]; [g]lagfun=decay=0.985,scroll=v=0.006:h=0,extractplanes=g[gp]; [b]lagfun=decay=0.97,scroll=v=0.008:h=0,extractplanes=b[bp]; [rp][gp][bp]mergeplanes=0x001020:yuv444p, format=yuv420p, eq=contrast=1.3:saturation=1.5",
     "complex": true
   },
   "speed_ramp_sine": {
-    "name": "Speed Ramp / Dynamic Time Warp",
+    "name": "Speed Ramp Sine",
     "filter_chain": "setpts='PTS*(1+0.5*sin(T*0.5))",
     "complex": false
   },
   "accelerate": {
-    "name": "Speed Ramp / Dynamic Time Warp",
+    "name": "Accelerate",
     "filter_chain": "setpts='PTS/(1+T*0.1)",
     "complex": false
   },
   "slowmo_hit": {
-    "name": "Speed Ramp / Dynamic Time Warp",
+    "name": "Slowmo Hit",
     "filter_chain": "setpts='PTS*if(between(T,5,8),3,1)",
     "complex": false
   },
   "time_freeze": {
-    "name": "Speed Ramp / Dynamic Time Warp",
+    "name": "Time Freeze",
     "filter_chain": "setpts='PTS*exp(T*0.1)",
     "complex": false
   },
   "time_echo": {
-    "name": "Time Echo / Temporal Layering",
+    "name": "Time Echo",
     "filter_chain": "split=3[a][b][c]; [b]setpts=PTS+0.5/TB,format=rgba,colorchannelmixer=aa=0.3[past]; [c]setpts=PTS-0.5/TB,format=rgba,colorchannelmixer=aa=0.3[future]; [a]format=rgba[present]; [present][past]overlay[layer1]; [layer1][future]overlay",
     "complex": true
   },
   "time_echo_colored": {
-    "name": "Time Echo / Temporal Layering",
+    "name": "Time Echo Colored",
     "filter_chain": "split=3[a][b][c]; [b]setpts=PTS+0.7/TB,format=rgba,colorchannelmixer=aa=0.25:rr=1.5:gg=0.3:bb=0.3[past]; [c]setpts=PTS-0.7/TB,format=rgba,colorchannelmixer=aa=0.25:rr=0.3:gg=0.3:bb=1.5[future]; [a]format=rgba[present]; [present][past]overlay[layer1]; [layer1][future]overlay, eq=contrast=1.2:saturation=1.3",
     "complex": true
   },
   "reverse_pockets": {
-    "name": "Reverse Time Pockets",
+    "name": "Reverse Pockets",
     "filter_chain": "split[fwd][rev]; [rev]reverse[reversed]; [fwd][reversed]blend=all_expr='if(gt(sin(X/100+Y/80), 0), A, B)",
     "complex": true
   },
   "reverse_pockets_moving": {
-    "name": "Reverse Time Pockets",
+    "name": "Reverse Pockets Moving",
     "filter_chain": "split[fwd][rev]; [rev]reverse[reversed]; [fwd][reversed]blend=all_expr='if(gt(sin(X/60+T*2)*cos(Y/50+T*1.5), 0), A, B)', rgbashift=rh=3:bh=-3, noise=alls=10:allf=t",
     "complex": true
   },
   "strobe_4fps": {
-    "name": "Frame Rate Manipulation / Stroboscopic Time",
+    "name": "Strobe 4Fps",
     "filter_chain": "framestep=8,setpts=N/4/TB",
     "complex": false
   },
   "strobe_variable": {
-    "name": "Frame Rate Manipulation / Stroboscopic Time",
+    "name": "Strobe Variable",
     "filter_chain": "framestep=2, setpts=N/FRAME_RATE/TB, tblend=all_mode=difference:all_opacity=0.5, eq=contrast=1.5",
     "complex": false
   },
   "freeze_stutter": {
-    "name": "Frame Rate Manipulation / Stroboscopic Time",
+    "name": "Freeze Stutter",
     "filter_chain": "framestep=15, setpts=N/2/TB, lagfun=decay=0.7, noise=alls=15:allf=t",
     "complex": false
   },
   "smooth_slowmo_2x": {
-    "name": "Motion Interpolation / Smooth Slow-Mo",
+    "name": "Smooth Slowmo 2X",
     "filter_chain": "setpts=2*PTS, minterpolate=fps=60:mi_mode=mci:mc_mode=aobmc:me_mode=bidir:vsbmc=1",
     "complex": false
   },
   "smooth_slowmo_4x": {
-    "name": "Motion Interpolation / Smooth Slow-Mo",
+    "name": "Smooth Slowmo 4X",
     "filter_chain": "setpts=4*PTS, minterpolate=fps=120:mi_mode=mci:mc_mode=aobmc:me_mode=bidir:vsbmc=1",
     "complex": false
   },
   "broken_interpolation": {
-    "name": "Motion Interpolation / Smooth Slow-Mo",
+    "name": "Broken Interpolation",
     "filter_chain": "setpts=3*PTS, minterpolate=fps=60:mi_mode=mci:mc_mode=aobmc:me_mode=bidir:mb_size=4:vsbmc=1, eq=contrast=1.3:saturation=1.2",
     "complex": false
   },
   "pendulum": {
-    "name": "Pendulum / Oscillating Time",
+    "name": "Pendulum",
     "filter_chain": "setpts='PTS*abs(sin(T*0.5))",
     "complex": false
   },
   "pendulum_blur": {
-    "name": "Pendulum / Oscillating Time",
+    "name": "Pendulum Blur",
     "filter_chain": "setpts='PTS*(0.5+0.5*sin(T*0.3))', lagfun=decay='0.85+0.1*abs(cos(T*0.3))', eq=contrast=1.1",
     "complex": false
   },
   "chronostasis": {
-    "name": "Chronostasis / Time Freeze Zones",
+    "name": "Chronostasis",
     "filter_chain": "split[live][frozen]; [frozen]tpad=stop_mode=clone:stop_duration=30[still]; [live][still]blend=all_expr='if(gt(hypot(X-W/2,Y-H/2), 200+100*sin(T*1.5)), B, A)', noise=alls=5:allf=t",
     "complex": true
   },
   "chronostasis_multi": {
-    "name": "Chronostasis / Time Freeze Zones",
+    "name": "Chronostasis Multi",
     "filter_chain": "split=3[live][f1][f2]; [f1]trim=end=3,loop=loop=-1:size=90,setpts=N/FRAME_RATE/TB[frozen1]; [f2]trim=start=5:end=8,loop=loop=-1:size=90,setpts=N/FRAME_RATE/TB[frozen2]; [live][frozen1]blend=all_expr='if(lt(hypot(X-W/3,Y-H/3), 150), B, A)'[layer1]; [layer1][frozen2]blend=all_expr='if(lt(hypot(X-2*W/3,Y-2*H/3), 150), B, A)",
     "complex": true
   },
   "haunted_vhs": {
-    "name": "Interesting Combinations to Try",
+    "name": "Haunted Vhs",
     "filter_chain": "rgbashift=rh=5:bh=-5, noise=alls=35:allf=t+u, eq=saturation=0.5:contrast=0.85, gblur=sigma=1.0, scroll=v='0.002*sin(T*8)':h=0, hue=h='3*sin(T*2)', split[live][ghost]; [ghost]negate,hue=h=180,lagfun=decay=0.96[afterimage]; [live][afterimage]blend=all_mode=screen:all_opacity=0.3, eq=saturation='max(0.1, 0.6-T*0.02)':contrast='max(0.5, 0.9-T*0.01)', noise=alls='min(60, 30+T*1.5)':allf=t+u, drawgrid=w=0:h=2:t=1:c=black@0.25",
     "complex": true
   },
   "broken_arcade": {
-    "name": "Interesting Combinations to Try",
+    "name": "Broken Arcade",
     "filter_chain": "scale=320:240:flags=lanczos, eq=saturation=1.5:contrast=1.3:brightness=0.05, posterize=bits=3, scale=1920:1080:flags=neighbor, rgbashift=rh='5*sin(T*4)':bh='-5*sin(T*4)', random=frames=5:seed=42, setpts=N/FRAME_RATE/TB, lagfun=decay=0.88, drawgrid=w=0:h=3:t=1:c=black@0.2, vignette=angle=0.5, noise=alls=12:allf=t",
     "complex": false
   },
   "psychedelic_wormhole": {
-    "name": "Interesting Combinations to Try",
+    "name": "Psychedelic Wormhole",
     "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum='128+60*(X-W/2)/(hypot(X-W/2,Y-H/2)+1)*1/(1+hypot(X-W/2,Y-H/2)/180)*cos(atan2(Y-H/2,X-W/2)+T*3)':cb=128:cr=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30:r=30,geq=lum='128+60*(Y-H/2)/(hypot(X-W/2,Y-H/2)+1)*1/(1+hypot(X-W/2,Y-H/2)/180)*sin(atan2(Y-H/2,X-W/2)+T*3)':cb=128:cr=128,format=gray[ymap]; [0:v][xmap][ymap]displace, hue=h='T*40', split=3[r][g][b]; [r]lagfun=decay=0.97,extractplanes=r[rp]; [g]lagfun=decay=0.94,extractplanes=g[gp]; [b]lagfun=decay=0.90,extractplanes=b[bp]; [rp][gp][bp]mergeplanes=0x001020:yuv444p, format=yuv420p, vignette=angle=0.6, eq=contrast=1.4:saturation=1.8",
     "complex": true
   },
   "living_painting": {
-    "name": "Interesting Combinations to Try",
+    "name": "Living Painting",
     "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum='128+15*sin(X/60+T*1.2)*cos(Y/50+T*0.9)+10*sin(X/30+T*2.1)*cos(Y/25+T*1.6)':cb=128:cr=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30:r=30,geq=lum='128+15*cos(X/50+T*0.9)*sin(Y/60+T*1.2)+10*cos(X/25+T*1.6)*sin(Y/30+T*2.1)':cb=128:cr=128,format=gray[ymap]; [0:v][xmap][ymap]displace, posterize=bits=3, split[orig][edges]; [edges]edgedetect=low=0.1:high=0.3:mode=colormix,eq=brightness=0.1:contrast=2:saturation=2,gblur=sigma=3[glow]; [orig][glow]blend=all_mode=screen:all_opacity=0.25, lagfun=decay=0.93, eq=saturation=1.4:contrast=1.2",
     "complex": true
   },
   "cyberpunk_scanner": {
-    "name": "Interesting Combinations to Try",
+    "name": "Cyberpunk Scanner",
     "filter_chain": "[0:v]geq=lum='max(0, 255-abs(Y-H*mod(T/5,1))*6)':cb=100:cr=100, lutrgb=r=0:g='val':b='val/3',gblur=sigma=4[laser]; [1:v]geq=lum='max(0, 255-350*min(min(abs(sin(X/52)),abs(sin(X/52+Y/90))),abs(sin(X/52-Y/90))))':cb=90:cr=128, lutrgb=r='val/3':g=0:b='val',gblur=sigma=2[hex]; [2:v]split[a][b]; [b]gblur=sigma=8[blur]; [a][blur]blend=all_expr='A*max(0,1-pow((Y-H/2)/(H/4),2))+B*min(1,pow((Y-H/2)/(H/4),2))', eq=saturation=1.5:contrast=1.2, drawgrid=w=0:h=2:t=1:c=black@0.2[tiltshift]; [tiltshift][hex]blend=all_mode=screen:all_opacity=0.15[with_hex]; [with_hex][laser]blend=all_mode=screen:all_opacity=0.5, split[c][d]; [d]edgedetect=low=0.1:high=0.3:mode=colormix,eq=contrast=2:saturation=3,gblur=sigma=4[edges]; [c][edges]blend=all_mode=screen:all_opacity=0.2, eq=contrast=1.1",
     "complex": true
   },
   "fractal_universe": {
-    "name": "Interesting Combinations to Try",
+    "name": "Fractal Universe",
     "filter_chain": "pseudocolor=preset=inferno, split=3[r][g][b]; [r]lagfun=decay=0.96,extractplanes=r[rp]; [g]lagfun=decay=0.93,extractplanes=g[gp]; [b]lagfun=decay=0.89,extractplanes=b[bp]; [rp][gp][bp]mergeplanes=0x001020:yuv444p, format=yuv420p, split[a][ab]; [ab]gblur=sigma=8,eq=brightness=0.1[bloom]; [a][bloom]blend=all_mode=screen:all_opacity=0.3, eq=contrast=1.3:saturation=1.5",
     "complex": true
   },
   "audio_step1": {
-    "name": "Interesting Combinations to Try",
+    "name": "Audio Step1",
     "filter_chain": "split[a][b]; [b]gblur=sigma=10,eq=brightness=0.08[bloom]; [a][bloom]blend=all_mode=screen:all_opacity=0.3, eq=contrast=1.1:saturation=1.1",
     "complex": true
   },
   "destroy": {
-    "name": "Interesting Combinations to Try",
+    "name": "Destroy",
     "filter_chain": "eq=saturation='max(0.1, 0.8-T*0.05)':contrast='max(0.5, 1.0-T*0.03)', noise=alls='min(70, 5+T*4)':allf=t+u, rgbashift=rh='T*1.5*sin(T*5)':bh='-T*1.5*sin(T*5)', lagfun=decay='min(0.995, 0.93+T*0.004)', hue=h='15*sin(T*0.3)':s='max(0.2, 0.8-T*0.04)",
     "complex": false
   },
   "glitch_portrait": {
-    "name": "Interesting Combinations to Try",
+    "name": "Glitch Portrait",
     "filter_chain": "rgbashift=rh=-6:bh=6:rv=2:bv=-2, lutyuv=y='bitand(val, 256-pow(2,1+floor(4*sin(T)*sin(T))))', split[orig][edges]; [edges]edgedetect=low=0.08:high=0.25:mode=colormix, eq=brightness=0.1:contrast=2.5:saturation=4, gblur=sigma=6[glow]; [orig][glow]blend=all_mode=screen:all_opacity=0.3, noise=alls=12:allf=u, eq=contrast=1.4:saturation=1.5",
     "complex": true
   },
   "underwater_alien": {
-    "name": "Interesting Combinations to Try",
+    "name": "Underwater Alien",
     "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum='128+20*sin(X/15+T*4)*cos(Y/12+T*3)':cb=128:cr=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30:r=30,geq=lum='128+25*cos(X/12+T*3)*sin(Y/15+T*4)':cb=128:cr=128,format=gray[ymap]; [0:v][xmap][ymap]displace, pseudocolor=preset=turbo, split[live][ghost]; [ghost]hue=h=180,lagfun=decay=0.95[afterimage]; [live][afterimage]blend=all_mode=screen:all_opacity=0.25, split[a][b]; [b]gblur=sigma=8,eq=brightness=0.1[bloom]; [a][bloom]blend=all_mode=screen:all_opacity=0.3, eq=contrast=1.3:saturation=1.5",
     "complex": true
   },
   "retro_terminal": {
-    "name": "Interesting Combinations to Try",
+    "name": "Retro Terminal",
     "filter_chain": "[1:v]scale=280:192:flags=lanczos, format=gray,posterize=bits=2, lutrgb=r=0:g='val':b='val/4', scale=1120:768:flags=neighbor, pad=1920:1080:400:156:color=black[terminal]; [0:v]pseudocolor=preset=viridis,eq=brightness=-0.2[cells]; [terminal][cells]blend=all_mode=screen:all_opacity=0.15, lagfun=decay=0.9, gblur=sigma=0.8, drawgrid=w=0:h=2:t=1:c=black@0.2, scroll=v='0.003*sin(T*5)*sin(T*5)':h=0, vignette=angle=0.5, noise=alls=10:allf=t",
     "complex": true
   },
   "rain": {
-    "name": "Rain \u2014 Light Drizzle",
+    "name": "Rain",
     "filter_chain": "geq=lum='if(lt(mod(X*7+Y*13+floor(T*800),1000),3), max(0,255-abs(mod(Y+floor(T*800)+X*7,200)-100)*10), 0)':cb=128:cr=128, gblur=sigmaX=0:sigmaY=1.5, noise=alls=3:allf=t",
     "complex": false
   },
   "rain_composite": {
-    "name": "Rain \u2014 Light Drizzle",
+    "name": "Rain Composite",
     "filter_chain": "[0:v]geq=lum='if(lt(mod(X*7+Y*13+floor(T*800),1000),3), max(0,255-abs(mod(Y+floor(T*800)+X*7,200)-100)*10), 0)':cb=128:cr=128, gblur=sigmaX=0:sigmaY=1.5[rain]; [1:v]eq=brightness=-0.05:contrast=0.95:saturation=0.7[dark]; [dark][rain]blend=all_mode=screen:all_opacity=0.6, noise=alls=5:allf=t",
     "complex": true
   },
   "rain_heavy": {
-    "name": "Rain \u2014 Heavy Downpour",
+    "name": "Rain Heavy",
     "filter_chain": "geq=lum='if(lt(mod(X*11+Y*17+floor(T*1000),400),3), max(0,255-abs(mod(Y+floor(T*1000)+X*3,150)-75)*8), 0) +if(lt(mod(X*23+Y*7+floor(T*600),600),2), max(0,200-abs(mod(Y+floor(T*600)+X*5,180)-90)*12), 0)':cb=128:cr=128, gblur=sigmaX=0.5:sigmaY=2, noise=alls=5:allf=t",
     "complex": false
   },
   "snow": {
-    "name": "Snow / Falling Particles",
+    "name": "Snow",
     "filter_chain": "geq=lum='if(lt(mod(X*13+Y*7+floor(T*60),800),2), max(0,220-abs(mod(Y+floor(T*60)+floor(15*sin(T*2+X/100)),400)-200)*15), 0) +if(lt(mod(X*31+Y*11+floor(T*40),1200),2), max(0,180-abs(mod(Y+floor(T*40)+floor(10*sin(T*1.5+X/80)),500)-250)*20), 0)':cb=128:cr=128, gblur=sigma=1.5",
     "complex": false
   },
   "snow_depth": {
-    "name": "Snow / Falling Particles",
+    "name": "Snow Depth",
     "filter_chain": "[0:v]geq=lum='if(lt(mod(X*13+Y*7+floor(T*80),600),2), max(0,255-abs(mod(Y+floor(T*80)+floor(20*sin(T*2+X/80)),350)-175)*12), 0)':cb=128:cr=128, gblur=sigma=1[near_snow]; [1:v]geq=lum='if(lt(mod(X*31+Y*11+floor(T*30),1500),2), max(0,140-abs(mod(Y+floor(T*30)+floor(8*sin(T*1.2+X/120)),500)-250)*20), 0)':cb=128:cr=128, gblur=sigma=3[far_snow]; [2:v]eq=brightness=0.03:saturation=0.85[scene]; [scene][far_snow]blend=all_mode=screen:all_opacity=0.4[with_far]; [with_far][near_snow]blend=all_mode=screen:all_opacity=0.7",
     "complex": true
   },
   "dust": {
-    "name": "Dust Motes / Floating Particles",
+    "name": "Dust",
     "filter_chain": "geq=lum='if(lt(mod(X*17+Y*23+floor(T*15),2000),1), max(0,200*exp(-pow(mod(Y+floor(T*15)+floor(8*sin(T*0.8+X/50)),600)-300,2)/50) *exp(-pow(mod(X+floor(6*sin(T*0.6+Y/60)),800)-400,2)/50)), 0)':cb=128:cr=128, gblur=sigma=2, lagfun=decay=0.85",
     "complex": false
   },
   "dust_beam": {
-    "name": "Dust Motes / Floating Particles",
+    "name": "Dust Beam",
     "filter_chain": "[0:v]geq=lum='if(lt(mod(X*17+Y*23+floor(T*15),2000),1), max(0,200*exp(-pow(mod(Y+floor(T*15)+floor(8*sin(T*0.8+X/50)),600)-300,2)/50)), 0) *max(0,exp(-pow(X-W/2-W/6*sin(T*0.2),2)/40000))':cb=128:cr=128, gblur=sigma=2, lagfun=decay=0.85[dust]; [1:v]eq=brightness=-0.15[dark]; [dark][dust]blend=all_mode=screen:all_opacity=0.6",
     "complex": true
   },
   "sparks": {
-    "name": "Sparks / Embers",
+    "name": "Sparks",
     "filter_chain": "geq=lum='if(lt(mod(X*19+Y*11+floor(T*200),1500),2), max(0,255-abs(mod(Y-floor(T*200)+floor(30*sin(T*5+X/30)),500)-250)*8 )*max(0,(H-Y)/H)), 0)':cb=118:cr=155, lutrgb=r='val':g='val*0.6':b='val/5', gblur=sigma=1.5, lagfun=decay=0.88, split[a][b]; [b]gblur=sigma=5,eq=brightness=0.08[bloom]; [a][bloom]blend=all_mode=screen:all_opacity=0.4",
     "complex": true
   },
   "sparks_composite": {
-    "name": "Sparks / Embers",
+    "name": "Sparks Composite",
     "filter_chain": "[0:v]geq=lum='(if(lt(mod(X*19+Y*11+floor(T*200),1500),2), max(0,255-abs(mod(Y-floor(T*200)+floor(30*sin(T*5+X/30)),500)-250)*8 )*max(0,(H-Y)/H)), 0)) + max(0, 120*exp(-pow(Y-H,2)/20000)*exp(-pow(X-W/2,2)/60000))':cb=118:cr=155, lutrgb=r='val':g='val*0.5':b='val/6', gblur=sigma=2, lagfun=decay=0.9, split[a][b]; [b]gblur=sigma=6,eq=brightness=0.1[bloom]; [a][bloom]blend=all_mode=screen:all_opacity=0.4[sparks]; [1:v][sparks]blend=all_mode=screen:all_opacity=0.7",
     "complex": true
   },
   "fireflies": {
-    "name": "Fireflies / Bioluminescence",
+    "name": "Fireflies",
     "filter_chain": "geq=lum=' max(0,180*exp(-hypot(X-W/4-80*sin(T*0.5),Y-H/3-60*cos(T*0.4))/20)*(0.5+0.5*sin(T*3))) +max(0,160*exp(-hypot(X-3*W/4+70*cos(T*0.6),Y-2*H/3+50*sin(T*0.5))/18)*(0.5+0.5*sin(T*3.5+1))) +max(0,140*exp(-hypot(X-W/2-90*sin(T*0.7),Y-H/2-70*cos(T*0.3))/22)*(0.5+0.5*sin(T*4+2))) +max(0,120*exp(-hypot(X-W/5+60*cos(T*0.4),Y-H/4+40*sin(T*0.6))/16)*(0.5+0.5*sin(T*2.5+3))) +max(0,150*exp(-hypot(X-4*W/5-50*sin(T*0.55),Y-3*H/4-45*cos(T*0.45))/20)*(0.5+0.5*sin(T*3.2+4))) ':cb=110:cr=118, lutrgb=r='val/3':g='val':b='val/5', gblur=sigma=3, split[a][b]; [b]gblur=sigma=10,eq=brightness=0.08[bloom]; [a][bloom]blend=all_mode=screen:all_opacity=0.5",
     "complex": true
   },
   "starfield_v1": {
-    "name": "Starfield / Hyperspace",
+    "name": "Starfield V1",
     "filter_chain": "geq=lum='if(lt(mod(X*37+Y*53+floor(T*100),3000),1), max(0,255*max(0,(hypot(X-W/2,Y-H/2)-mod(T*200+X*3+Y*5,W/2))/(W/20)) *exp(-pow(atan2(Y-H/2,X-W/2)-atan2(mod(Y*53,H)-H/2,mod(X*37,W)-W/2),2)/0.01)), 0)': cb=128:cr=128, gblur=sigma=1, lagfun=decay=0.92",
     "complex": false
   },
   "starfield_streak": {
-    "name": "Starfield / Hyperspace",
+    "name": "Starfield Streak",
     "filter_chain": "geq=lum='max(0, if(lt(mod(floor(atan2(Y-H/2,X-W/2)*500),100),1), 255*max(0,1-abs(hypot(X-W/2,Y-H/2)-mod(T*300,W/2))/(W/30)), 0))':cb=128:cr=128, lagfun=decay=0.94, gblur=sigma=1.5, split[a][b]; [b]gblur=sigma=5,eq=brightness=0.1[bloom]; [a][bloom]blend=all_mode=screen:all_opacity=0.3",
     "complex": true
   },
   "bubbles": {
-    "name": "Rising Bubbles / Underwater",
+    "name": "Bubbles",
     "filter_chain": "geq=lum=' max(0,120*exp(-pow(hypot(X-W/5-20*sin(T*1.2),Y-mod(H+H/4-T*80,H+100)+50)-15,2)/30)) +max(0,100*exp(-pow(hypot(X-2*W/5+15*sin(T*1.5+1),Y-mod(H+H/3-T*60,H+120)+60)-12,2)/25)) +max(0,90*exp(-pow(hypot(X-3*W/5-18*sin(T*1.0+2),Y-mod(H+H/2-T*70,H+80)+40)-10,2)/20)) +max(0,110*exp(-pow(hypot(X-4*W/5+12*sin(T*1.3+3),Y-mod(H+2*H/3-T*50,H+150)+70)-14,2)/28)) +max(0,80*exp(-pow(hypot(X-W/2-25*sin(T*0.9+4),Y-mod(H+H/5-T*90,H+60)+30)-8,2)/18)) ':cb=105:cr=120, lutrgb=r='val/3':g='val*0.7':b='val', gblur=sigma=1.5",
     "complex": false
   },
   "bubbles_underwater": {
-    "name": "Rising Bubbles / Underwater",
+    "name": "Bubbles Underwater",
     "filter_chain": "[0:v]geq=lum=' max(0,120*exp(-pow(hypot(X-W/5-20*sin(T*1.2),Y-mod(H+H/4-T*80,H+100)+50)-15,2)/30)) +max(0,100*exp(-pow(hypot(X-2*W/5+15*sin(T*1.5+1),Y-mod(H+H/3-T*60,H+120)+60)-12,2)/25)) +max(0,90*exp(-pow(hypot(X-3*W/5-18*sin(T*1.0+2),Y-mod(H+H/2-T*70,H+80)+40)-10,2)/20)) ':cb=105:cr=120, lutrgb=r='val/3':g='val*0.7':b='val', gblur=sigma=1.5[bubbles]; [1:v]colorbalance=rs=-0.1:gs=0.05:bs=0.2:rm=-0.05:bm=0.15, eq=saturation=0.8:contrast=0.9:brightness=-0.05, gblur=sigma=0.5[underwater]; [underwater][bubbles]blend=all_mode=screen:all_opacity=0.6",
     "complex": true
   },
   "explosion": {
-    "name": "Explosion / Radial Burst",
+    "name": "Explosion",
     "filter_chain": "geq=lum='if(lt(mod(floor(atan2(Y-H/2,X-W/2)*300),50),1), max(0,255*exp(-pow(hypot(X-W/2,Y-H/2)-T*200,2)/2000) *max(0,1-T/4)), 0)':cb=118:cr=155, lutrgb=r='val':g='val*0.5':b='val/6', gblur=sigma=2, lagfun=decay=0.92, split[a][b]; [b]gblur=sigma=8,eq=brightness=0.12[bloom]; [a][bloom]blend=all_mode=screen:all_opacity=0.5",
     "complex": true
   },
   "lightning": {
-    "name": "Electricity / Lightning Arcs",
+    "name": "Lightning",
     "filter_chain": "geq=lum='max(0, 255-abs(Y-H/2-80*sin(X/40+random(1)*3+T*8)-40*sin(X/20+random(1)*5+T*12))*8)':cb=90:cr=128, lutrgb=r='val/2':g='val/2':b='val', gblur=sigma=2, split[a][b]; [b]gblur=sigma=8,eq=brightness=0.15[bloom]; [a][bloom]blend=all_mode=screen:all_opacity=0.5, noise=alls=5:allf=t",
     "complex": true
   },
   "lightning_multi": {
-    "name": "Electricity / Lightning Arcs",
+    "name": "Lightning Multi",
     "filter_chain": "geq=lum='max(0, max( 255-abs(Y-H/3-60*sin(X/35+random(1)*3+T*10)-30*sin(X/15+T*15))*10, max(255-abs(Y-2*H/3-50*sin(X/40+random(1)*4+T*8)-25*sin(X/18+T*13))*10, 255-abs(Y-H/2-70*sin(X/30+random(1)*2+T*11)-35*sin(X/12+T*14))*10) ))':cb=85:cr=128, lutrgb=r='val*0.7':g='val*0.7':b='val', gblur=sigma=3, split[a][b]; [b]gblur=sigma=10,eq=brightness=0.12[bloom]; [a][bloom]blend=all_mode=screen:all_opacity=0.5",
     "complex": true
   },
   "smoke": {
-    "name": "Smoke / Fog Particles",
+    "name": "Smoke",
     "filter_chain": "geq=lum='128 +40*sin(X/100+T*0.4)*cos(Y/80+T*0.3) +25*sin(X/50+T*0.8)*cos(Y/40+T*0.6) +15*cos(X/25+Y/30+T*1.2) ':cb=128:cr=128, gblur=sigma=15, eq=brightness=-0.3:contrast=0.6",
     "complex": false
   },
   "smoke_composite": {
-    "name": "Smoke / Fog Particles",
+    "name": "Smoke Composite",
     "filter_chain": "[0:v]geq=lum='max(0, (80+50*sin(X/80+(T+Y/200)*0.5)*cos(Y/60+T*0.4) +30*sin(X/40+T*0.9)*cos(Y/30+T*0.7)) *max(0,1-Y/(H*0.8)) *max(0,exp(-pow(X-W/2,2)/80000)))':cb=128:cr=128, gblur=sigma=12[smoke]; [1:v][smoke]blend=all_mode=screen:all_opacity=0.4",
     "complex": true
   },
   "audio_particles": {
-    "name": "Audio-Reactive Particles",
+    "name": "Audio Particles",
     "filter_chain": "[0:a]showwaves=s=1920x1080:mode=cline:rate=30:colors=white:scale=sqrt[waves]; [waves]format=gray,gblur=sigma=20[energy]; color=s=1920x1080:d=30:c=black, geq=lum=' max(0,200*exp(-hypot(X-W/4-80*sin(T*0.6),Y-H/3-60*cos(T*0.5))/15)*(0.5+0.5*sin(T*4))) +max(0,180*exp(-hypot(X-3*W/4+70*cos(T*0.7),Y-2*H/3+50*sin(T*0.4))/12)*(0.5+0.5*sin(T*5+1))) +max(0,160*exp(-hypot(X-W/2-60*sin(T*0.8),Y-H/2-40*cos(T*0.6))/18)*(0.5+0.5*sin(T*3.5+2))) +max(0,140*exp(-hypot(X-W/3+50*cos(T*0.5),Y-3*H/4+30*sin(T*0.7))/14)*(0.5+0.5*sin(T*4.5+3))) ':cb=110:cr=120, lutrgb=r=0:g='val':b='val/2', gblur=sigma=2[particles]; [particles][energy]blend=all_mode=multiply[reactive]; [reactive]split[a][b]; [b]gblur=sigma=8,eq=brightness=0.1[bloom]; [a][bloom]blend=all_mode=screen:all_opacity=0.4[glow_particles]; [0:v][glow_particles]blend=all_mode=screen:all_opacity=0.7",
     "complex": true
   },
   "anaglyph_simple": {
-    "name": "Anaglyph 3D from 2D (Red/Cyan)",
+    "name": "Anaglyph Simple",
     "filter_chain": "split[left][right]; [left]crop=iw-10:ih:0:0,pad=iw+10:ih:10:0:black,extractplanes=r[lr]; [right]crop=iw-10:ih:10:0,pad=iw+10:ih:0:0:black,extractplanes=g+b[gcb]; [lr][gcb]mergeplanes=0x001020:yuv444p, format=yuv420p",
     "complex": true
   },
   "anaglyph_depth": {
-    "name": "Anaglyph 3D from 2D (Red/Cyan)",
+    "name": "Anaglyph Depth",
     "filter_chain": "split[left][right]; [left]split[l_vid][l_disp]; [l_disp]format=gray,gblur=sigma=3[luma]; [right]split[r_vid][r_pad]; [l_vid]pad=iw+20:ih:10:0:black[l_padded]; [r_vid]pad=iw+20:ih:10:0:black[r_padded]; [l_padded]crop=iw-20:ih:0:0,extractplanes=r[lr]; [r_padded]crop=iw-20:ih:20:0,extractplanes=g+b[gcb]; [lr][gcb]mergeplanes=0x001020:yuv444p, format=yuv420p",
     "complex": true
   },
   "sbs_3d": {
-    "name": "Side-by-Side 3D Generation",
+    "name": "Sbs 3D",
     "filter_chain": "split[left][right]; [left]crop=iw-16:ih:0:0,pad=iw+16:ih:16:0:black[l]; [right]crop=iw-16:ih:16:0,pad=iw+16:ih:0:0:black[r]; [l][r]hstack, scale=1920:1080",
     "complex": true
   },
   "sbs_depth": {
-    "name": "Side-by-Side 3D Generation",
+    "name": "Sbs Depth",
     "filter_chain": "split=3[left][right][depth]; [depth]format=gray,gblur=sigma=5[depthmap]; [left]format=gray[luma]; [left]pad=iw+20:ih:10:0:black, crop=iw-20:ih:0:0[l]; [right]pad=iw+20:ih:10:0:black, crop=iw-20:ih:20:0[r]; [l]scale=960:1080[ls]; [r]scale=960:1080[rs]; [ls][rs]hstack",
     "complex": true
   },
   "overunder_3d": {
-    "name": "Over-Under 3D Generation",
+    "name": "Overunder 3D",
     "filter_chain": "split[left][right]; [left]crop=iw:ih-12:0:0,pad=iw:ih+12:0:12:black[l]; [right]crop=iw:ih-12:0:12,pad=iw:ih+12:0:0:black[r]; [l]scale=1920:540[ls]; [r]scale=1920:540[rs]; [ls][rs]vstack",
     "complex": true
   },
   "anaglyph": {
-    "name": "3D Format Conversion",
+    "name": "Anaglyph",
     "filter_chain": "stereo3d=sbsl:arcg",
     "complex": false
   },
   "depth_3d": {
-    "name": "Displacement-Based Fake 3D",
+    "name": "Depth 3D",
     "filter_chain": "split=3[left_src][right_src][depth_src]; [depth_src]format=gray,gblur=sigma=8[depth]; [depth]split[dl][dr]; [left_src]format=gray[luma_for_xmap_left]; [dl]lutrgb=r='128+val/15':g=128:b=128,format=gray[left_xmap]; [dr]lutrgb=r='128-val/15':g=128:b=128,format=gray[right_xmap]; color=s=1920x1080:c=gray,format=gray[flat_ymap]; [flat_ymap]split[yl][yr]; [left_src][left_xmap][yl]displace,scale=960:1080[left]; [right_src][right_xmap][yr]displace,scale=960:1080[right]; [left][right]hstack",
     "complex": true
   },
   "3d_particles_sbs": {
-    "name": "3D Particles (Stereo Particle Field)",
+    "name": "3D Particles Sbs",
     "filter_chain": "stereo3d=sbsl:arcg",
     "complex": false
   },
   "3d_glitch_sbs": {
-    "name": "3D Glitch Effect",
+    "name": "3D Glitch Sbs",
     "filter_chain": "stereo3d=sbsl:arcg",
     "complex": false
   },
   "3d_breathe_sbs": {
-    "name": "3D Depth Pulse / Breathing",
+    "name": "3D Breathe Sbs",
     "filter_chain": "split[left][right]; [left]crop='iw-abs(10*sin(T*2))':ih:0:0, pad='iw+abs(10*sin(T*2))':ih:'abs(10*sin(T*2))':0:black[l]; [right]crop='iw-abs(10*sin(T*2))':ih:'abs(10*sin(T*2))':0, pad='iw+abs(10*sin(T*2))':ih:0:0:black[r]; [l]scale=960:1080[ls]; [r]scale=960:1080[rs]; [ls][rs]hstack",
     "complex": true
   },
   "3d_audio_sbs": {
-    "name": "3D Depth Pulse / Breathing",
+    "name": "3D Audio Sbs",
     "filter_chain": "[0:v]split[left][right]; [left]crop=iw-15:ih:0:0,pad=iw+15:ih:15:0:black[l]; [right]crop=iw-15:ih:15:0,pad=iw+15:ih:0:0:black[r]; [l]scale=960:1080[ls]; [r]scale=960:1080[rs]; [ls][rs]hstack",
     "complex": true
   },
   "3d_rain_sbs": {
-    "name": "Stereoscopic Particle Rain",
+    "name": "3D Rain Sbs",
     "filter_chain": "[0:v]geq=lum=' if(lt(mod((X-mod(X,1920))*7+(mod(X,1920))*3+Y*13+floor(T*900),800),2), max(0,255-abs(mod(Y+floor(T*900)+mod(X,1920)*7,200)-100)*10), 0) +if(lt(mod((X-mod(X,1920))*11+mod(X,1920)*5+Y*17+floor(T*500),1200),2), max(0,160-abs(mod(Y+floor(T*500)+mod(X,1920)*5,250)-125)*12), 0) ':cb=128:cr=128, gblur=sigmaX=0:sigmaY=1.5[rain_sbs]; [1:v]scale=960:1080[left_vid]; [1:v]scale=960:1080[right_vid]; [left_vid][right_vid]hstack[vid_sbs]; [vid_sbs]eq=brightness=-0.05:saturation=0.7[dark_sbs]; [dark_sbs][rain_sbs]blend=all_mode=screen:all_opacity=0.5",
     "complex": true
   },
   "3d_fractal_sbs": {
-    "name": "3D Fractal Zoom",
+    "name": "3D Fractal Sbs",
     "filter_chain": "stereo3d=sbsl:arcg",
     "complex": false
   },
   "3d_fireflies_sbs": {
-    "name": "3D Fireflies in Fog",
+    "name": "3D Fireflies Sbs",
     "filter_chain": "geq=lum=' max(0,200*exp(-hypot(X-240-80*sin(T*0.5)-8,Y-360-60*cos(T*0.4))/15)*(0.5+0.5*sin(T*3))) +max(0,150*exp(-hypot(X-720+70*cos(T*0.6)-3,Y-720+50*sin(T*0.5))/10)*(0.5+0.5*sin(T*4+1))) +max(0,100*exp(-hypot(X-480-50*sin(T*0.7)-1,Y-540-40*cos(T*0.3))/8)*(0.5+0.5*sin(T*2.5+2))) +40*sin(X/80+T*0.3)*cos(Y/60+T*0.2)*max(0,1-Y/(1080*0.9)) ':cb=110:cr=118, lutrgb=r='val/4':g='val':b='val/5', gblur=sigma=2, split[a][b]; [b]gblur=sigma=8,eq=brightness=0.08[bloom]; [a][bloom]blend=all_mode=screen:all_opacity=0.4",
     "complex": true
   },
   "3d_audio_explosion_sbs": {
-    "name": "Audio-Reactive 3D Particle Explosion",
+    "name": "3D Audio Explosion Sbs",
     "filter_chain": "geq=lum='if(lt(mod(floor(atan2(Y-H/2,mod(X,1920)-960)*200),40),1), max(0,255*exp(-pow(hypot(mod(X,1920)-960,Y-H/2)-mod(T*250,700),2)/3000) *max(0,1-mod(T,3.5)/3.5)), 0)':cb=118:cr=155, lutrgb=r='val':g='val*0.5':b='val/6', gblur=sigma=2, lagfun=decay=0.91, split[a][b]; [b]gblur=sigma=8,eq=brightness=0.1[bloom]; [a][bloom]blend=all_mode=screen:all_opacity=0.4",
     "complex": true
   },
   "8bit": {
-    "name": "Basic 8-Bit / NES Style",
+    "name": "8Bit",
     "filter_chain": "scale=256:240:flags=lanczos, posterize=bits=2, scale=1920:1080:flags=neighbor",
     "complex": false
   },
   "8bit_crt": {
-    "name": "Basic 8-Bit / NES Style",
+    "name": "8Bit Crt",
     "filter_chain": "scale=256:240:flags=lanczos, posterize=bits=2, scale=1920:1080:flags=neighbor, drawgrid=w=0:h=2:t=1:c=black@0.25, gblur=sigma=0.5, eq=contrast=1.2:saturation=0.9",
     "complex": false
   },
   "atari2600": {
-    "name": "Atari 2600 Style",
+    "name": "Atari2600",
     "filter_chain": "scale=160:192:flags=lanczos, posterize=bits=2, eq=saturation=0.7:contrast=1.3, scale=960:1080:flags=neighbor",
     "complex": false
   },
   "atari2600_authentic": {
-    "name": "Atari 2600 Style",
+    "name": "Atari2600 Authentic",
     "filter_chain": "scale=160:192:flags=lanczos, posterize=bits=2, colorbalance=rs=0.1:gs=0.05:bs=-0.1:rm=0.05, eq=saturation=0.6:contrast=1.4:brightness=-0.03, scale=960:1080:flags=neighbor, pad=1920:1080:(1920-960)/2:0:color=black, drawgrid=w=0:h=3:t=1:c=black@0.15, noise=alls=8:allf=t",
     "complex": false
   },
   "gameboy": {
-    "name": "Game Boy (Original DMG)",
+    "name": "Gameboy",
     "filter_chain": "scale=160:144:flags=lanczos, format=gray, posterize=bits=2, lutrgb=r='floor(val/85)*36+15':g='floor(val/85)*52+56':b='floor(val/85)*24+8', scale=960:864:flags=neighbor",
     "complex": false
   },
   "gameboy_lcd": {
-    "name": "Game Boy (Original DMG)",
+    "name": "Gameboy Lcd",
     "filter_chain": "scale=160:144:flags=lanczos, format=gray, posterize=bits=2, lutrgb=r='floor(val/85)*36+15':g='floor(val/85)*52+56':b='floor(val/85)*24+8', scale=960:864:flags=neighbor, drawgrid=w=6:h=6:t=1:c=#0B3A0B@0.2",
     "complex": false
   },
   "c64": {
-    "name": "Commodore 64 Style",
+    "name": "C64",
     "filter_chain": "scale=320:200:flags=lanczos, posterize=bits=2, colorbalance=rs=0.05:gs=-0.05:bs=0.15:rm=0.05:bm=0.1, eq=saturation=0.8:contrast=1.2, scale=1920:1080:flags=neighbor, gblur=sigma=0.6",
     "complex": false
   },
   "c64_bordered": {
-    "name": "Commodore 64 Style",
+    "name": "C64 Bordered",
     "filter_chain": "scale=320:200:flags=lanczos, posterize=bits=2, colorbalance=rs=0.05:gs=-0.05:bs=0.15, eq=saturation=0.8:contrast=1.2, scale=1600:1000:flags=neighbor, pad=1920:1080:160:40:color=#4040E0, gblur=sigma=0.8, drawgrid=w=0:h=2:t=1:c=black@0.15",
     "complex": false
   },
   "cga_palette1": {
-    "name": "CGA / Early DOS Style",
+    "name": "Cga Palette1",
     "filter_chain": "scale=320:200:flags=lanczos, format=gray, posterize=bits=2, lutrgb=r='if(gt(val,192),255,if(gt(val,128),255,if(gt(val,64),0,0)))':g='if(gt(val,192),255,if(gt(val,128),0,if(gt(val,64),255,0)))':b='if(gt(val,192),255,if(gt(val,128),255,if(gt(val,64),255,0)))', scale=1920:1080:flags=neighbor",
     "complex": false
   },
   "cga_palette0": {
-    "name": "CGA / Early DOS Style",
+    "name": "Cga Palette0",
     "filter_chain": "scale=320:200:flags=lanczos, format=gray, posterize=bits=2, lutrgb=r='if(gt(val,192),255,if(gt(val,128),255,if(gt(val,64),0,0)))':g='if(gt(val,192),255,if(gt(val,128),0,if(gt(val,64),255,0)))':b='if(gt(val,192),0,if(gt(val,128),0,if(gt(val,64),0,0)))', scale=1920:1080:flags=neighbor",
     "complex": false
   },
   "spectrum": {
-    "name": "ZX Spectrum Style",
+    "name": "Spectrum",
     "filter_chain": "scale=256:192:flags=lanczos, posterize=bits=1, pixelize=w=8:h=8:mode=avg, eq=saturation=1.3:contrast=1.4, scale=1024:768:flags=neighbor, noise=alls=5:allf=t",
     "complex": false
   },
   "spectrum_clash": {
-    "name": "ZX Spectrum Style",
+    "name": "Spectrum Clash",
     "filter_chain": "scale=256:192:flags=lanczos, pixelize=w=8:h=8:mode=avg, posterize=bits=1, hue=s=1.5, eq=contrast=1.5, scale=1024:768:flags=neighbor, drawgrid=w=32:h=32:t=1:c=black@0.08, noise=alls=6:allf=t",
     "complex": false
   },
   "arcade_crt": {
-    "name": "Arcade CRT Display",
+    "name": "Arcade Crt",
     "filter_chain": "scale=320:240:flags=lanczos, eq=saturation=1.5:contrast=1.3:brightness=0.05, scale=1920:1080:flags=neighbor, drawgrid=w=0:h=3:t=1:c=black@0.2, gblur=sigma=0.8, vignette=angle=0.4:x0=0.5:y0=0.5, noise=alls=8:allf=t",
     "complex": false
   },
   "arcade_crt_phosphor": {
-    "name": "Arcade CRT Display",
+    "name": "Arcade Crt Phosphor",
     "filter_chain": "scale=320:240:flags=lanczos, eq=saturation=1.6:contrast=1.3:brightness=0.05, lagfun=decay=0.85, scale=1920:1080:flags=neighbor, drawgrid=w=0:h=3:t=1:c=black@0.2, gblur=sigma=1.0, vignette=angle=0.5:x0=0.5:y0=0.5, noise=alls=10:allf=t, colorbalance=rs=0.05:bs=0.05",
     "complex": false
   },
   "composite": {
-    "name": "VHS / Composite Video Artifacts",
+    "name": "Composite",
     "filter_chain": "scale=320:240:flags=lanczos, rgbashift=rh=3:bh=-3, gblur=sigma=1.5, eq=saturation=0.7:contrast=0.9:brightness=-0.02, noise=alls=25:allf=t+u, scale=1920:1080:flags=bilinear, drawgrid=w=0:h=2:t=1:c=black@0.2, hue=h='2*sin(T*3)",
     "complex": false
   },
   "vhs_full": {
-    "name": "VHS / Composite Video Artifacts",
+    "name": "Vhs Full",
     "filter_chain": "scale=320:240:flags=lanczos, rgbashift=rh=4:bh=-4:rv=1:bv=-1, gblur=sigma=1.8, eq=saturation=0.6:contrast=0.85:brightness=-0.03, noise=alls=30:allf=t+u, scale=1920:1080:flags=bilinear, drawgrid=w=0:h=2:t=1:c=black@0.25, scroll=v='0.001*sin(T*5)':h=0, geq=lum='if(gt(Y,H-20),lum(X,Y)*0.3+random(1)*60,lum(X,Y))':cb=cb(X,Y):cr=cr(X,Y), hue=h='3*sin(T*2)",
     "complex": false
   },
   "dither_bw": {
-    "name": "Pixel Art Dithering",
+    "name": "Dither Bw",
     "filter_chain": "scale=320:240:flags=lanczos, format=gray, posterize=bits=1, noise=alls=30:allf=u, posterize=bits=1, scale=1920:1080:flags=neighbor",
     "complex": false
   },
   "dither_color": {
-    "name": "Pixel Art Dithering",
+    "name": "Dither Color",
     "filter_chain": "scale=320:240:flags=lanczos, noise=alls=20:allf=u, posterize=bits=2, noise=alls=15:allf=u, posterize=bits=2, eq=contrast=1.2:saturation=1.3, scale=1920:1080:flags=neighbor",
     "complex": false
   },
   "dither_ordered": {
-    "name": "Pixel Art Dithering",
+    "name": "Dither Ordered",
     "filter_chain": "scale=320:240:flags=lanczos, posterize=bits=2, drawgrid=w=2:h=2:t=1:c=black@0.15, posterize=bits=2, eq=contrast=1.3, scale=1920:1080:flags=neighbor",
     "complex": false
   },
   "green_phosphor": {
-    "name": "Retro Computer Boot / Text Mode",
+    "name": "Green Phosphor",
     "filter_chain": "scale=280:192:flags=lanczos, format=gray, posterize=bits=2, lutrgb=r=0:g='val':b='val/4', scale=1120:768:flags=neighbor, gblur=sigma=1.0, drawgrid=w=0:h=2:t=1:c=black@0.3, vignette=angle=0.5, noise=alls=10:allf=t, eq=brightness=0.05:contrast=1.2",
     "complex": false
   },
   "amber_phosphor": {
-    "name": "Retro Computer Boot / Text Mode",
+    "name": "Amber Phosphor",
     "filter_chain": "scale=320:200:flags=lanczos, format=gray, posterize=bits=2, lutrgb=r='val':g='val*0.7':b=0, scale=1280:800:flags=neighbor, gblur=sigma=0.8, drawgrid=w=0:h=2:t=1:c=black@0.25, vignette=angle=0.4, noise=alls=8:allf=t, lagfun=decay=0.8",
     "complex": false
   },
   "blue_phosphor": {
-    "name": "Retro Computer Boot / Text Mode",
+    "name": "Blue Phosphor",
     "filter_chain": "scale=320:200:flags=lanczos, format=gray, posterize=bits=3, lutrgb=r='val/3':g='val/2':b='val', scale=1280:800:flags=neighbor, gblur=sigma=0.6, drawgrid=w=0:h=2:t=1:c=black@0.2, vignette=angle=0.35, noise=alls=6:allf=t",
     "complex": false
   },
   "snes": {
-    "name": "SNES / 16-Bit Style",
+    "name": "Snes",
     "filter_chain": "scale=256:224:flags=lanczos, posterize=bits=3, eq=saturation=1.2:contrast=1.1, scale=1024:896:flags=neighbor",
     "complex": false
   },
   "snes_tv": {
-    "name": "SNES / 16-Bit Style",
+    "name": "Snes Tv",
     "filter_chain": "scale=256:224:flags=lanczos, posterize=bits=3, eq=saturation=1.2:contrast=1.1, scale=1024:896:flags=neighbor, gblur=sigma=0.6, drawgrid=w=0:h=2:t=1:c=black@0.15, vignette=angle=0.3, noise=alls=5:allf=t, colorbalance=rs=0.03:bs=-0.02",
     "complex": false
   },
   "genesis": {
-    "name": "Sega Genesis / Mega Drive Style",
+    "name": "Genesis",
     "filter_chain": "scale=320:224:flags=lanczos, posterize=bits=3, eq=saturation=0.9:contrast=1.4, scale=1280:896:flags=neighbor",
     "complex": false
   },
   "genesis_grit": {
-    "name": "Sega Genesis / Mega Drive Style",
+    "name": "Genesis Grit",
     "filter_chain": "scale=320:224:flags=lanczos, posterize=bits=3, eq=saturation=0.85:contrast=1.5:brightness=-0.02, unsharp=3:3:1.5, scale=1280:896:flags=neighbor, drawgrid=w=0:h=2:t=1:c=black@0.15, noise=alls=6:allf=t",
     "complex": false
   },
   "ps1": {
-    "name": "Early 3D / PS1 Style",
+    "name": "Ps1",
     "filter_chain": "scale=320:240:flags=lanczos, noise=alls=12:allf=u, posterize=bits=3, gblur=sigma=0.4, eq=saturation=0.8:contrast=1.2, scale=1280:960:flags=neighbor, drawgrid=w=0:h=2:t=1:c=black@0.1",
     "complex": false
   },
   "ps1_jitter": {
-    "name": "Early 3D / PS1 Style",
+    "name": "Ps1 Jitter",
     "filter_chain": "scale=320:240:flags=lanczos, nullsrc=s=320x240:d=30:r=30,lutrgb=r='128+2*random(1)':g=128:b=128,format=gray[xmap]; nullsrc=s=320x240:d=30:r=30,lutrgb=r='128+2*random(1)':g=128:b=128,format=gray[ymap]; [0:v][xmap][ymap]displace, noise=alls=10:allf=u, posterize=bits=3, eq=saturation=0.75:contrast=1.2, scale=1280:960:flags=neighbor, drawgrid=w=0:h=2:t=1:c=black@0.1",
     "complex": true
   },
   "lcd_handheld": {
-    "name": "Monochrome LCD (Game & Watch / Tiger Electronics)",
+    "name": "Lcd Handheld",
     "filter_chain": "scale=60:40:flags=lanczos, format=gray, posterize=bits=1, lagfun=decay=0.7, scale=1080:720:flags=neighbor, drawgrid=w=18:h=18:t=1:c=#808080@0.3, colorbalance=rs=-0.1:gs=0.05:bs=-0.05, eq=brightness=0.15:contrast=0.8",
     "complex": false
   },
   "vector": {
-    "name": "Vector Display (Asteroids / Vectrex)",
+    "name": "Vector",
     "filter_chain": "edgedetect=low=0.1:high=0.3:mode=wires, negate, format=gray, lutrgb=r=0:g='val':b='val/3', gblur=sigma=2, eq=brightness=0.1:contrast=1.8, lagfun=decay=0.9, noise=alls=5:allf=t",
     "complex": false
   },
   "vector_bloom": {
-    "name": "Vector Display (Asteroids / Vectrex)",
+    "name": "Vector Bloom",
     "filter_chain": "edgedetect=low=0.08:high=0.25:mode=wires, negate, format=gray, split[sharp][glow]; [glow]gblur=sigma=6,eq=brightness=0.15[bloom]; [sharp][bloom]blend=all_mode=screen:all_opacity=0.7, lutrgb=r=0:g='val':b='val/3', lagfun=decay=0.92, vignette=angle=0.5, noise=alls=6:allf=t",
     "complex": true
   },
   "teletext": {
-    "name": "Teletext / Ceefax Style",
+    "name": "Teletext",
     "filter_chain": "scale=40:25:flags=lanczos, posterize=bits=1, eq=saturation=1.5:contrast=1.5, scale=1280:800:flags=neighbor, pad=1920:1080:320:140:color=black, drawgrid=w=32:h=32:t=2:c=#222222@0.5, noise=alls=5:allf=t",
     "complex": false
   },
   "retro_dissolve": {
-    "name": "Retro Transition Effects",
+    "name": "Retro Dissolve",
     "filter_chain": "[0:v]scale=320:240:flags=lanczos,posterize=bits=2,scale=1920:1080:flags=neighbor[a]; [1:v]scale=320:240:flags=lanczos,posterize=bits=2,scale=1920:1080:flags=neighbor[b]; [a][b]blend=all_expr='if(gt(random(0),T/5),A,B)",
     "complex": true
   },
   "retro_wipe": {
-    "name": "Retro Transition Effects",
+    "name": "Retro Wipe",
     "filter_chain": "[0:v]scale=320:240:flags=lanczos,posterize=bits=2,scale=1920:1080:flags=neighbor[a]; [1:v]scale=320:240:flags=lanczos,posterize=bits=2,scale=1920:1080:flags=neighbor[b]; [a][b]blend=all_expr='if(gt(X,W*T/5),A,B)",
     "complex": true
   },
   "retro_iris": {
-    "name": "Retro Transition Effects",
+    "name": "Retro Iris",
     "filter_chain": "[0:v]scale=320:240:flags=lanczos,posterize=bits=2,scale=1920:1080:flags=neighbor[a]; [1:v]scale=320:240:flags=lanczos,posterize=bits=2,scale=1920:1080:flags=neighbor[b]; [a][b]blend=all_expr='if(gt(abs(X-W/2)+abs(Y-H/2),W*(1-T/5)),A,B)",
     "complex": true
   },
   "palette_cycle": {
-    "name": "Animated Palette Cycling",
+    "name": "Palette Cycle",
     "filter_chain": "scale=320:240:flags=lanczos, posterize=bits=2, hue=h='T*60', eq=saturation=1.5:contrast=1.2, scale=1920:1080:flags=neighbor",
     "complex": false
   },
   "palette_cycle_rgb": {
-    "name": "Animated Palette Cycling",
+    "name": "Palette Cycle Rgb",
     "filter_chain": "scale=320:240:flags=lanczos, posterize=bits=2, lutrgb=r='mod(val+T*40,256)':g='mod(val+T*25,256)':b='mod(val+T*55,256)', eq=contrast=1.3:saturation=1.4, scale=1920:1080:flags=neighbor",
     "complex": false
   },
   "log_spiral": {
-    "name": "Logarithmic Spiral",
+    "name": "Log Spiral",
     "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum='128+60*sin(atan2(Y-H/2,X-W/2)*3+log(hypot(X-W/2,Y-H/2)+1)*5+T*2)':cb=128:cr=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30:r=30,geq=lum='128+60*cos(atan2(Y-H/2,X-W/2)*3+log(hypot(X-W/2,Y-H/2)+1)*5+T*2)':cb=128:cr=128,format=gray[ymap]; [0:v][xmap][ymap]displace",
     "complex": true
   },
   "log_spiral_intensify": {
-    "name": "Logarithmic Spiral",
+    "name": "Log Spiral Intensify",
     "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum='128+(30+T*3)*sin(atan2(Y-H/2,X-W/2)*(2+T*0.2)+log(hypot(X-W/2,Y-H/2)+1)*(3+T*0.3)+T*3)':cb=128:cr=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30:r=30,geq=lum='128+(30+T*3)*cos(atan2(Y-H/2,X-W/2)*(2+T*0.2)+log(hypot(X-W/2,Y-H/2)+1)*(3+T*0.3)+T*3)':cb=128:cr=128,format=gray[ymap]; [0:v][xmap][ymap]displace, lagfun=decay=0.95, eq=contrast=1.3:saturation=1.4",
     "complex": true
   },
   "fibonacci_spiral": {
-    "name": "Fibonacci / Golden Spiral",
+    "name": "Fibonacci Spiral",
     "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum='128+50*sin(atan2(Y-H/2,X-W/2)*1.618+log(hypot(X-W/2,Y-H/2)+1)*1.618*3+T*1.5)':cb=128:cr=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30:r=30,geq=lum='128+50*cos(atan2(Y-H/2,X-W/2)*1.618+log(hypot(X-W/2,Y-H/2)+1)*1.618*3+T*1.5)':cb=128:cr=128,format=gray[ymap]; [0:v][xmap][ymap]displace, eq=contrast=1.2:saturation=1.3",
     "complex": true
   },
   "fibonacci_zoom": {
-    "name": "Fibonacci / Golden Spiral",
+    "name": "Fibonacci Zoom",
     "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum='128+50*sin(atan2(Y-H/2,X-W/2)*1.618+log(hypot(X-W/2,Y-H/2)+1)*1.618*3+T*1.5)':cb=128:cr=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30:r=30,geq=lum='128+50*cos(atan2(Y-H/2,X-W/2)*1.618+log(hypot(X-W/2,Y-H/2)+1)*1.618*3+T*1.5)':cb=128:cr=128,format=gray[ymap]; [0:v][xmap][ymap]displace, zoompan=z='1+0.05*sin(T*1.618)':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=1:s=1920x1080:fps=30, lagfun=decay=0.94, eq=contrast=1.3:saturation=1.4",
     "complex": true
   },
   "double_helix": {
-    "name": "Double Helix / DNA Twist",
+    "name": "Double Helix",
     "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum='128+40*sin(Y/30+T*3)*cos(X/200+T*0.5)':cb=128:cr=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30:r=30,geq=lum='128+25*cos(Y/30+T*3)':cb=128:cr=128,format=gray[ymap]; [0:v][xmap][ymap]displace, eq=contrast=1.2:saturation=1.3",
     "complex": true
   },
   "double_helix_color": {
-    "name": "Double Helix / DNA Twist",
+    "name": "Double Helix Color",
     "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum='128+50*sin(Y/25+T*4)*cos(X/150+T*0.3)':cb=128:cr=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30:r=30,geq=lum='128+35*cos(Y/25+T*4)*sin(X/150+T*0.3)':cb=128:cr=128,format=gray[ymap]; [0:v][xmap][ymap]displace, rgbashift=rh='8*sin(T*2)':bh='-8*sin(T*2)', lagfun=decay=0.93, eq=contrast=1.3:saturation=1.5",
     "complex": true
   },
   "torus": {
-    "name": "Torus / Donut Warp",
+    "name": "Torus",
     "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum='128+60*(X-W/2)/(hypot(X-W/2,Y-H/2)+100)*sin(hypot(X-W/2,Y-H/2)/80+T*2)':cb=128:cr=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30:r=30,geq=lum='128+60*(Y-H/2)/(hypot(X-W/2,Y-H/2)+100)*sin(hypot(X-W/2,Y-H/2)/80+T*2)':cb=128:cr=128,format=gray[ymap]; [0:v][xmap][ymap]displace, eq=contrast=1.2:saturation=1.3",
     "complex": true
   },
   "torus_rotate": {
-    "name": "Torus / Donut Warp",
+    "name": "Torus Rotate",
     "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum='128+70*(X-W/2)/(hypot(X-W/2,Y-H/2)+80)*sin(hypot(X-W/2,Y-H/2)/60+T*3)':cb=128:cr=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30:r=30,geq=lum='128+70*(Y-H/2)/(hypot(X-W/2,Y-H/2)+80)*cos(hypot(X-W/2,Y-H/2)/60+T*3)':cb=128:cr=128,format=gray[ymap]; [0:v][xmap][ymap]displace, rotate='T*0.3':fillcolor=black, lagfun=decay=0.94, eq=contrast=1.4:saturation=1.5, vignette=angle=0.4",
     "complex": true
   },
   "mobius": {
-    "name": "M\u00f6bius Strip Twist",
+    "name": "Mobius",
     "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum='128+40*sin(atan2(Y-H/2,X-W/2)+T*1.5)*cos(atan2(Y-H/2,X-W/2)*0.5+T*0.75)':cb=128:cr=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30:r=30,geq=lum='128+40*cos(atan2(Y-H/2,X-W/2)+T*1.5)*sin(atan2(Y-H/2,X-W/2)*0.5+T*0.75)':cb=128:cr=128,format=gray[ymap]; [0:v][xmap][ymap]displace, eq=contrast=1.2:saturation=1.3",
     "complex": true
   },
   "mobius_twist": {
-    "name": "M\u00f6bius Strip Twist",
+    "name": "Mobius Twist",
     "filter_chain": "split[a][b]; [b]hflip,negate[twisted]; [a]nullsrc=s=1920x1080:d=30:r=30,geq=lum='128+50*sin(atan2(Y-H/2,X-W/2)+T*1.5)*cos(atan2(Y-H/2,X-W/2)*0.5+T*0.75)':cb=128:cr=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30:r=30,geq=lum='128+50*cos(atan2(Y-H/2,X-W/2)+T*1.5)*sin(atan2(Y-H/2,X-W/2)*0.5+T*0.75)':cb=128:cr=128,format=gray[ymap]; [0:v][xmap][ymap]displace[displaced]; [displaced][twisted]blend=all_expr='if(gt(sin(atan2(Y-H/2,X-W/2)+T*1.5),0),A,B)",
     "complex": true
   },
   "klein": {
-    "name": "Klein Bottle Fold",
+    "name": "Klein",
     "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum='128+50*sin(atan2(Y-H/2,X-W/2)*2+T*2)*cos(hypot(X-W/2,Y-H/2)/100+atan2(Y-H/2,X-W/2)+T)':cb=128:cr=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30:r=30,geq=lum='128+50*cos(atan2(Y-H/2,X-W/2)*2+T*2)*sin(hypot(X-W/2,Y-H/2)/100-atan2(Y-H/2,X-W/2)+T)':cb=128:cr=128,format=gray[ymap]; [0:v][xmap][ymap]displace, lagfun=decay=0.94, eq=contrast=1.3:saturation=1.4",
     "complex": true
   },
   "klein_intersect": {
-    "name": "Klein Bottle Fold",
+    "name": "Klein Intersect",
     "filter_chain": "split[a][b]; [a]nullsrc=s=1920x1080:d=30:r=30,geq=lum='128+60*sin(atan2(Y-H/2,X-W/2)*2+T*2)*cos(hypot(X-W/2,Y-H/2)/80+atan2(Y-H/2,X-W/2)+T)':cb=128:cr=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30:r=30,geq=lum='128+60*cos(atan2(Y-H/2,X-W/2)*2+T*2)*sin(hypot(X-W/2,Y-H/2)/80-atan2(Y-H/2,X-W/2)+T)':cb=128:cr=128,format=gray[ymap]; [0:v][xmap][ymap]displace[warped]; [b]hflip,vflip,hue=h=180[flipped]; [warped][flipped]blend=all_mode=screen:all_opacity=0.4, lagfun=decay=0.95, eq=contrast=1.4:saturation=1.6",
     "complex": true
   },
   "hyperbolic": {
-    "name": "Hyperbolic Space / Poincar\u00e9 Disk",
+    "name": "Hyperbolic",
     "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum='128+80*(X-W/2)/(1+hypot(X-W/2,Y-H/2)/300*hypot(X-W/2,Y-H/2)/300)*sin(T*2)/300':cb=128:cr=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30:r=30,geq=lum='128+80*(Y-H/2)/(1+hypot(X-W/2,Y-H/2)/300*hypot(X-W/2,Y-H/2)/300)*sin(T*2)/300':cb=128:cr=128,format=gray[ymap]; [0:v][xmap][ymap]displace, vignette=angle=0.6, eq=contrast=1.3:saturation=1.2",
     "complex": true
   },
   "hyperbolic_tile": {
-    "name": "Hyperbolic Space / Poincar\u00e9 Disk",
+    "name": "Hyperbolic Tile",
     "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum='128+80*(X-W/2)/(1+hypot(X-W/2,Y-H/2)/250*hypot(X-W/2,Y-H/2)/250)*sin(atan2(Y-H/2,X-W/2)*4+T*2)/250':cb=128:cr=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30:r=30,geq=lum='128+80*(Y-H/2)/(1+hypot(X-W/2,Y-H/2)/250*hypot(X-W/2,Y-H/2)/250)*cos(atan2(Y-H/2,X-W/2)*4+T*2)/250':cb=128:cr=128,format=gray[ymap]; [0:v][xmap][ymap]displace, split[a][b]; [b]edgedetect=low=0.1:high=0.3:mode=colormix,hue=s=3[edges]; [a][edges]blend=all_mode=screen:all_opacity=0.3, vignette=angle=0.7, eq=contrast=1.4:saturation=1.5",
     "complex": true
   },
   "sphere": {
-    "name": "Spherical Projection / Planet Effect",
+    "name": "Sphere",
     "filter_chain": "v360=input=flat:output=ball:pitch=0:yaw='T*10':roll=0",
     "complex": false
   },
   "planet": {
-    "name": "Spherical Projection / Planet Effect",
+    "name": "Planet",
     "filter_chain": "v360=input=flat:output=ball:pitch='5*sin(T*0.5)':yaw='T*12':roll='3*cos(T*0.3)', split[a][b]; [b]gblur=sigma=8,eq=brightness=0.1[glow]; [a][glow]blend=all_mode=screen:all_opacity=0.3, vignette=angle=0.5, eq=contrast=1.2:saturation=1.3",
     "complex": true
   },
   "vortex": {
-    "name": "Vortex Crusher",
+    "name": "Vortex",
     "filter_chain": "rotate='T*T*0.02':fillcolor=black, lagfun=decay=0.97, rgbashift=rh='10*sin(T*4)':bh='-10*sin(T*4)', eq=contrast=1.5:saturation=1.8, noise=alls=20:allf=t",
     "complex": false
   },
   "drain": {
-    "name": "Vortex / Whirlpool",
+    "name": "Drain",
     "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum='128+(30+T*3)*(Y-H/2)/hypot(X-W/2,Y-H/2+1)*sin(hypot(X-W/2,Y-H/2)/40+T*T*0.1)':cb=128:cr=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30:r=30,geq=lum='128-(30+T*3)*(X-W/2)/hypot(X-W/2,Y-H/2+1)*sin(hypot(X-W/2,Y-H/2)/40+T*T*0.1)':cb=128:cr=128,format=gray[ymap]; [0:v][xmap][ymap]displace, lagfun=decay=0.96, rgbashift=rh='5*sin(T*3)':bh='-5*sin(T*3)', eq=contrast=1.3:saturation=1.5",
     "complex": true
   },
   "ripple": {
-    "name": "Ripple / Concentric Waves",
+    "name": "Ripple",
     "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum='128+30*(X-W/2)/hypot(X-W/2,Y-H/2+1)*sin(hypot(X-W/2,Y-H/2)/20-T*8)':cb=128:cr=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30:r=30,geq=lum='128+30*(Y-H/2)/hypot(X-W/2,Y-H/2+1)*sin(hypot(X-W/2,Y-H/2)/20-T*8)':cb=128:cr=128,format=gray[ymap]; [0:v][xmap][ymap]displace",
     "complex": true
   },
   "ripple_multi": {
-    "name": "Ripple / Concentric Waves",
+    "name": "Ripple Multi",
     "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum='128 +15*(X-W/4)/(hypot(X-W/4,Y-H/3)+1)*sin(hypot(X-W/4,Y-H/3)/15-T*6) +15*(X-3*W/4)/(hypot(X-3*W/4,Y-2*H/3)+1)*sin(hypot(X-3*W/4,Y-2*H/3)/15-T*7) +10*(X-W/2)/(hypot(X-W/2,Y-H/2)+1)*sin(hypot(X-W/2,Y-H/2)/18-T*5)':cb=128:cr=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30:r=30,geq=lum='128 +15*(Y-H/3)/(hypot(X-W/4,Y-H/3)+1)*sin(hypot(X-W/4,Y-H/3)/15-T*6) +15*(Y-2*H/3)/(hypot(X-3*W/4,Y-2*H/3)+1)*sin(hypot(X-3*W/4,Y-2*H/3)/15-T*7) +10*(Y-H/2)/(hypot(X-W/2,Y-H/2)+1)*sin(hypot(X-W/2,Y-H/2)/18-T*5)':cb=128:cr=128,format=gray[ymap]; [0:v][xmap][ymap]displace",
     "complex": true
   },
   "polar": {
-    "name": "Polar Coordinate Warp",
+    "name": "Polar",
     "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum='128+(atan2(Y-H/2,X-W/2)/3.14159*W/2-X+W/2)/3':cb=128:cr=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30:r=30,geq=lum='128+(hypot(X-W/2,Y-H/2)*H/W-Y+H/2)/3':cb=128:cr=128,format=gray[ymap]; [0:v][xmap][ymap]displace, vignette=angle=0.5",
     "complex": true
   },
   "polar_rotate": {
-    "name": "Polar Coordinate Warp",
+    "name": "Polar Rotate",
     "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum='128+(atan2(Y-H/2,X-W/2)/3.14159*W/2-X+W/2+T*50)/3':cb=128:cr=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30:r=30,geq=lum='128+(hypot(X-W/2,Y-H/2)*H/W-Y+H/2)/3':cb=128:cr=128,format=gray[ymap]; [0:v][xmap][ymap]displace, vignette=angle=0.5, eq=contrast=1.2:saturation=1.3",
     "complex": true
   },
   "trefoil": {
-    "name": "Trefoil Knot Warp",
+    "name": "Trefoil",
     "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum='128+40*sin(atan2(Y-H/2,X-W/2)*3+T*2)*cos(atan2(Y-H/2,X-W/2)*2+T*1.5)':cb=128:cr=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30:r=30,geq=lum='128+40*cos(atan2(Y-H/2,X-W/2)*3+T*2)*sin(atan2(Y-H/2,X-W/2)*2+T*1.5)':cb=128:cr=128,format=gray[ymap]; [0:v][xmap][ymap]displace, eq=contrast=1.3:saturation=1.4",
     "complex": true
   },
   "trefoil_glow": {
-    "name": "Trefoil Knot Warp",
+    "name": "Trefoil Glow",
     "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum='128+55*sin(atan2(Y-H/2,X-W/2)*3+T*2.5)*cos(atan2(Y-H/2,X-W/2)*2+T*1.8)':cb=128:cr=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30:r=30,geq=lum='128+55*cos(atan2(Y-H/2,X-W/2)*3+T*2.5)*sin(atan2(Y-H/2,X-W/2)*2+T*1.8)':cb=128:cr=128,format=gray[ymap]; [0:v][xmap][ymap]displace, lagfun=decay=0.95, split[a][b]; [b]gblur=sigma=6,eq=brightness=0.1[glow]; [a][glow]blend=all_mode=screen:all_opacity=0.4, eq=contrast=1.4:saturation=1.6",
     "complex": true
   },
   "hypercube": {
-    "name": "Hypercube / 4D Projection",
+    "name": "Hypercube",
     "filter_chain": "split[a][b]; [a]nullsrc=s=1920x1080:d=30:r=30,geq=lum='128+35*sin(X/50+T*2)*cos(Y/50+T*1.5)':cb=128:cr=128,format=gray[xmap1]; nullsrc=s=1920x1080:d=30:r=30,geq=lum='128+35*cos(X/50+T*1.5)*sin(Y/50+T*2)':cb=128:cr=128,format=gray[ymap1]; [0:v][xmap1][ymap1]displace[d1]; [b]nullsrc=s=1920x1080:d=30:r=30,geq=lum='128+35*sin(X/50-T*2)*cos(Y/50-T*1.5)':cb=128:cr=128,format=gray[xmap2]; nullsrc=s=1920x1080:d=30:r=30,geq=lum='128+35*cos(X/50-T*1.5)*sin(Y/50-T*2)':cb=128:cr=128,format=gray[ymap2]; [0:v][xmap2][ymap2]displace,hue=h=180[d2]; [d1][d2]blend=all_mode=screen:all_opacity=0.5, lagfun=decay=0.93, eq=contrast=1.4:saturation=1.6",
     "complex": true
   },
   "terrain": {
-    "name": "Sinusoidal Terrain / Landscape",
+    "name": "Terrain",
     "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum='128+20*cos(X/40+T*2)*sin(Y/35+T*1.5)+15*sin(X/20+Y/25+T*3)':cb=128:cr=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30:r=30,geq=lum='128+25*sin(X/35+T*1.5)*cos(Y/40+T*2)+15*cos(X/25+Y/20+T*2.5)':cb=128:cr=128,format=gray[ymap]; [0:v][xmap][ymap]displace, eq=contrast=1.2:saturation=1.2",
     "complex": true
   },
   "terrain_shaded": {
-    "name": "Sinusoidal Terrain / Landscape",
+    "name": "Terrain Shaded",
     "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum='128+25*cos(X/40+T*2)*sin(Y/35+T*1.5)+18*sin(X/20+Y/25+T*3)':cb=128:cr=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30:r=30,geq=lum='128+30*sin(X/35+T*1.5)*cos(Y/40+T*2)+18*cos(X/25+Y/20+T*2.5)':cb=128:cr=128,format=gray[ymap]; [0:v][xmap][ymap]displace, split[a][b]; [b]edgedetect=low=0.1:high=0.3:mode=colormix, gblur=sigma=3[shadows]; [a][shadows]blend=all_mode=multiply:all_opacity=0.4, eq=contrast=1.3:saturation=1.3",
     "complex": true
   },
   "wormhole": {
-    "name": "Wormhole / Space Tunnel",
+    "name": "Wormhole",
     "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum='128+80*(X-W/2)/(hypot(X-W/2,Y-H/2)+1)*1/(1+hypot(X-W/2,Y-H/2)/200)':cb=128:cr=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30:r=30,geq=lum='128+80*(Y-H/2)/(hypot(X-W/2,Y-H/2)+1)*1/(1+hypot(X-W/2,Y-H/2)/200)':cb=128:cr=128,format=gray[ymap]; [0:v][xmap][ymap]displace, zoompan=z='1+T*0.02':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=1:s=1920x1080:fps=30, lagfun=decay=0.96, vignette=angle=0.6, eq=contrast=1.4:saturation=1.3",
     "complex": true
   },
   "wormhole_spiral": {
-    "name": "Wormhole / Space Tunnel",
+    "name": "Wormhole Spiral",
     "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum='128+(50+20*sin(T*2))*(X-W/2)/(hypot(X-W/2,Y-H/2)+1)*1/(1+hypot(X-W/2,Y-H/2)/150)*cos(atan2(Y-H/2,X-W/2)+T*3)':cb=128:cr=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30:r=30,geq=lum='128+(50+20*sin(T*2))*(Y-H/2)/(hypot(X-W/2,Y-H/2)+1)*1/(1+hypot(X-W/2,Y-H/2)/150)*sin(atan2(Y-H/2,X-W/2)+T*3)':cb=128:cr=128,format=gray[ymap]; [0:v][xmap][ymap]displace, zoompan=z='1+T*0.03':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=1:s=1920x1080:fps=30, lagfun=decay=0.97, rgbashift=rh='6*sin(T*4)':bh='-6*sin(T*4)', vignette=angle=0.7, eq=contrast=1.5:saturation=1.5",
     "complex": true
   },
   "sphere_to_torus": {
-    "name": "Topology Transition \u2014 Sphere to Torus",
+    "name": "Sphere To Torus",
     "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum='128 +(1-T/30)*50*(X-W/2)/(hypot(X-W/2,Y-H/2)+200)*sin(T*2) +(T/30)*60*(X-W/2)/(hypot(X-W/2,Y-H/2)+80)*sin(hypot(X-W/2,Y-H/2)/60+T*3)':cb=128:cr=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30:r=30,geq=lum='128 +(1-T/30)*50*(Y-H/2)/(hypot(X-W/2,Y-H/2)+200)*cos(T*2) +(T/30)*60*(Y-H/2)/(hypot(X-W/2,Y-H/2)+80)*cos(hypot(X-W/2,Y-H/2)/60+T*3)':cb=128:cr=128,format=gray[ymap]; [0:v][xmap][ymap]displace, lagfun=decay=0.94, eq=contrast=1.3:saturation=1.4, vignette=angle=0.4",
     "complex": true
   },
   "escher": {
-    "name": "Escher-style Impossible Geometry",
+    "name": "Escher",
     "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum='128+40*sin(X/30+sin(Y/40+T*2)*3)*cos(Y/25+cos(X/35+T*1.5)*3)':cb=128:cr=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30:r=30,geq=lum='128+40*cos(Y/30+cos(X/40+T*2)*3)*sin(X/25+sin(Y/35+T*1.5)*3)':cb=128:cr=128,format=gray[ymap]; [0:v][xmap][ymap]displace, eq=contrast=1.3:saturation=1.3",
     "complex": true
   },
   "escher_recursive": {
-    "name": "Escher-style Impossible Geometry",
+    "name": "Escher Recursive",
     "filter_chain": "split[a][b]; [b]hflip,vflip[mir]; [a][mir]blend=all_mode=screen:all_opacity=0.3[blended]; [blended]nullsrc=s=1920x1080:d=30:r=30,geq=lum='128+50*sin(X/25+sin(Y/30+T*2)*4)*cos(Y/20+cos(X/30+T*1.5)*4)':cb=128:cr=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30:r=30,geq=lum='128+50*cos(Y/25+cos(X/30+T*2)*4)*sin(X/20+sin(Y/30+T*1.5)*4)':cb=128:cr=128,format=gray[ymap]; [0:v][xmap][ymap]displace, lagfun=decay=0.94, eq=contrast=1.4:saturation=1.5",
     "complex": true
   },
   "cosmic_web": {
-    "name": "Cosmic Web / Filament Structure",
+    "name": "Cosmic Web",
     "filter_chain": "nullsrc=s=1920x1080:d=30:r=30,geq=lum='128 +20*sin(X/60+T)*cos(Y/50+T*0.8) +15*sin(X/30+Y/40+T*1.5) +10*cos(X/20-Y/30+T*2) +8*sin(X/15+Y/15+T*2.5) ':cb=128:cr=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30:r=30,geq=lum='128 +20*cos(X/50+T*0.8)*sin(Y/60+T) +15*cos(X/40+Y/30+T*1.5) +10*sin(X/30-Y/20+T*2) +8*cos(X/15+Y/15+T*2.5) ':cb=128:cr=128,format=gray[ymap]; [0:v][xmap][ymap]displace, split[a][b]; [b]edgedetect=low=0.05:high=0.2:mode=colormix,gblur=sigma=3,hue=s=3[web]; [a][web]blend=all_mode=screen:all_opacity=0.4, eq=contrast=1.3:saturation=1.5",
     "complex": true
   },
   "shake": {
-    "name": "Earthquake / Camera Shake",
+    "name": "Shake",
     "filter_chain": "crop=iw-40:ih-40:20+random(0)*20:20+random(1)*20, scale=iw+40:ih+40",
     "complex": false
   },
   "shake_violent": {
-    "name": "Earthquake / Camera Shake",
+    "name": "Shake Violent",
     "filter_chain": "crop=iw-80:ih-80:40+random(0)*40:40+random(1)*40, scale=iw+80:ih+80, rotate='0.03*sin(T*30)+0.02*cos(T*23)':fillcolor=black",
     "complex": false
   },
   "shake_crescendo": {
-    "name": "Earthquake / Camera Shake",
+    "name": "Shake Crescendo",
     "filter_chain": "crop=iw-80:ih-80:'40+random(0)*min(40, T*5)':'40+random(1)*min(40, T*5)', scale=iw+80:ih+80, rotate='min(0.06, T*0.003)*sin(T*35)':fillcolor=black, noise=alls='min(50, T*3)':allf=t",
     "complex": false
   },
   "strobe": {
-    "name": "Strobe / Seizure Flash",
+    "name": "Strobe",
     "filter_chain": "split[a][b]; [b]negate[neg]; [a][neg]blend=all_expr='if(mod(N, 4), A, B)",
     "complex": true
   },
   "strobe_multi": {
-    "name": "Strobe / Seizure Flash",
+    "name": "Strobe Multi",
     "filter_chain": "geq=lum='if(eq(mod(N,6),0), 255-lum(X,Y), if(eq(mod(N,6),2), random(0)*255, if(eq(mod(N,6),4), 255, lum(X,Y))))':cb='if(eq(mod(N,6),0), 256-cb(X,Y), cb(X,Y))':cr='if(eq(mod(N,6),0), 256-cr(X,Y), cr(X,Y))",
     "complex": false
   },
   "strobe_accel": {
-    "name": "Strobe / Seizure Flash",
+    "name": "Strobe Accel",
     "filter_chain": "split[a][b]; [b]negate,hue=h=180:s=3[neg]; [a][neg]blend=all_expr='if(mod(N, max(1, 8-floor(T))), A, B)",
     "complex": true
   },
   "signal_destroy": {
-    "name": "Signal Destruction / Total Corruption",
+    "name": "Signal Destroy",
     "filter_chain": "rgbashift=rh='20*sin(T*8)':bh='-20*sin(T*8)':rv='15*cos(T*6)':bv='-15*cos(T*6)', shuffleplanes=2:0:1:3, noise=alls=70:allf=t+u, random=frames=3:seed=-1, setpts=N/FRAME_RATE/TB, eq=contrast=2.0:saturation=3.0",
     "complex": false
   },
   "signal_death": {
-    "name": "Signal Destruction / Total Corruption",
+    "name": "Signal Death",
     "filter_chain": "rgbashift=rh='T*3*sin(T*10)':bh='-T*3*sin(T*10)':rv='T*2*cos(T*7)':bv='-T*2*cos(T*7)', shuffleplanes=2:0:1:3, noise=alls='min(95, T*5)':allf=t+u, random=frames='min(15, 2+floor(T))':seed=-1, setpts=N/FRAME_RATE/TB, eq=contrast='1+T*0.1':saturation='1+T*0.2', lagfun=decay='min(0.995, 0.9+T*0.005)",
     "complex": false
   },
   "explode": {
-    "name": "Pixel Explosion / Scatter",
+    "name": "Explode",
     "filter_chain": "nullsrc=s=1920x1080:d=30,lutrgb=r='128+(X-W/2)*T*0.3':g=128:b=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30,lutrgb=r='128+(Y-H/2)*T*0.3':g=128:b=128,format=gray[ymap]; [0:v][xmap][ymap]displace, noise=alls='min(60, T*4)':allf=t",
     "complex": true
   },
   "explode_corrupt": {
-    "name": "Pixel Explosion / Scatter",
+    "name": "Explode Corrupt",
     "filter_chain": "nullsrc=s=1920x1080:d=30,lutrgb=r='128+(X-W/2)*T*0.5':g=128:b=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30,lutrgb=r='128+(Y-H/2)*T*0.5':g=128:b=128,format=gray[ymap]; [0:v][xmap][ymap]displace, pixelize=w='min(64, 2+floor(T*3))':h='min(64, 2+floor(T*3))', shuffleplanes=0:2:1:3, noise=alls='min(80, T*5)':allf=t+u, eq=contrast=1.5:saturation=2",
     "complex": true
   },
   "time_shatter": {
-    "name": "Temporal Seizure / Time Shatter",
+    "name": "Time Shatter",
     "filter_chain": "random=frames=15:seed=-1, setpts=N/FRAME_RATE/TB, tblend=all_mode=phoenix:all_opacity=0.8, framestep=2",
     "complex": false
   },
   "time_seizure": {
-    "name": "Temporal Seizure / Time Shatter",
+    "name": "Time Seizure",
     "filter_chain": "random=frames=10:seed=-1, setpts='PTS*if(mod(N,30)\\,1\\,0.2)', tblend=all_mode=difference:all_opacity=0.9, lagfun=decay=0.96, amplify=radius=3:factor=8:threshold=5",
     "complex": false
   },
   "stutter_burst": {
-    "name": "Temporal Seizure / Time Shatter",
+    "name": "Stutter Burst",
     "filter_chain": "tmix=frames=8:weights='1 0 0 0 0 0 0 1', tblend=all_mode=grainextract, random=frames=5:seed=-1, setpts=N/FRAME_RATE/TB, noise=alls=30:allf=t",
     "complex": false
   },
   "color_violence": {
-    "name": "Color Violence / Oversaturation Assault",
+    "name": "Color Violence",
     "filter_chain": "eq=saturation=5:contrast=2.5:gamma=0.7, hue=h='120*sin(T*4)':s=4, curves=all='0/0 0.2/0 0.5/1 0.8/1 1/0', noise=alls=15:allf=t",
     "complex": false
   },
   "palette_assault": {
-    "name": "Color Violence / Oversaturation Assault",
+    "name": "Palette Assault",
     "filter_chain": "hue=h='T*60':s=5, negate=negate_alpha=0, eq=contrast=3:saturation=4:gamma_r='1+0.5*sin(T*6)':gamma_g='1+0.5*sin(T*8)':gamma_b='1+0.5*sin(T*10)', tblend=all_mode=phoenix",
     "complex": false
   },
@@ -1930,62 +1930,62 @@
     "complex": true
   },
   "reality_rip": {
-    "name": "Dimension Tear / Reality Rip",
+    "name": "Reality Rip",
     "filter_chain": "crop=iw:ih/5:0:0,scroll=horizontal='0.08*sin(T*4)'[s0]; [0:v]crop=iw:ih/5:0:ih/5,scroll=horizontal='-0.06*sin(T*5+1)'[s1]; [0:v]crop=iw:ih/5:0:2*ih/5,scroll=horizontal='0.1*sin(T*3+2)'[s2]; [0:v]crop=iw:ih/5:0:3*ih/5,scroll=horizontal='-0.07*sin(T*6+3)'[s3]; [0:v]crop=iw:ih/5:0:4*ih/5,scroll=horizontal='0.09*sin(T*4.5+4)'[s4]; [s0][s1]vstack[t01]; [t01][s2]vstack[t012]; [t012][s3]vstack[t0123]; [t0123][s4]vstack, rgbashift=rh=4:bh=-4, noise=alls=20:allf=t",
     "complex": true
   },
   "reality_rip_grow": {
-    "name": "Dimension Tear / Reality Rip",
+    "name": "Reality Rip Grow",
     "filter_chain": "crop=iw:ih/3:0:0,scroll=horizontal='T*0.005*sin(T*4)'[s0]; [0:v]crop=iw:ih/3:0:ih/3,scroll=horizontal='-T*0.004*sin(T*5)'[s1]; [0:v]crop=iw:ih/3:0:2*ih/3,scroll=horizontal='T*0.006*sin(T*3)'[s2]; [s0][s1]vstack[top]; [top][s2]vstack, rgbashift=rh='T*0.5':bh='-T*0.5', noise=alls='min(50, T*3)':allf=t",
     "complex": true
   },
   "feedback_overload": {
-    "name": "Feedback Overload / Infinite Recursion",
+    "name": "Feedback Overload",
     "filter_chain": "split[a][b]; [b]scale=iw*1.08:ih*1.08,crop=iw/1.08:ih/1.08, hue=h=15:s=1.5, eq=contrast=1.1:brightness=0.02, setpts=PTS-STARTPTS[zoom]; [a][zoom]blend=all_mode=addition:all_opacity=0.6, lagfun=decay=0.97, eq=saturation=2",
     "complex": true
   },
   "waveform_destroy": {
-    "name": "Waveform Annihilation / Audio-Reactive Simulation",
+    "name": "Waveform Destroy",
     "filter_chain": "nullsrc=s=1920x1080:d=30,lutrgb=r='128+40*sin(Y/5+T*20)*sin(T*13)':g=128:b=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30,lutrgb=r='128+20*sin(X/30+T*15)*cos(T*17)':g=128:b=128,format=gray[ymap]; [0:v][xmap][ymap]displace, rgbashift=rh='10*sin(T*11)':bh='-10*sin(T*11)', noise=alls=30:allf=t, eq=contrast=1.5:saturation=1.5",
     "complex": true
   },
   "implosion": {
-    "name": "Gravity Collapse / Implosion",
+    "name": "Implosion",
     "filter_chain": "nullsrc=s=1920x1080:d=30,lutrgb=r='128-(X-W/2)*T*0.3':g=128:b=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30,lutrgb=r='128-(Y-H/2)*T*0.3':g=128:b=128,format=gray[ymap]; [0:v][xmap][ymap]displace, lagfun=decay='min(0.998, 0.95+T*0.003)', eq=contrast='1+T*0.1':brightness='-T*0.02",
     "complex": true
   },
   "spiral_collapse": {
-    "name": "Gravity Collapse / Implosion",
+    "name": "Spiral Collapse",
     "filter_chain": "nullsrc=s=1920x1080:d=30,lutrgb=r='128-(X-W/2)*T*0.25+sin(hypot(X-W/2,Y-H/2)/20+T*3)*T*2':g=128:b=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30,lutrgb=r='128-(Y-H/2)*T*0.25+cos(hypot(X-W/2,Y-H/2)/20+T*3)*T*2':g=128:b=128,format=gray[ymap]; [0:v][xmap][ymap]displace, lagfun=decay='min(0.998, 0.95+T*0.003)', eq=saturation='max(0, 1-T*0.05)':contrast='1+T*0.08':brightness='-T*0.03', noise=alls='min(40, T*2)':allf=t",
     "complex": true
   },
   "fragment": {
-    "name": "Fragmentation Bomb / Mosaic Shatter",
+    "name": "Fragment",
     "filter_chain": "pixelize=w='min(128, 2+floor(T*5))':h='min(128, 2+floor(T*5))':mode=avg, noise=alls='min(70, T*4)':allf=t+u, rgbashift=rh='T*2':bh='-T*2', eq=contrast='1+T*0.1':saturation='1+T*0.15",
     "complex": false
   },
   "shatter_corrupt": {
-    "name": "Fragmentation Bomb / Mosaic Shatter",
+    "name": "Shatter Corrupt",
     "filter_chain": "pixelize=w='min(96, 4+floor(T*4))':h='min(96, 4+floor(T*4))':mode=avg, shuffleplanes=2:0:1:3, hue=h='T*30':s='1+T*0.2', noise=alls='min(80, 5+T*5)':allf=t+u, rgbashift=rh='min(30, T*2)':bh='min(-30, -T*2)', tblend=all_mode=phoenix:all_opacity='min(0.8, T*0.05)', eq=contrast='min(3, 1+T*0.1)",
     "complex": false
   },
   "phase_cancel": {
-    "name": "Phase Cancellation / Ghost Layer Assault",
+    "name": "Phase Cancel",
     "filter_chain": "split=4[a][b][c][d]; [b]setpts=PTS+0.1/TB,format=rgba,colorchannelmixer=aa=0.5,hue=h=60[g1]; [c]setpts=PTS+0.2/TB,format=rgba,colorchannelmixer=aa=0.5,hue=h=120,negate[g2]; [d]setpts=PTS+0.3/TB,format=rgba,colorchannelmixer=aa=0.5,hue=h=240[g3]; [a][g1]overlay=format=auto[t1]; [t1][g2]overlay=format=auto[t2]; [t2][g3]overlay=format=auto, eq=contrast=1.8:saturation=2.5, noise=alls=20:allf=t",
     "complex": true
   },
   "mutation": {
-    "name": "Recursive Mutation / Self-Consuming Video",
+    "name": "Mutation",
     "filter_chain": "amplify=radius=3:factor=15:threshold=3, tblend=all_mode=grainextract:all_opacity=0.9, lagfun=decay=0.96, eq=contrast=2:saturation=3, hue=h='T*20",
     "complex": false
   },
   "mutation_escalate": {
-    "name": "Recursive Mutation / Self-Consuming Video",
+    "name": "Mutation Escalate",
     "filter_chain": "amplify=radius=4:factor='min(25, 5+T*2)':threshold=2, tblend=all_mode=phoenix:all_opacity=0.85, lagfun=decay='min(0.995, 0.93+T*0.003)', noise=alls='min(40, T*2)':allf=t, eq=contrast='min(3, 1.5+T*0.1)':saturation='min(5, 1+T*0.3)', hue=h='T*30':s='min(4, 1+T*0.2)",
     "complex": false
   },
   "annihilator": {
-    "name": "The Annihilator (Everything at Maximum)",
+    "name": "Annihilator",
     "filter_chain": "nullsrc=s=1920x1080:d=30,lutrgb=r='128+min(60,T*3)*sin(Y/5+T*20)*sin(T*13)':g=128:b=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30,lutrgb=r='128+min(40,T*2)*sin(X/8+T*15)*cos(T*17)':g=128:b=128,format=gray[ymap]; [0:v][xmap][ymap]displace, rgbashift=rh='min(30, T*3)*sin(T*12)':bh='-min(30, T*3)*sin(T*12)':rv='min(20, T*2)*cos(T*9)':bv='-min(20, T*2)*cos(T*9)', lagfun=decay='min(0.998, 0.93+T*0.004)', amplify=radius=3:factor='min(20, 3+T*1.5)':threshold=3, tblend=all_mode=phoenix:all_opacity='min(0.9, 0.3+T*0.04)', noise=alls='min(90, 5+T*5)':allf=t+u, random=frames='min(12, 2+floor(T*0.5))':seed=-1, setpts=N/FRAME_RATE/TB, shuffleplanes=2:0:1:3, pixelize=w='min(64, 2+floor(T*2))':h='min(64, 2+floor(T*2))', hue=h='T*45':s='min(5, 1+T*0.3)', eq=contrast='min(3, 1+T*0.12)':saturation='min(5, 1+T*0.25)', drawgrid=w=0:h=2:t=1:c=black@0.4, crop=iw-60:ih-60:'30+random(0)*min(30,T*3)':'30+random(1)*min(30,T*3)', scale=iw+60:ih+60",
     "complex": true
   },
@@ -1995,7 +1995,7 @@
     "complex": true
   },
   "dimensional_collapse_anim": {
-    "name": "Dimensional Collapse",
+    "name": "Dimensional Collapse Anim",
     "filter_chain": "split[a][b]; [b]scale='iw/(1.5+0.5*sin(T*2))':'ih/(1.5+0.5*sin(T*2))'[small]; [a][small]overlay='(W-w)/2+(W/4)*sin(T*3)':'(H-h)/2+(H/4)*cos(T*2)', lagfun=decay=0.96, rgbashift=rh='8*sin(T*4)':bh='-8*sin(T*4)', eq=contrast=1.5:saturation=1.8",
     "complex": true
   },
@@ -2005,7 +2005,7 @@
     "complex": false
   },
   "signal_annihilation_pulse": {
-    "name": "Signal Annihilation",
+    "name": "Signal Annihilation Pulse",
     "filter_chain": "rgbashift=rh='40*sin(T*6)':bh='-40*sin(T*6)':rv='25*cos(T*4)':bv='-25*cos(T*4)', shuffleplanes=2:0:1:3, lutrgb=r='bitand(val,224*abs(sin(T*3)))':g='bitand(val,192*abs(cos(T*2)))':b='bitand(val,128)', noise=alls='40+40*abs(sin(T*5))':allf=t+u, eq=contrast='1.5+sin(T*3)':saturation='2+sin(T*4)', posterize=bits=2",
     "complex": false
   },
@@ -2015,7 +2015,7 @@
     "complex": false
   },
   "temporal_shredder_extreme": {
-    "name": "Temporal Shredder",
+    "name": "Temporal Shredder Extreme",
     "filter_chain": "random=frames=15:seed=42, setpts=N/FRAME_RATE/TB, tblend=all_mode=phoenix:all_opacity=0.9, tblend=all_mode=grainextract:all_opacity=0.6, tblend=all_mode=difference:all_opacity=0.7, lagfun=decay=0.97, rgbashift=rh=8:bh=-8, eq=contrast=1.8:saturation=2.0",
     "complex": false
   },
@@ -2025,7 +2025,7 @@
     "complex": true
   },
   "flesh_machine_mutate": {
-    "name": "Flesh Machine",
+    "name": "Flesh Machine Mutate",
     "filter_chain": "nullsrc=s=1920x1080:d=30,lutrgb=r='128+(15+T*2)*sin(X/(15-T*0.3)+T*5)*cos(Y/(12-T*0.2)+T*3)':g=128:b=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30,lutrgb=r='128+(20+T*3)*cos(X/(10-T*0.2)+T*4)*sin(Y/(8-T*0.15)+T*6)':g=128:b=128,format=gray[ymap]; [0:v][xmap][ymap]displace, lagfun=decay='min(0.995, 0.94+T*0.003)', colorbalance=rs='0.2+T*0.02':bs='-0.1-T*0.015', noise=alls='10+T*2':allf=t, eq=contrast='1.2+T*0.03':saturation='1.2+T*0.05",
     "complex": true
   },
@@ -2035,7 +2035,7 @@
     "complex": false
   },
   "data_blender_feedback": {
-    "name": "Data Blender",
+    "name": "Data Blender Feedback",
     "filter_chain": "shuffleplanes=2:1:0:3, lutrgb=r='mod(val*val/64,256)':g='bitand(val,170)':b='mod(val+128,256)', tblend=all_mode=phoenix:all_opacity=0.9, lagfun=decay=0.97, rgbashift=rh='20*sin(T*5)':bh='-20*sin(T*5)', noise=alls=30:allf=t, eq=contrast=1.8:saturation=3.0",
     "complex": false
   },
@@ -2045,17 +2045,17 @@
     "complex": true
   },
   "gravity_well_intensify": {
-    "name": "Gravity Well",
+    "name": "Gravity Well Intensify",
     "filter_chain": "nullsrc=s=1920x1080:d=30,lutrgb=r='128+(20+T*3)*(X-W/2-W/4*sin(T*2))/hypot(X-W/2-W/4*sin(T*2),Y-H/2-H/4*cos(T*1.5)+1)':g=128:b=128,format=gray[xmap]; nullsrc=s=1920x1080:d=30,lutrgb=r='128+(20+T*3)*(Y-H/2-H/4*cos(T*1.5))/hypot(X-W/2-W/4*sin(T*2),Y-H/2-H/4*cos(T*1.5)+1)':g=128:b=128,format=gray[ymap]; [0:v][xmap][ymap]displace, lagfun=decay='min(0.995, 0.93+T*0.003)', rgbashift=rh='T*0.5':bh='-T*0.5', noise=alls='min(40, T*2)':allf=t, eq=contrast='1.2+T*0.03':saturation='1.0+T*0.08",
     "complex": true
   },
   "mirror_fracture": {
-    "name": "Infinite Mirror Fracture",
+    "name": "Mirror Fracture",
     "filter_chain": "split[a][b]; [b]hflip[flip]; [a]crop=iw/2:ih:0:0[left]; [flip]crop=iw/2:ih:0:0[right]; [left][right]hstack, split[c][d]; [d]vflip[vflip]; [c]crop=iw:ih/2:0:0[top]; [vflip]crop=iw:ih/2:0:0[bottom]; [top][bottom]vstack, rgbashift=rh=6:bh=-6, eq=contrast=1.4:saturation=1.6",
     "complex": true
   },
   "kaleidoscope_fracture": {
-    "name": "Infinite Mirror Fracture",
+    "name": "Kaleidoscope Fracture",
     "filter_chain": "split[a][b]; [b]hflip,vflip[flip]; [a][flip]blend=all_mode=screen:all_opacity=0.6, rotate='T*0.5':fillcolor=black, crop=iw*0.8:ih*0.8, scale=1920:1080, split[c][d]; [d]hflip[mir]; [c][mir]blend=all_mode=addition:all_opacity=0.5, lagfun=decay=0.96, rgbashift=rh='10*sin(T*3)':bh='-10*sin(T*3)', eq=contrast=1.6:saturation=2.0",
     "complex": true
   },
@@ -2065,17 +2065,17 @@
     "complex": false
   },
   "vortex_collapse": {
-    "name": "Vortex Crusher",
+    "name": "Vortex Collapse",
     "filter_chain": "rotate='T*T*0.015':fillcolor=black, zoompan=z='1+T*0.03':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=1:s=1920x1080:fps=30, lagfun=decay=0.98, rgbashift=rh='12*sin(T*5)':bh='-12*sin(T*5)':rv='6*cos(T*3)':bv='-6*cos(T*3)', tblend=all_mode=phoenix:all_opacity=0.5, eq=contrast=1.6:saturation=2.0",
     "complex": false
   },
   "cellular": {
-    "name": "Cellular Automaton",
+    "name": "Cellular",
     "filter_chain": "amplify=radius=3:factor=10:threshold=3, lagfun=decay=0.98, tblend=all_mode=grainextract:all_opacity=0.8, rgbashift=rh=5:bh=-5, eq=contrast=1.8:saturation=2.5, noise=alls=10:allf=t",
     "complex": false
   },
   "cellular_edge": {
-    "name": "Cellular Automaton",
+    "name": "Cellular Edge",
     "filter_chain": "split[a][b]; [b]edgedetect=low=0.05:high=0.15:mode=colormix,hue=s=4[edges]; [a]amplify=radius=4:factor=12:threshold=2[amp]; [amp][edges]blend=all_mode=addition:all_opacity=0.7, lagfun=decay=0.985, tblend=all_mode=phoenix:all_opacity=0.6, eq=contrast=2.0:saturation=3.0",
     "complex": true
   },
@@ -2085,17 +2085,17 @@
     "complex": true
   },
   "reality_tear_intensify": {
-    "name": "Reality Tear",
+    "name": "Reality Tear Intensify",
     "filter_chain": "crop=iw:ih/5:0:0,scroll=horizontal='T*0.003*sin(T*4)'[s0]; [0:v]crop=iw:ih/5:0:ih/5,scroll=horizontal='-T*0.005*sin(T*3)'[s1]; [0:v]crop=iw:ih/5:0:2*ih/5,scroll=horizontal='T*0.004*sin(T*5)'[s2]; [0:v]crop=iw:ih/5:0:3*ih/5,scroll=horizontal='-T*0.003*sin(T*6)'[s3]; [0:v]crop=iw:ih/5:0:4*ih/5,scroll=horizontal='T*0.006*sin(T*4)'[s4]; [s0][s1]vstack[t01]; [t01][s2]vstack[t02]; [t02][s3]vstack[t03]; [t03][s4]vstack, rgbashift=rh='T*0.5':bh='-T*0.5', lagfun=decay=0.95, noise=alls='10+T*2':allf=t",
     "complex": true
   },
   "void": {
-    "name": "Void Emergence",
+    "name": "Void",
     "filter_chain": "geq=lum='if(gt(sin(X/10+T*3)*cos(Y/8+T*2)+sin(X/25)*cos(Y/20), 1.5-T*0.06), 0, lum(X,Y))':cb='if(gt(sin(X/10+T*3)*cos(Y/8+T*2)+sin(X/25)*cos(Y/20), 1.5-T*0.06), 128, cb(X,Y))':cr='if(gt(sin(X/10+T*3)*cos(Y/8+T*2)+sin(X/25)*cos(Y/20), 1.5-T*0.06), 128, cr(X,Y))', noise=alls=15:allf=t",
     "complex": false
   },
   "void_glow": {
-    "name": "Void Emergence",
+    "name": "Void Glow",
     "filter_chain": "split[orig][edge_src]; [edge_src]geq=lum='if(between(sin(X/10+T*3)*cos(Y/8+T*2)+sin(X/25)*cos(Y/20), 1.4-T*0.06, 1.6-T*0.06), 255, 0)':cb=128:cr=128, gblur=sigma=4, colorbalance=rs=0.5:gs=0.1:bs=-0.3[glow]; [orig]geq=lum='if(gt(sin(X/10+T*3)*cos(Y/8+T*2)+sin(X/25)*cos(Y/20), 1.5-T*0.06), 0, lum(X,Y))':cb='if(gt(sin(X/10+T*3)*cos(Y/8+T*2)+sin(X/25)*cos(Y/20), 1.5-T*0.06), 128, cb(X,Y))':cr='if(gt(sin(X/10+T*3)*cos(Y/8+T*2)+sin(X/25)*cos(Y/20), 1.5-T*0.06), 128, cr(X,Y))'[voided]; [voided][glow]blend=all_mode=screen:all_opacity=0.8",
     "complex": true
   },
