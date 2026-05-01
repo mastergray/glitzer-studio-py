@@ -130,6 +130,7 @@ def cmd_render(args):
         'ffprobe': args.ffprobe,
         'dazzle': args.dazzle,
         'glitch_maker': args.glitch_maker,
+        'no_profile': args.no_profile,
     }
 
     # Validate tool paths.
@@ -227,6 +228,8 @@ def main():
     r.add_argument('--ffmpeg', default='ffmpeg', help='path to ffmpeg binary')
     r.add_argument('--ffprobe', default='ffprobe', help='path to ffprobe binary')
     r.add_argument('--temp-dir', default='/tmp/glitzle', help='temp directory for intermediates')
+    r.add_argument('--no-profile', action='store_true',
+                   help='disable profile JSON output for dazzle/glitch-maker subprocesses')
     r.add_argument('--parallel', default='1',
                    help='render N scenes in parallel. "auto" = one worker per scene. '
                         '(default 1 = sequential)')

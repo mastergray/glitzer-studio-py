@@ -32,7 +32,6 @@ def _render_dazzle(visuals: dict, scene_audio: str, out_path: str,
         '--crf', str(settings.get('crf', 23)),
         '--ffmpeg', tools['ffmpeg'],
         '--ffprobe', tools['ffprobe'],
-        '--no-profile',
     ]
 
     palette = visuals.get('palette')
@@ -42,6 +41,8 @@ def _render_dazzle(visuals: dict, scene_audio: str, out_path: str,
     seed = settings.get('seed')
     if seed is not None:
         cmd.extend(['--seed', str(seed)])
+    if tools.get('no_profile'):
+        cmd.append('--no-profile')
 
     # Dazzle post effects.
     post_entries = visuals.get('post', [])
@@ -76,8 +77,9 @@ def _render_glitch(entry: dict, input_path: str, out_path: str,
         '--effects', entry['id'],
         '--ffmpeg', tools['ffmpeg'],
         '--ffprobe', tools['ffprobe'],
-        '--no-profile',
     ]
+    if tools.get('no_profile'):
+        cmd.append('--no-profile')
 
     # Effect props.
     for prop, val in entry.get('props', {}).items():
