@@ -1,0 +1,22 @@
+{
+  "name": "glitzer-studio-app",
+  "version": "0.1.0",
+  "description": "Glitzer Studio scene UI — declarative rebuild on yngwie + rollup",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "rollup -c",
+    "dev": "rollup -c -w"
+  },
+  "dependencies": {
+    "yngwie": "^0.2.4"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^25.0.0",
+    "@rollup/plugin-json": "^6.1.0",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "rollup": "^4.18.0",
+    "rollup-plugin-livereload": "^2.0.5",
+    "rollup-plugin-serve": "^3.0.0"
+  }
+}

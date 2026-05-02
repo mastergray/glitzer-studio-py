@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Scene UI</title>
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main>
+      <section id="importPanel" class="panel controls">
+        <div class="control-group">
+          <h3>Import Timeline</h3>
+          <div class="row">
+            <label>Timeline JSON
+              <input id="timelineFile" type="file" accept=".json,application/json" />
+            </label>
+            <button id="importTimeline" type="button">Import Timeline</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="workspacePanel" class="panel controls" style="display:none;">
+        <div class="control-group">
+          <h3>Scenes</h3>
+          <div id="sceneTabs" class="tabs"></div>
+          <div class="row">
+            <label>Scene Name
+              <input id="sceneName" type="text" placeholder="Scene name" />
+            </label>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <h3 id="activeSceneTitle">Scene</h3>
+          <p class="muted" id="activeSceneMeta"></p>
+        </div>
+
+        <div class="control-group">
+          <h3>Visuals</h3>
+          <div class="row">
+            <label>Palette
+              <select id="paletteSelect"></select>
+            </label>
+            <label>Dazzle Visual
+              <select id="visualSelect"></select>
+            </label>
+            <button id="addLayer" type="button">Add Layer</button>
+            <button id="replaceStack" type="button">Replace Stack</button>
+            <button id="clearStack" type="button">Clear Stack</button>
+          </div>
+          <div id="visualStack" class="stack"></div>
+        </div>
+
+        <div class="control-group">
+          <h3>Visual Effects</h3>
+          <div class="row">
+            <label>Dazzle Effect
+              <select id="effectSelect"></select>
+            </label>
+            <button id="addEffectLayer" type="button">Add Effect</button>
+            <button id="replaceEffectStack" type="button">Replace Effects</button>
+            <button id="clearEffectStack" type="button">Clear Effects</button>
+          </div>
+          <div id="effectStack" class="stack"></div>
+        </div>
+
+        <div class="control-group">
+          <h3>Post Effects</h3>
+          <div class="row">
+            <label>Post Effect
+              <select id="postEffectSelect"></select>
+            </label>
+            <button id="addPostEffectLayer" type="button">Add Post</button>
+            <button id="replacePostEffectStack" type="button">Replace Post</button>
+            <button id="clearPostEffectStack" type="button">Clear Post</button>
+          </div>
+          <div id="postChain" class="stack"></div>
+        </div>
+
+        <div class="control-group">
+          <h3>Post Filters</h3>
+          <div class="row">
+            <label>Post Filter
+              <select id="postFilterSelect"></select>
+            </label>
+            <button id="addPostFilterLayer" type="button">Add Filter</button>
+            <button id="replacePostFilterStack" type="button">Replace Filters</button>
+            <button id="clearPostFilterStack" type="button">Clear Filters</button>
+          </div>
+          <div id="postFiltersStack" class="stack"></div>
+        </div>
+
+        <div class="row">
+          <button id="playPause" type="button">Pause</button>
+          <label style="flex-direction:row;align-items:center;gap:6px;margin-top:18px;">
+            <input id="persistentBuffer" type="checkbox" />
+            Persistent Buffer
+            <button
+              type="button"
+              class="help-tip"
+              title="On: keeps drawing into the same frame buffer each frame (trails/feedback). Off: clears each frame and best matches Glitzer/FFmpeg render behavior."
+              aria-label="Persistent Buffer help"
+            >?</button>
+          </label>
+        </div>
+      </section>
+
+      <section id="viewerPanel" class="panel viewer" style="display:none;">
+        <canvas id="viz" width="960" height="600"></canvas>
+        <div id="exportPanel" class="control-group" style="display:none;">
+          <h3>Export</h3>
+          <div id="sceneThumbs" class="thumb-grid"></div>
+          <div class="row">
+            <button id="exportConfig" type="button">Export Config JSON</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="./dist/bundle.js"></script>
+  </body>
+</html>
