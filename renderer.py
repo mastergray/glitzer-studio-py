@@ -82,11 +82,26 @@ def _render_glitch(entry: dict, input_path: str, out_path: str,
         cmd.append('--no-profile')
 
     # Effect props.
+    prefix = _effect_flag_prefix(entry['id'])
+    overrides = _GLITCH_FLAG_OVERRIDES.get(entry['id'], {})
+    bool_flags = _GLITCH_BOOL_FLAGS.get(entry['id'], {})
     for prop, val in entry.get('props', {}).items():
-        # Map prop names to glitch-maker CLI flags.
-        # Convention: effect-specific flags are --{prefix}-{prop}
-        # but some are direct (e.g., --effects tear --tear-count-pct 10)
-        flag = f'--{_effect_flag_prefix(entry["id"])}-{prop.replace("_", "-")}'
+        # Empty/None means "use the effect's default" — don't pass a flag at all.
+        if val is None or val == '':
+            continue
+        # Boolean store_true flags: pass the flag alone if True, or skip / pass
+        # the documented negation form if False.
+        if prop in bool_flags:
+            on_flag, off_flag = bool_flags[prop]
+            if val and on_flag:
+                cmd.append(on_flag)
+            elif not val and off_flag:
+                cmd.append(off_flag)
+            continue
+        # Override of None = "drop this prop"; glitch-maker has no CLI flag for it.
+        if prop in overrides and overrides[prop] is None:
+            continue
+        flag = overrides.get(prop) or f'--{prefix}-{prop.replace("_", "-")}'
         cmd.extend([flag, str(val)])
 
     # Accumulate settings.
@@ -99,6 +114,29 @@ def _render_glitch(entry: dict, input_path: str, out_path: str,
             cmd.extend(['--accumulate-reset-sec', str(acc['reset_sec'])])
 
     return cmd
+
+
+# UI prop name → glitch-maker CLI flag, for cases where the naive
+# --{prefix}-{prop with _→-} rule doesn't match the actual flag name.
+# A None value means "drop this prop": the UI exposes it but glitch-maker
+# has no CLI surface for it.
+_GLITCH_FLAG_OVERRIDES = {
+    'tear':       {'clip_path':        '--tear-clip'},
+    'pixel_sort': {'lower_threshold':  '--psort-lower',
+                   'upper_threshold':  '--psort-upper'},
+    'warp':       {'amplitude_px':     '--warp-amplitude'},
+    'slitscan':   {'max_delay_frames': '--slitscan-max-delay'},
+    'clip_cut':   {'other_path':       '--clip-cut-with',
+                   'hold_frames':      None},
+}
+
+# UI prop → (flag-when-true, flag-when-false). None means "omit".
+# argparse store_true flags don't accept a value, so the naive
+# `--flag str(bool_val)` form fails.
+_GLITCH_BOOL_FLAGS = {
+    'pixel_sort': {'reverse': ('--psort-reverse', None)},
+    'noise':      {'mono':    ('--noise-mono', '--no-noise-mono')},
+}
 
 
 def _effect_flag_prefix(effect_id: str) -> str:
