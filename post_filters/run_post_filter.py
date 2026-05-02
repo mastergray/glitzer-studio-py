@@ -109,7 +109,6 @@ def main():
         enc_cmd += ['-i', args.input, '-map', '0:v', '-map', '1:a', '-c:a', 'copy']
     enc_cmd += [
         '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-crf', str(args.crf),
-        '-shortest',
         args.output,
     ]
 
