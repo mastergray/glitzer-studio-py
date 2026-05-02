@@ -163,6 +163,13 @@ def cmd_render(args):
     os.makedirs(temp_dir, exist_ok=True)
     out_path = args.output
 
+    # Profile path: CLI flag > timeline settings.profile > <temp-dir>/profile.json.
+    # The temp-dir default is wiped on success, so an unset profile is "lost" by
+    # design — set --profile-out (or settings.profile) to preserve a render.
+    profile_path = (args.profile_out
+                    or settings.get('profile')
+                    or os.path.join(temp_dir, 'profile.json'))
+
     scenes = timeline['scenes']
     if args.parallel == 'auto':
         parallel = len(scenes)
@@ -205,6 +212,12 @@ def cmd_render(args):
             shutil.copy2(final_path, out_path)
         else:
             shutil.copy2(concat_path, out_path)
+
+        # Write the render profile (verbatim copy of the input timeline).
+        os.makedirs(os.path.dirname(os.path.abspath(profile_path)), exist_ok=True)
+        with open(profile_path, 'w') as f:
+            json.dump(timeline, f, indent=2)
+        print(f'[render] profile → {profile_path}')
 
         dt = time.time() - t0
         print(f'[render] done in {dt:.1f}s → {out_path}')
@@ -249,6 +262,12 @@ def main():
     r.add_argument('--ffmpeg', default='ffmpeg', help='path to ffmpeg binary')
     r.add_argument('--ffprobe', default='ffprobe', help='path to ffprobe binary')
     r.add_argument('--temp-dir', default='/tmp/glitzle', help='temp directory for intermediates')
+    r.add_argument('--profile-out',
+                   help='path to write the render profile (a copy of the input '
+                        'timeline JSON) on success. Overrides settings.profile in '
+                        'the timeline. Default: <temp-dir>/profile.json, which is '
+                        'wiped on success — set this flag (or settings.profile) to '
+                        'preserve it.')
     r.add_argument('--no-profile', action='store_true',
                    help='disable profile JSON output for dazzle/glitch-maker subprocesses')
     r.add_argument('--post-filter-impl', choices=('vectorized', 'loop'),

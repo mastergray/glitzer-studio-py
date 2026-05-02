@@ -125,6 +125,8 @@ All scene IDs must have `video` populated or render will error.
   - `fps` — frame rate (default 60)
   - `crf` — H.264 quality (default 23)
   - `seed` — RNG seed (null = random per run)
+  - `profile` — optional path to save a copy of this timeline on success
+    (overridden by `--profile-out` on the CLI)
 - `scenes` — ordered list of scene definitions
 - `post` — global post-processing chain applied to the final concatenated video
 
@@ -246,6 +248,14 @@ python3 studio.py render TIMELINE [-o OUTPUT] [options]
 - `--ffmpeg PATH` — ffmpeg binary (default: ffmpeg on PATH)
 - `--ffprobe PATH` — ffprobe binary (default: ffprobe on PATH)
 - `--temp-dir PATH` — intermediate file directory (default: /tmp/glitzle)
+- `--profile-out PATH` — where to save the render profile (a verbatim copy
+  of the input timeline JSON) on success. Overrides `settings.profile` in
+  the timeline. Default: `<temp-dir>/profile.json`, which is wiped when the
+  render succeeds — set this flag (or `settings.profile`) to preserve it.
+
+The render profile is the full timeline used to produce the mp4, so it
+round-trips: feeding the saved profile back into `studio.py render`
+reproduces the same project.
 
 ### filters
 
