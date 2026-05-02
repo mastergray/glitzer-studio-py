@@ -92,6 +92,34 @@
           <div id="postFiltersStack" class="stack"></div>
         </div>
 
+        <div id="renderSettingsGroup" class="control-group">
+          <h3>Render Settings</h3>
+          <div class="row" style="gap:8px;">
+            <label style="flex:1;">
+              <span>scale</span>
+              <input id="settingScale" type="number" min="1" max="8" step="1" placeholder="1" />
+            </label>
+            <label style="flex:1;">
+              <span>fps</span>
+              <input id="settingFps" type="number" min="1" max="240" step="1" placeholder="60" />
+            </label>
+            <label style="flex:1;">
+              <span>crf</span>
+              <input id="settingCrf" type="number" min="0" max="51" step="1" placeholder="23" />
+            </label>
+            <label style="flex:1;">
+              <span>seed</span>
+              <input id="settingSeed" type="number" step="1" placeholder="random" />
+            </label>
+          </div>
+          <label class="row" style="align-items:center; gap:6px;">
+            <span style="white-space:nowrap;">Profile path</span>
+            <input id="profilePath" type="text"
+              placeholder="optional: settings.profile path written into the exported JSON"
+              style="flex:1;" />
+          </label>
+        </div>
+
         <div class="row">
           <button id="playPause" type="button">Pause</button>
           <label style="flex-direction:row;align-items:center;gap:6px;margin-top:18px;">

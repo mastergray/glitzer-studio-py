@@ -48,6 +48,11 @@ GPF.loadPresets(destructivePresetsJson);
   const sceneNameInput = document.getElementById("sceneName");
   const paletteSelect = document.getElementById("paletteSelect");
   const exportConfigBtn = document.getElementById("exportConfig");
+  const profilePathInput = document.getElementById("profilePath");
+  const settingScaleInput = document.getElementById("settingScale");
+  const settingFpsInput = document.getElementById("settingFps");
+  const settingCrfInput = document.getElementById("settingCrf");
+  const settingSeedInput = document.getElementById("settingSeed");
   const timelineFileInput = document.getElementById("timelineFile");
   const importTimelineBtn = document.getElementById("importTimeline");
   const importPanel = document.getElementById("importPanel");
@@ -485,6 +490,12 @@ GPF.loadPresets(destructivePresetsJson);
       const groups = workspacePanel.querySelectorAll(".control-group");
       groups.forEach((g, idx) => {
         if (idx <= 1) return;
+        // Render Settings is the inverse of scene-editing groups: visible
+        // only on the Export tab, hidden when editing a scene.
+        if (g.id === "renderSettingsGroup") {
+          g.style.display = activeTab === "export" ? "" : "none";
+          return;
+        }
         g.style.display = activeTab === "export" ? "none" : "";
       });
     }
@@ -560,10 +571,40 @@ GPF.loadPresets(destructivePresetsJson);
   function exportConfigJson() {
     syncSceneFromCurrentState();
     const base = importedTimeline && typeof importedTimeline === "object" ? importedTimeline : {};
+    const settings = { ...(base.settings ?? {}) };
+    const profilePath = profilePathInput ? profilePathInput.value.trim() : "";
+    if (profilePath) settings.profile = profilePath;
+    else delete settings.profile;
+    // Render settings: blank field = omit (engine falls back to its own default).
+    // Seed is a special case — blank explicitly means "random per run" (null).
+    // Scale is a UI-side special case — blank means 1 (preview default), not the
+    // engine's default of 6, so opening the UI yields a fast preview render.
+    const setIntFromInput = (key, input, blankValue) => {
+      if (!input) return;
+      const raw = input.value.trim();
+      if (raw === "") {
+        if (blankValue === undefined) delete settings[key];
+        else settings[key] = blankValue;
+        return;
+      }
+      const n = Number(raw);
+      if (Number.isFinite(n)) settings[key] = Math.trunc(n);
+    };
+    setIntFromInput("scale", settingScaleInput, 1);
+    setIntFromInput("fps",   settingFpsInput);
+    setIntFromInput("crf",   settingCrfInput);
+    if (settingSeedInput) {
+      const raw = settingSeedInput.value.trim();
+      if (raw === "") settings.seed = null;
+      else {
+        const n = Number(raw);
+        if (Number.isFinite(n)) settings.seed = Math.trunc(n);
+      }
+    }
     const out = {
       version: base.version ?? 1,
       audio: base.audio ?? null,
-      settings: base.settings ?? {},
+      settings,
       post: base.post ?? {},
       scenes: scenes.map((s, idx) => {
         const src = Array.isArray(base.scenes) ? base.scenes[idx] || {} : {};
@@ -688,6 +729,20 @@ GPF.loadPresets(destructivePresetsJson);
     if (importPanel) importPanel.style.display = "none";
     if (workspacePanel) workspacePanel.style.display = "";
     if (viewerPanel) viewerPanel.style.display = "";
+    if (profilePathInput) {
+      const importedProfile = (obj && obj.settings && typeof obj.settings.profile === "string") ? obj.settings.profile : "";
+      profilePathInput.value = importedProfile;
+    }
+    const importedSettings = (obj && obj.settings && typeof obj.settings === "object") ? obj.settings : {};
+    const populateSetting = (input, key) => {
+      if (!input) return;
+      const v = importedSettings[key];
+      input.value = (typeof v === "number" && Number.isFinite(v)) ? String(v) : "";
+    };
+    populateSetting(settingScaleInput, "scale");
+    populateSetting(settingFpsInput,   "fps");
+    populateSetting(settingCrfInput,   "crf");
+    populateSetting(settingSeedInput,  "seed");
     refreshSceneUi();
     loadSceneIntoCurrentState(scenes[0]);
     refreshStatus(`Imported timeline with ${scenes.length} scenes.`);
