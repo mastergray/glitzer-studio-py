@@ -24,6 +24,7 @@ from renderer import render_scene, apply_post_chain, concatenate
 
 ANALYZER = Path(__file__).resolve().parent / 'analyze_audio.py'
 FILTER_LIBRARY = Path(__file__).resolve().parent / 'filter_library.json'
+POST_FILTERS_PRESETS = Path(__file__).resolve().parent / 'post_filters' / 'presets'
 
 
 def _load_filter_library() -> dict:
@@ -32,6 +33,18 @@ def _load_filter_library() -> dict:
                          f'run: python3 -c "from filters import load_all_filters; ..." to regenerate')
     with open(FILTER_LIBRARY) as f:
         return json.load(f)
+
+
+def _load_post_filter_registry() -> dict:
+    """Load all presets/*.json into a {id: preset} dict. Empty if dir missing."""
+    registry: dict = {}
+    if not POST_FILTERS_PRESETS.exists():
+        return registry
+    for jf in sorted(POST_FILTERS_PRESETS.glob('*.json')):
+        with open(jf) as f:
+            for preset in json.load(f):
+                registry[preset['id']] = preset
+    return registry
 
 
 def cmd_analyze(args):
@@ -115,9 +128,10 @@ def cmd_render(args):
     """Phase 2: Render populated timeline → final video."""
     timeline = load(args.timeline)
     filter_library = _load_filter_library()
+    post_filter_registry = _load_post_filter_registry()
 
     # Validate everything before processing.
-    errors = validate(timeline, filter_library)
+    errors = validate(timeline, filter_library, post_filter_registry)
     if errors:
         print('Timeline validation errors:')
         for e in errors:
@@ -131,6 +145,7 @@ def cmd_render(args):
         'dazzle': args.dazzle,
         'glitch_maker': args.glitch_maker,
         'no_profile': args.no_profile,
+        'post_filter_impl': args.post_filter_impl,
     }
 
     # Validate tool paths.
@@ -156,44 +171,50 @@ def cmd_render(args):
     print(f'[render] {len(scenes)} scene(s) to render (parallel={parallel})')
 
     t0 = time.time()
-    if parallel > 1 and len(scenes) > 1:
-        # Render scenes in parallel — each is independent until concatenation.
-        segments = [None] * len(scenes)
-        with concurrent.futures.ThreadPoolExecutor(max_workers=parallel) as pool:
-            futures = {
-                pool.submit(render_scene, scene, timeline, filter_library, tools, temp_dir): i
-                for i, scene in enumerate(scenes)
-            }
-            for future in concurrent.futures.as_completed(futures):
-                idx = futures[future]
-                segments[idx] = future.result()
-    else:
-        segments = []
-        for scene in scenes:
-            seg_path = render_scene(scene, timeline, filter_library, tools, temp_dir)
-            segments.append(seg_path)
+    success = False
+    try:
+        if parallel > 1 and len(scenes) > 1:
+            # Render scenes in parallel — each is independent until concatenation.
+            segments = [None] * len(scenes)
+            with concurrent.futures.ThreadPoolExecutor(max_workers=parallel) as pool:
+                futures = {
+                    pool.submit(render_scene, scene, timeline, filter_library, tools, temp_dir): i
+                    for i, scene in enumerate(scenes)
+                }
+                for future in concurrent.futures.as_completed(futures):
+                    idx = futures[future]
+                    segments[idx] = future.result()
+        else:
+            segments = []
+            for scene in scenes:
+                seg_path = render_scene(scene, timeline, filter_library, tools, temp_dir)
+                segments.append(seg_path)
 
-    # Concatenate all scenes.
-    concat_path = os.path.join(temp_dir, 'concatenated.mp4')
-    print(f'[render] concatenating {len(segments)} segments')
-    concatenate(tools['ffmpeg'], segments, audio, concat_path,
-                crf=settings.get('crf', 23))
+        # Concatenate all scenes.
+        concat_path = os.path.join(temp_dir, 'concatenated.mp4')
+        print(f'[render] concatenating {len(segments)} segments')
+        concatenate(tools['ffmpeg'], segments, audio, concat_path,
+                    crf=settings.get('crf', 23))
 
-    # Apply global post chain if present.
-    global_post = timeline.get('post', [])
-    if global_post:
-        print(f'[render] applying {len(global_post)} global post effect(s)')
-        final_path = apply_post_chain(global_post, concat_path, audio,
-                                       filter_library, tools, temp_dir)
-        # Copy final to output.
-        import shutil as sh
-        sh.copy2(final_path, out_path)
-    else:
-        import shutil as sh
-        sh.copy2(concat_path, out_path)
+        # Apply global post chain if present.
+        global_post = timeline.get('post', [])
+        if global_post:
+            print(f'[render] applying {len(global_post)} global post effect(s)')
+            final_path = apply_post_chain(global_post, concat_path, audio,
+                                           filter_library, tools, temp_dir)
+            shutil.copy2(final_path, out_path)
+        else:
+            shutil.copy2(concat_path, out_path)
 
-    dt = time.time() - t0
-    print(f'[render] done in {dt:.1f}s → {out_path}')
+        dt = time.time() - t0
+        print(f'[render] done in {dt:.1f}s → {out_path}')
+        success = True
+    finally:
+        if success:
+            shutil.rmtree(temp_dir, ignore_errors=True)
+        else:
+            print(f'[render] FAILED — intermediate files preserved at: {temp_dir}',
+                  file=sys.stderr)
 
 
 def cmd_filters(args):
@@ -230,6 +251,11 @@ def main():
     r.add_argument('--temp-dir', default='/tmp/glitzle', help='temp directory for intermediates')
     r.add_argument('--no-profile', action='store_true',
                    help='disable profile JSON output for dazzle/glitch-maker subprocesses')
+    r.add_argument('--post-filter-impl', choices=('vectorized', 'loop'),
+                   default='vectorized',
+                   help='post_filter implementation: vectorized (NumPy, fast, '
+                        'default) or loop (original per-pixel Python port, slow). '
+                        'Use "loop" to A/B compare against the canonical impl.')
     r.add_argument('--parallel', default='1',
                    help='render N scenes in parallel. "auto" = one worker per scene. '
                         '(default 1 = sequential)')

@@ -121,6 +121,21 @@ def _effect_flag_prefix(effect_id: str) -> str:
     return prefixes.get(effect_id, effect_id)
 
 
+def _render_post_filter(entry: dict, input_path: str, out_path: str,
+                        tools: dict):
+    """Apply an ops-based post_filter preset via the post_filters CLI."""
+    runner = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                          'post_filters', 'run_post_filter.py')
+    cmd = [
+        'python3', runner,
+        input_path, out_path, entry['id'],
+        '--ffmpeg', tools['ffmpeg'],
+        '--ffprobe', tools['ffprobe'],
+        '--impl', tools.get('post_filter_impl', 'vectorized'),
+    ]
+    return cmd
+
+
 def _render_filter(filter_id: str, filter_entry: dict, input_path: str,
                    out_path: str, tools: dict):
     """Apply an ffmpeg filter chain."""
@@ -152,9 +167,13 @@ def _render_filter(filter_id: str, filter_entry: dict, input_path: str,
 
 def trim_audio(ffmpeg: str, audio_path: str, start: float, duration: float,
                out_path: str):
+    # -ss/-t after -i = output-side seek, byte-accurate for PCM/WAV.
+    # (Putting them before -i with -c copy can produce empty files for some
+    # WAV streams — observed on this codebase before the post_filter work.)
     cmd = [ffmpeg, '-y', '-v', 'error',
+           '-i', audio_path,
            '-ss', str(start), '-t', str(duration),
-           '-i', audio_path, '-c', 'copy', out_path]
+           '-c', 'copy', out_path]
     _run(cmd, 'audio trim')
 
 
@@ -208,6 +227,12 @@ def render_scene(scene: dict, timeline: dict, filter_library: dict,
             _run(cmd, f'scene {sid} filter:{entry["id"]}')
             current_path = next_path
 
+        elif entry['type'] == 'post_filter':
+            cmd = _render_post_filter(entry, current_path, next_path, tools)
+            print(f'  [scene {sid}] post_filter: {entry["id"]}')
+            _run(cmd, f'scene {sid} post_filter:{entry["id"]}')
+            current_path = next_path
+
     return current_path
 
 
@@ -231,6 +256,12 @@ def apply_post_chain(post_chain: list, input_path: str, audio_path: str,
             cplx = ' (complex)' if fentry.get('complex') else ''
             print(f'  [global] filter: {entry["id"]}{cplx}')
             _run(cmd, f'global filter:{entry["id"]}')
+            current_path = next_path
+
+        elif entry['type'] == 'post_filter':
+            cmd = _render_post_filter(entry, current_path, next_path, tools)
+            print(f'  [global] post_filter: {entry["id"]}')
+            _run(cmd, f'global post_filter:{entry["id"]}')
             current_path = next_path
 
     return current_path

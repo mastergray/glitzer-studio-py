@@ -1,0 +1,1 @@
+/home/mastergray/claude/glitzer-studio-app/apply_post_filters_loop.py

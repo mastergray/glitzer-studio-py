@@ -67,9 +67,15 @@ def create_skeleton(audio_path: str, scenes: list[dict]) -> dict:
     }
 
 
-def validate(timeline: dict, filter_library: dict) -> list[str]:
-    """Validate a populated timeline. Returns list of error strings (empty = valid)."""
+def validate(timeline: dict, filter_library: dict,
+             post_filter_registry: dict | None = None) -> list[str]:
+    """Validate a populated timeline. Returns list of error strings (empty = valid).
+
+    post_filter_registry: optional dict of {preset_id: preset} for post_filter
+    type entries. If omitted, post_filter entries are rejected.
+    """
     errors = []
+    post_filter_registry = post_filter_registry or {}
 
     if timeline.get('version') != SCHEMA_VERSION:
         errors.append(f'unsupported version: {timeline.get("version")}')
@@ -122,8 +128,11 @@ def validate(timeline: dict, filter_library: dict) -> list[str]:
             elif etype == 'filter':
                 if eid not in filter_library:
                     errors.append(f'scene {sid} post[{j}]: unknown filter: {eid!r}')
+            elif etype == 'post_filter':
+                if eid not in post_filter_registry:
+                    errors.append(f'scene {sid} post[{j}]: unknown post_filter: {eid!r}')
             else:
-                errors.append(f'scene {sid} post[{j}]: unknown type: {etype!r} (must be glitch or filter)')
+                errors.append(f'scene {sid} post[{j}]: unknown type: {etype!r} (must be glitch, filter, or post_filter)')
 
     # Validate global post chain.
     for j, entry in enumerate(timeline.get('post', [])):
@@ -135,6 +144,9 @@ def validate(timeline: dict, filter_library: dict) -> list[str]:
         elif etype == 'filter':
             if eid not in filter_library:
                 errors.append(f'global post[{j}]: unknown filter: {eid!r}')
+        elif etype == 'post_filter':
+            if eid not in post_filter_registry:
+                errors.append(f'global post[{j}]: unknown post_filter: {eid!r}')
         else:
             errors.append(f'global post[{j}]: unknown type: {etype!r}')
 
