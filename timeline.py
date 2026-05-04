@@ -46,7 +46,7 @@ def create_skeleton(audio_path: str, scenes: list[dict]) -> dict:
         'version': SCHEMA_VERSION,
         'audio': str(audio_path),
         'settings': {
-            'scale': 6,
+            'scale': 1,
             'fps': 60,
             'crf': 23,
             'seed': None,

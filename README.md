@@ -50,7 +50,7 @@ All scene IDs must have `video` populated or render will error.
   "version": 1,
   "audio": "/path/to/song.wav",
   "settings": {
-    "scale": 6,
+    "scale": 1,
     "fps": 60,
     "crf": 23,
     "seed": null
@@ -121,7 +121,8 @@ All scene IDs must have `video` populated or render will error.
 - `version` — schema version (currently 1)
 - `audio` — path to the audio source (one file for the whole video)
 - `settings` — render settings for reproducibility
-  - `scale` — dazzle upscale factor (default 6 → 1920×1200)
+  - `scale` — dazzle upscale factor (skeleton default 1 → 320×200 preview;
+    bump to 6 for 1920×1200 production. Engine fallback if missing is 6.)
   - `fps` — frame rate (default 60)
   - `crf` — H.264 quality (default 23)
   - `seed` — RNG seed (null = random per run)
