@@ -470,6 +470,8 @@ GPF.loadPresets(destructivePresetsJson);
         renderExportThumbnails();
       });
       sceneTabsEl.appendChild(exportTab);
+      if (typeof copyBtn !== "undefined" && copyBtn) sceneTabsEl.appendChild(copyBtn);
+      if (typeof pasteBtn !== "undefined" && pasteBtn) sceneTabsEl.appendChild(pasteBtn);
       if (typeof undoBtn !== "undefined" && undoBtn) sceneTabsEl.appendChild(undoBtn);
       if (typeof redoBtn !== "undefined" && redoBtn) sceneTabsEl.appendChild(redoBtn);
     }
@@ -5138,6 +5140,19 @@ GPF.loadPresets(destructivePresetsJson);
   // Undo/Redo live in the scene-tab strip (right after the Export tab) so
   // they're visible regardless of which scene/tab is active. We create them
   // once here; refreshSceneUi() re-appends them after rebuilding the tabs.
+  // Scene clipboard — copies the visual/post settings of one scene so they can
+  // be pasted onto another. Page-scoped (lost on refresh). Excludes scene id,
+  // name, label, and start/end_sec — those are per-scene identity, not settings.
+  let sceneClipboard = null;
+  const copyBtn = document.createElement("button");
+  copyBtn.type = "button";
+  copyBtn.className = "tab";
+  copyBtn.textContent = "Copy";
+  const pasteBtn = document.createElement("button");
+  pasteBtn.type = "button";
+  pasteBtn.className = "tab";
+  pasteBtn.textContent = "Paste";
+  pasteBtn.disabled = true;
   const undoBtn = document.createElement("button");
   undoBtn.type = "button";
   undoBtn.className = "tab";
@@ -5219,6 +5234,47 @@ GPF.loadPresets(destructivePresetsJson);
         restoreSnapshot(historyStack[historyIndex]);
         refreshStatus("Redo");
       }
+    });
+  }
+  // ---------- Scene Copy / Paste ----------
+  // Capture only the settings the user can mutate on a scene — not identity
+  // (id, name, label, timing). Deep-cloned so future edits don't bleed in.
+  function captureSceneSettings(scene) {
+    if (!scene) return null;
+    return {
+      palette: scene.palette,
+      visualStack: [...(scene.visualStack || [])],
+      effectStack: [...(scene.effectStack || [])],
+      effectParams: scene.effectParams ? JSON.parse(JSON.stringify(scene.effectParams)) : {},
+      postEffectStack: (scene.postEffectStack || []).map((p) => ({
+        ...p,
+        params: JSON.parse(JSON.stringify(p.params || {})),
+        accumulate: JSON.parse(JSON.stringify(p.accumulate || { enabled: false, bleed: 0.08, reset_sec: 2.0 })),
+        _state: { acc: null, startFrame: 0 }
+      })),
+      postFilterStack: (scene.postFilterStack || []).map((f) => ({ ...f }))
+    };
+  }
+  if (copyBtn) {
+    copyBtn.addEventListener("click", () => {
+      syncSceneFromCurrentState();
+      const src = scenes[activeSceneIndex];
+      sceneClipboard = captureSceneSettings(src);
+      pasteBtn.disabled = !sceneClipboard;
+      refreshStatus(`Copied ${src && src.name ? src.name : "scene"}`);
+    });
+  }
+  if (pasteBtn) {
+    pasteBtn.addEventListener("click", () => {
+      if (!sceneClipboard) return;
+      const dst = scenes[activeSceneIndex];
+      if (!dst) return;
+      const next = captureSceneSettings(sceneClipboard); // clone-on-paste
+      Object.assign(dst, next);
+      // Re-load the active scene so the workspace UI re-renders with the new
+      // values; the debounced click listener will snapshot for undo.
+      loadSceneIntoCurrentState(dst);
+      refreshStatus(`Pasted into ${dst.name || "scene"}`);
     });
   }
   // Snapshot on any user interaction (debounced) to avoid wiring every handler.
