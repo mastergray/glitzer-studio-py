@@ -231,8 +231,13 @@ Unknown names produce clear error messages before any rendering starts.
 ### analyze
 
 ```
-python3 studio.py analyze AUDIO [-o OUTPUT]
+python3 studio.py analyze AUDIO [-o OUTPUT] [--max-scene-sec N]
 ```
+
+`--max-scene-sec` caps scene length: any scene longer than N seconds is
+bisected into equal parts so the skeleton doesn't get dominated by one
+acoustically-uniform passage. The analyzer's own boundaries are always
+preserved; this only adds splits, never merges. Off by default.
 
 ### render
 

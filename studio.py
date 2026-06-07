@@ -11,6 +11,7 @@ from __future__ import annotations
 import argparse
 import concurrent.futures
 import json
+import math
 import os
 import subprocess
 import sys
@@ -112,6 +113,34 @@ def cmd_analyze(args):
     if not sections:
         sections = [{'start_sec': 0.0, 'end_sec': duration, 'label': 'full',
                      'beats': 0, 'downbeats': 0}]
+
+    # Optional cap: any scene longer than N seconds gets bisected into ⌈d/N⌉
+    # equal parts so the skeleton isn't dominated by one acoustically-uniform
+    # passage. Label is inherited; beats/downbeats split proportionally.
+    if args.max_scene_sec and args.max_scene_sec > 0:
+        capped = []
+        for s in sections:
+            d = s['end_sec'] - s['start_sec']
+            if d <= args.max_scene_sec:
+                capped.append(s)
+                continue
+            n = math.ceil(d / args.max_scene_sec)
+            step = d / n
+            beats_each = s['beats'] // n
+            beats_rem = s['beats'] - beats_each * n
+            db_each = s['downbeats'] // n
+            db_rem = s['downbeats'] - db_each * n
+            for i in range(n):
+                start = s['start_sec'] + i * step
+                end = s['start_sec'] + (i + 1) * step if i < n - 1 else s['end_sec']
+                capped.append({
+                    'start_sec': round(start, 3),
+                    'end_sec': round(end, 3),
+                    'label': s['label'],
+                    'beats': beats_each + (1 if i < beats_rem else 0),
+                    'downbeats': db_each + (1 if i < db_rem else 0),
+                })
+        sections = capped
 
     skeleton = create_skeleton(audio, sections)
     out_path = args.output or os.path.splitext(os.path.basename(audio))[0] + '.timeline.json'
@@ -252,6 +281,11 @@ def main():
     a = sub.add_parser('analyze', help='Analyze audio → timeline skeleton')
     a.add_argument('audio', help='input audio (WAV)')
     a.add_argument('--output', '-o', help='output timeline JSON path')
+    a.add_argument('--max-scene-sec', type=float, default=None,
+                   help='cap scene length: any scene longer than N seconds is '
+                        'bisected into equal parts so the skeleton has more '
+                        'visual variety. Original analyzer boundaries are '
+                        'preserved; this only adds splits, never merges.')
 
     # --- render ---
     r = sub.add_parser('render', help='Render populated timeline → final video')
