@@ -45,6 +45,8 @@ main {
 }
 .tab.active { border-color: #7fb0ff; background: #15335a; }
 .muted { color: var(--muted); margin: 0; font-size: 12px; }
+#loadedTimelineName,
+#backgroundPreviewName { margin: 1em 0; }
 .control-group {
   border: 1px solid #253752;
   border-radius: 10px;

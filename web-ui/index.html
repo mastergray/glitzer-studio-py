@@ -16,6 +16,10 @@
             <label>Timeline JSON
               <input id="timelineFile" type="file" accept=".json,application/json" />
             </label>
+            <label style="flex:2; min-width:260px;">Background preview base
+              <input id="backgroundPreviewBaseDir" type="text"
+                placeholder="/absolute/path/to/background/images" />
+            </label>
             <button id="importTimeline" type="button">Import Timeline</button>
           </div>
         </div>
@@ -143,7 +147,7 @@
           <div class="row" style="gap:8px;">
             <label style="flex:1;">
               <span>scale</span>
-              <input id="settingScale" type="number" min="1" max="8" step="1" placeholder="1" />
+              <input id="settingScale" type="number" min="1" max="8" step="1" placeholder="6" />
             </label>
             <label style="flex:1;">
               <span>fps</span>

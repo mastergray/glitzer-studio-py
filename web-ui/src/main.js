@@ -29,6 +29,7 @@ GPF.loadPresets(destructivePresetsJson);
   const clearEffectStackBtn = document.getElementById("clearEffectStack");
   const effectStackEl = document.getElementById("effectStack");
   const backgroundImagePathInput = document.getElementById("backgroundImagePath");
+  const backgroundPreviewBaseDirInput = document.getElementById("backgroundPreviewBaseDir");
   const backgroundPreviewFileInput = document.getElementById("backgroundPreviewFile");
   const backgroundPreviewNameEl = document.getElementById("backgroundPreviewName");
   const backgroundFitSelect = document.getElementById("backgroundFit");
@@ -96,6 +97,7 @@ GPF.loadPresets(destructivePresetsJson);
   bgCanvas.width = LOW_W;
   bgCanvas.height = LOW_H;
   const bgCtx = bgCanvas.getContext("2d");
+  const BACKGROUND_PREVIEW_BASE_STORAGE_KEY = "glitzleStudio.backgroundPreviewBaseDir";
 
   const VISUAL_FAMILY = {
     atom: "dot", bars: "grid", boxes: "grid", curves: "spiral",
@@ -152,6 +154,7 @@ GPF.loadPresets(destructivePresetsJson);
   let importedTimeline = null;
   let importedTimelineSourceName = "";
   let importedTimelineName = "scene-ui.timeline.staged.json";
+  let backgroundPreviewBaseDir = loadBackgroundPreviewBaseDir();
 
   const EFFECTS = {
     "__none__": "None",
@@ -427,6 +430,19 @@ GPF.loadPresets(destructivePresetsJson);
   function cloneBackgroundConfig(bg) {
     return makeBackgroundConfig(bg || {});
   }
+  function backgroundConfigFromVisuals(visualsObj) {
+    if (!visualsObj || typeof visualsObj !== "object") return makeBackgroundConfig();
+    if (visualsObj.background && typeof visualsObj.background === "object") {
+      return makeBackgroundConfig(visualsObj.background);
+    }
+    if (typeof visualsObj.background === "string") {
+      return makeBackgroundConfig({ image: visualsObj.background });
+    }
+    if (typeof visualsObj.background_image === "string") {
+      return makeBackgroundConfig({ image: visualsObj.background_image });
+    }
+    return makeBackgroundConfig();
+  }
   function hasBackgroundRenderConfig(bg) {
     return !!(bg && typeof bg.image === "string" && bg.image.trim());
   }
@@ -435,6 +451,75 @@ GPF.loadPresets(destructivePresetsJson);
     const next = cloneBackgroundConfig(bg);
     next.image = next.image.trim();
     return next;
+  }
+  function loadBackgroundPreviewBaseDir() {
+    try {
+      return String(window.localStorage.getItem(BACKGROUND_PREVIEW_BASE_STORAGE_KEY) || "").trim();
+    } catch (err) {
+      return "";
+    }
+  }
+  function saveBackgroundPreviewBaseDir(path) {
+    try {
+      if (path) window.localStorage.setItem(BACKGROUND_PREVIEW_BASE_STORAGE_KEY, path);
+      else window.localStorage.removeItem(BACKGROUND_PREVIEW_BASE_STORAGE_KEY);
+    } catch (err) {
+      // localStorage can be unavailable in some embedded/private contexts.
+    }
+  }
+  function backgroundPreviewFilename(imagePath) {
+    const raw = String(imagePath || "").trim();
+    if (!raw) return "";
+    const normalized = raw.replace(/\\/g, "/");
+    const parts = normalized.split("/").filter(Boolean);
+    return parts.length ? parts[parts.length - 1] : normalized;
+  }
+  function joinPreviewBaseAndFilename(baseDir, filename) {
+    const base = String(baseDir || "").trim().replace(/\/+$/g, "");
+    const file = String(filename || "").trim().replace(/^\/+/g, "");
+    if (!base || !file) return "";
+    return `${base}/${file}`;
+  }
+  function maybeFillBackgroundRenderPathFromPreview(filename) {
+    if (!backgroundImagePathInput || String(backgroundImagePathInput.value || "").trim()) return false;
+    const path = joinPreviewBaseAndFilename(backgroundPreviewBaseDir, filename);
+    if (!path) return false;
+    backgroundImagePathInput.value = path;
+    syncBackgroundFromControls();
+    return true;
+  }
+  function viteFsUrl(absPath) {
+    const path = String(absPath || "").trim();
+    if (!path) return "";
+    if (/^(https?:|blob:|data:)/i.test(path)) return path;
+    if (!path.startsWith("/")) return "";
+    return `/@fs${path.split("/").map((part) => encodeURIComponent(part)).join("/")}`;
+  }
+  function setBackgroundPreviewForScene(sceneId, image, url, name, revokeUrl) {
+    if (!sceneId || !image) return;
+    const prev = backgroundPreviewBySceneId.get(sceneId);
+    if (prev && prev.revokeUrl && prev.url) URL.revokeObjectURL(prev.url);
+    backgroundPreviewBySceneId.set(sceneId, { image, url, name, revokeUrl: !!revokeUrl });
+    if (sceneId === activeScenePreviewKey()) refreshBackgroundPreviewName();
+  }
+  function loadBackgroundPreviewFromBase(scene, bg) {
+    if (!scene || !backgroundPreviewBaseDir) return;
+    const filename = backgroundPreviewFilename(bg && bg.image);
+    const absPath = joinPreviewBaseAndFilename(backgroundPreviewBaseDir, filename);
+    const src = viteFsUrl(absPath);
+    if (!src) return;
+    const img = new Image();
+    img.onload = () => {
+      setBackgroundPreviewForScene(scene.id, img, src, filename, false);
+    };
+    img.onerror = () => {
+      if (scene.id === activeScenePreviewKey()) refreshBackgroundPreviewName();
+    };
+    img.src = src;
+  }
+  function reloadBackgroundPreviewsFromBase() {
+    clearAllBackgroundPreviews();
+    scenes.forEach((scene) => loadBackgroundPreviewFromBase(scene, scene.background));
   }
   function refreshBackgroundControls() {
     if (backgroundImagePathInput) backgroundImagePathInput.value = backgroundConfig.image || "";
@@ -466,14 +551,14 @@ GPF.loadPresets(destructivePresetsJson);
     const key = activeScenePreviewKey();
     if (!key) return;
     const ref = backgroundPreviewBySceneId.get(key);
-    if (ref && ref.url) URL.revokeObjectURL(ref.url);
+    if (ref && ref.revokeUrl && ref.url) URL.revokeObjectURL(ref.url);
     backgroundPreviewBySceneId.delete(key);
     if (backgroundPreviewFileInput) backgroundPreviewFileInput.value = "";
     refreshBackgroundPreviewName();
   }
   function clearAllBackgroundPreviews() {
     backgroundPreviewBySceneId.forEach((ref) => {
-      if (ref && ref.url) URL.revokeObjectURL(ref.url);
+      if (ref && ref.revokeUrl && ref.url) URL.revokeObjectURL(ref.url);
     });
     backgroundPreviewBySceneId.clear();
     if (backgroundPreviewFileInput) backgroundPreviewFileInput.value = "";
@@ -674,8 +759,8 @@ GPF.loadPresets(destructivePresetsJson);
     else delete settings.profile;
     // Render settings: blank field = omit (engine falls back to its own default).
     // Seed is a special case — blank explicitly means "random per run" (null).
-    // Scale is a UI-side special case — blank means 1 (preview default), not the
-    // engine's default of 6, so opening the UI yields a fast preview render.
+    // Scale is a UI-side special case: blank still exports the project default
+    // explicitly so staged configs render at the intended final resolution.
     const setIntFromInput = (key, input, blankValue) => {
       if (!input) return;
       const raw = input.value.trim();
@@ -687,7 +772,7 @@ GPF.loadPresets(destructivePresetsJson);
       const n = Number(raw);
       if (Number.isFinite(n)) settings[key] = Math.trunc(n);
     };
-    setIntFromInput("scale", settingScaleInput, 1);
+    setIntFromInput("scale", settingScaleInput, 6);
     setIntFromInput("fps",   settingFpsInput);
     setIntFromInput("crf",   settingCrfInput);
     if (settingSeedInput) {
@@ -771,7 +856,7 @@ GPF.loadPresets(destructivePresetsJson);
     const imported = srcScenes.map((s, idx) => {
       const v = (s && typeof s.video === "object" && s.video) ? s.video : {};
       const visualsObj = (v.visuals && typeof v.visuals === "object") ? v.visuals : {};
-      const bgObj = (visualsObj.background && typeof visualsObj.background === "object") ? visualsObj.background : {};
+      const bgConfig = backgroundConfigFromVisuals(visualsObj);
       const vidVisuals = normalizeArray(visualsObj.effects);
       const mappedVisuals = vidVisuals.filter((id) => id in VISUALS);
       const visualIds = mappedVisuals.length ? mappedVisuals : [];
@@ -808,7 +893,7 @@ GPF.loadPresets(destructivePresetsJson);
         label: s && s.label != null ? String(s.label) : "",
         palette: PALETTE_IDS.includes(visualsObj.palette) ? visualsObj.palette : DEFAULT_PALETTE_ID,
         visualStack: visualIds,
-        background: cloneBackgroundConfig(bgObj),
+        background: bgConfig,
         effectStack: effectIds,
         effectParams: effectParamsForScene,
         postEffectStack: glitchEntries.map((e) => {
@@ -827,6 +912,7 @@ GPF.loadPresets(destructivePresetsJson);
       };
     });
     scenes = imported;
+    scenes.forEach((scene) => loadBackgroundPreviewFromBase(scene, scene.background));
     activeSceneIndex = 0;
     activeTab = "scene";
     if (importPanel) importPanel.style.display = "none";
@@ -846,8 +932,8 @@ GPF.loadPresets(destructivePresetsJson);
     populateSetting(settingFpsInput,   "fps");
     populateSetting(settingCrfInput,   "crf");
     populateSetting(settingSeedInput,  "seed");
-    refreshSceneUi();
     loadSceneIntoCurrentState(scenes[0]);
+    refreshSceneUi();
     refreshStatus(`Imported timeline with ${scenes.length} scenes.`);
   }
   function importTimelineFromFileInput() {
@@ -5109,15 +5195,34 @@ GPF.loadPresets(destructivePresetsJson);
       const img = new Image();
       img.onload = () => {
         const key = activeScenePreviewKey();
-        if (key) backgroundPreviewBySceneId.set(key, { image: img, url, name: f.name || "selected image" });
+        if (key) setBackgroundPreviewForScene(key, img, url, f.name || "selected image", true);
+        const filledPath = maybeFillBackgroundRenderPathFromPreview(f.name || "");
         refreshBackgroundPreviewName();
-        refreshStatus("Background preview loaded.");
+        refreshStatus(filledPath
+          ? "Background preview loaded and render path filled."
+          : "Background preview loaded.");
       };
       img.onerror = () => {
         URL.revokeObjectURL(url);
         refreshStatus("Background preview failed to load.");
       };
       img.src = url;
+    });
+  }
+  if (backgroundPreviewBaseDirInput) {
+    backgroundPreviewBaseDirInput.value = backgroundPreviewBaseDir;
+    backgroundPreviewBaseDirInput.addEventListener("input", () => {
+      backgroundPreviewBaseDir = String(backgroundPreviewBaseDirInput.value || "").trim();
+      saveBackgroundPreviewBaseDir(backgroundPreviewBaseDir);
+      refreshStatus("Background preview base updated.");
+    });
+    backgroundPreviewBaseDirInput.addEventListener("change", () => {
+      backgroundPreviewBaseDir = String(backgroundPreviewBaseDirInput.value || "").trim();
+      saveBackgroundPreviewBaseDir(backgroundPreviewBaseDir);
+      reloadBackgroundPreviewsFromBase();
+      refreshStatus(backgroundPreviewBaseDir
+        ? "Background previews reloaded from base."
+        : "Background preview base cleared.");
     });
   }
   if (clearBackgroundPreviewBtn) {
@@ -5337,7 +5442,7 @@ GPF.loadPresets(destructivePresetsJson);
       }
       const removed = scenes[activeSceneIndex];
       const ref = removed ? backgroundPreviewBySceneId.get(removed.id) : null;
-      if (ref && ref.url) URL.revokeObjectURL(ref.url);
+      if (ref && ref.revokeUrl && ref.url) URL.revokeObjectURL(ref.url);
       if (removed) backgroundPreviewBySceneId.delete(removed.id);
       scenes.splice(activeSceneIndex, 1);
       activeSceneIndex = Math.max(0, Math.min(activeSceneIndex, scenes.length - 1));
