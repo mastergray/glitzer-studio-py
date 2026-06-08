@@ -39,6 +39,12 @@ GLITCH_EFFECTS = {
     'warp', 'noise', 'clip_cut',
 }
 
+BACKGROUND_FITS = {'cover', 'contain', 'stretch', 'native'}
+BACKGROUND_ANCHORS = {
+    'center', 'top', 'bottom', 'left', 'right',
+    'top-left', 'top-right', 'bottom-left', 'bottom-right',
+}
+
 
 def create_skeleton(audio_path: str, scenes: list[dict]) -> dict:
     """Build an empty timeline from audio analysis scenes."""
@@ -117,6 +123,36 @@ def validate(timeline: dict, filter_library: dict,
             pal = visuals.get('palette')
             if pal and pal not in DAZZLE_PALETTES:
                 errors.append(f'scene {sid}: unknown palette: {pal!r}')
+
+            bg = visuals.get('background')
+            if bg is not None:
+                if not isinstance(bg, dict):
+                    errors.append(f'scene {sid}: video.visuals.background must be an object')
+                else:
+                    bg_image = bg.get('image')
+                    if bg_image:
+                        if not Path(bg_image).exists():
+                            errors.append(f'scene {sid}: background image not found: {bg_image}')
+                    else:
+                        errors.append(f'scene {sid}: background.image is required when background is set')
+
+                    fit = bg.get('fit')
+                    if fit and fit not in BACKGROUND_FITS:
+                        errors.append(f'scene {sid}: unknown background fit: {fit!r}')
+
+                    anchor = bg.get('anchor')
+                    if anchor and anchor not in BACKGROUND_ANCHORS:
+                        errors.append(f'scene {sid}: unknown background anchor: {anchor!r}')
+
+                    opacity = bg.get('opacity')
+                    if opacity is not None:
+                        try:
+                            opacity_f = float(opacity)
+                        except (TypeError, ValueError):
+                            errors.append(f'scene {sid}: background opacity must be a number')
+                        else:
+                            if not 0.0 <= opacity_f <= 1.0:
+                                errors.append(f'scene {sid}: background opacity must be between 0 and 1')
 
         # Validate post-processing chain.
         for j, entry in enumerate(video.get('post', [])):

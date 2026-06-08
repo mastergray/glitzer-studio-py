@@ -82,6 +82,13 @@ All scene IDs must have `video` populated or render will error.
   "downbeats": 8,
   "video": {
     "visuals": {
+      "background": {
+        "image": "/home/mastergray/images/background.png",
+        "fit": "cover",
+        "anchor": "center",
+        "opacity": 1.0,
+        "tile": false
+      },
       "effects": ["hexagon", "spiral", "boxes"],
       "post": [
         {"id": "mirror_quad"},
@@ -139,6 +146,17 @@ All scene IDs must have `video` populated or render will error.
 - `video` — visual instructions (null in skeleton, must be populated before render)
 
 **video.visuals** — what dazzle generates:
+- `background` — optional image drawn into Dazzle's native 320×200 buffer
+  before shape effects and Dazzle post effects. The image is palette-indexed
+  by luminance, so exact source colors are intentionally stylized.
+  - `image` — absolute path to the image used at render time
+  - `fit` — `cover`, `contain`, `stretch`, or `native` (default `cover`)
+  - `anchor` — placement for non-stretched images: `center`, `top`,
+    `bottom`, `left`, `right`, `top-left`, `top-right`, `bottom-left`,
+    or `bottom-right` (default `center`)
+  - `opacity` — blend amount from `0.0` to `1.0` (default `1.0`)
+  - `tile` — repeat the image across the buffer using native size capped
+    to 320×200 (default `false`)
 - `effects` — list of dazzle shape effect names
 - `post` — list of dazzle post-production effects, each with:
   - `id` — effect name (e.g. `"mirror_quad"`, `"kaleidoscope"`)

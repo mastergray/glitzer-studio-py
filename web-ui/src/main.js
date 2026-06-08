@@ -28,6 +28,14 @@ GPF.loadPresets(destructivePresetsJson);
   const addEffectLayerBtn = document.getElementById("addEffectLayer");
   const clearEffectStackBtn = document.getElementById("clearEffectStack");
   const effectStackEl = document.getElementById("effectStack");
+  const backgroundImagePathInput = document.getElementById("backgroundImagePath");
+  const backgroundPreviewFileInput = document.getElementById("backgroundPreviewFile");
+  const backgroundPreviewNameEl = document.getElementById("backgroundPreviewName");
+  const backgroundFitSelect = document.getElementById("backgroundFit");
+  const backgroundAnchorSelect = document.getElementById("backgroundAnchor");
+  const backgroundOpacityInput = document.getElementById("backgroundOpacity");
+  const backgroundTileInput = document.getElementById("backgroundTile");
+  const clearBackgroundPreviewBtn = document.getElementById("clearBackgroundPreview");
   const postEffectSelect = document.getElementById("postEffectSelect");
   const replacePostEffectStackBtn = document.getElementById("replacePostEffectStack");
   const addPostEffectLayerBtn = document.getElementById("addPostEffectLayer");
@@ -58,6 +66,7 @@ GPF.loadPresets(destructivePresetsJson);
   const importPanel = document.getElementById("importPanel");
   const workspacePanel = document.getElementById("workspacePanel");
   const sceneTabsEl = document.getElementById("sceneTabs");
+  const loadedTimelineNameEl = document.getElementById("loadedTimelineName");
   const activeSceneTitleEl = document.getElementById("activeSceneTitle");
   const activeSceneMetaEl = document.getElementById("activeSceneMeta");
   const exportPanel = document.getElementById("exportPanel");
@@ -83,6 +92,10 @@ GPF.loadPresets(destructivePresetsJson);
   lowImg.height = LOW_H;
   const lowCtx = lowImg.getContext("2d");
   const lowImageData = lowCtx.createImageData(LOW_W, LOW_H);
+  const bgCanvas = document.createElement("canvas");
+  bgCanvas.width = LOW_W;
+  bgCanvas.height = LOW_H;
+  const bgCtx = bgCanvas.getContext("2d");
 
   const VISUAL_FAMILY = {
     atom: "dot", bars: "grid", boxes: "grid", curves: "spiral",
@@ -112,6 +125,8 @@ GPF.loadPresets(destructivePresetsJson);
   let active = DEFAULT_VISUAL_ID;
   let activePalette = DEFAULT_PALETTE_ID;
   let visualStack = [];
+  let backgroundConfig = makeBackgroundConfig();
+  const backgroundPreviewBySceneId = new Map();
   let activeEffect = "__none__";
   let activePostEffect = "__none__";
   let activePostFilter = "__none__";
@@ -135,6 +150,7 @@ GPF.loadPresets(destructivePresetsJson);
   let exportThumbs = [];
   let exportThumbCursor = 0;
   let importedTimeline = null;
+  let importedTimelineSourceName = "";
   let importedTimelineName = "scene-ui.timeline.staged.json";
 
   const EFFECTS = {
@@ -396,12 +412,80 @@ GPF.loadPresets(destructivePresetsJson);
   function clonePostFilterStack(stack) {
     return (stack || []).map((f) => ({ id: f.id, label: f.label, category: f.category }));
   }
+  function makeBackgroundConfig(src = {}) {
+    return {
+      image: typeof src.image === "string" ? src.image : "",
+      fit: ["cover", "contain", "stretch", "native"].includes(src.fit) ? src.fit : "cover",
+      anchor: [
+        "center", "top", "bottom", "left", "right",
+        "top-left", "top-right", "bottom-left", "bottom-right"
+      ].includes(src.anchor) ? src.anchor : "center",
+      opacity: Number.isFinite(Number(src.opacity)) ? Math.max(0, Math.min(1, Number(src.opacity))) : 1,
+      tile: !!src.tile
+    };
+  }
+  function cloneBackgroundConfig(bg) {
+    return makeBackgroundConfig(bg || {});
+  }
+  function hasBackgroundRenderConfig(bg) {
+    return !!(bg && typeof bg.image === "string" && bg.image.trim());
+  }
+  function backgroundForExport(bg) {
+    if (!hasBackgroundRenderConfig(bg)) return null;
+    const next = cloneBackgroundConfig(bg);
+    next.image = next.image.trim();
+    return next;
+  }
+  function refreshBackgroundControls() {
+    if (backgroundImagePathInput) backgroundImagePathInput.value = backgroundConfig.image || "";
+    if (backgroundFitSelect) backgroundFitSelect.value = backgroundConfig.fit || "cover";
+    if (backgroundAnchorSelect) backgroundAnchorSelect.value = backgroundConfig.anchor || "center";
+    if (backgroundOpacityInput) backgroundOpacityInput.value = String(backgroundConfig.opacity ?? 1);
+    if (backgroundTileInput) backgroundTileInput.checked = !!backgroundConfig.tile;
+    if (backgroundPreviewFileInput) backgroundPreviewFileInput.value = "";
+    refreshBackgroundPreviewName();
+  }
+  function activeScenePreviewKey() {
+    const s = scenes[activeSceneIndex];
+    return s ? s.id : null;
+  }
+  function currentBackgroundPreviewImage() {
+    const key = activeScenePreviewKey();
+    const ref = key ? backgroundPreviewBySceneId.get(key) : null;
+    return ref ? ref.image : null;
+  }
+  function refreshBackgroundPreviewName() {
+    if (!backgroundPreviewNameEl) return;
+    const key = activeScenePreviewKey();
+    const ref = key ? backgroundPreviewBySceneId.get(key) : null;
+    backgroundPreviewNameEl.textContent = ref && ref.name
+      ? `Preview image: ${ref.name}`
+      : "No preview image selected";
+  }
+  function clearBackgroundPreviewForActiveScene() {
+    const key = activeScenePreviewKey();
+    if (!key) return;
+    const ref = backgroundPreviewBySceneId.get(key);
+    if (ref && ref.url) URL.revokeObjectURL(ref.url);
+    backgroundPreviewBySceneId.delete(key);
+    if (backgroundPreviewFileInput) backgroundPreviewFileInput.value = "";
+    refreshBackgroundPreviewName();
+  }
+  function clearAllBackgroundPreviews() {
+    backgroundPreviewBySceneId.forEach((ref) => {
+      if (ref && ref.url) URL.revokeObjectURL(ref.url);
+    });
+    backgroundPreviewBySceneId.clear();
+    if (backgroundPreviewFileInput) backgroundPreviewFileInput.value = "";
+    refreshBackgroundPreviewName();
+  }
   function makeScene(id, name) {
     return {
       id,
       name,
       palette: activePalette,
       visualStack: [...visualStack],
+      background: cloneBackgroundConfig(backgroundConfig),
       effectStack: [...effectStack],
       effectParams: JSON.parse(JSON.stringify(effectParams || {})),
       postEffectStack: postEffectStack.map(clonePostLayer),
@@ -413,6 +497,7 @@ GPF.loadPresets(destructivePresetsJson);
     const s = scenes[activeSceneIndex];
     s.palette = activePalette;
     s.visualStack = [...visualStack];
+    s.background = cloneBackgroundConfig(backgroundConfig);
     s.effectStack = [...effectStack];
     s.effectParams = JSON.parse(JSON.stringify(effectParams || {}));
     s.postEffectStack = postEffectStack.map(clonePostLayer);
@@ -421,6 +506,7 @@ GPF.loadPresets(destructivePresetsJson);
   function loadSceneIntoCurrentState(scene) {
     if (!scene) return;
     visualStack = [...(scene.visualStack || [])];
+    backgroundConfig = cloneBackgroundConfig(scene.background);
     activePalette = PALETTE_IDS.includes(scene.palette) ? scene.palette : DEFAULT_PALETTE_ID;
     effectStack = [...(scene.effectStack || [])];
     effectParams = scene.effectParams ? JSON.parse(JSON.stringify(scene.effectParams)) : {};
@@ -432,6 +518,7 @@ GPF.loadPresets(destructivePresetsJson);
     activePostFilter = postFilterStack[0] ? postFilterStack[0].id : "__none__";
     refreshVisualSelect();
     refreshPaletteSelect();
+    refreshBackgroundControls();
     renderVisualStackPills();
     refreshEffectSelect();
     renderEffectStackPills();
@@ -442,6 +529,11 @@ GPF.loadPresets(destructivePresetsJson);
     resetPortedStates();
   }
   function refreshSceneUi() {
+    if (loadedTimelineNameEl) {
+      loadedTimelineNameEl.textContent = importedTimelineSourceName
+        ? `Loaded JSON: ${importedTimelineSourceName} | Export: ${importedTimelineName}`
+        : `Export: ${importedTimelineName}`;
+    }
     if (sceneTabsEl) {
       sceneTabsEl.innerHTML = "";
       scenes.forEach((s, idx) => {
@@ -532,6 +624,7 @@ GPF.loadPresets(destructivePresetsJson);
     const prevActivePostFilter = activePostFilter;
     const prevPalette = activePalette;
     const prevVisualStack = [...visualStack];
+    const prevBackgroundConfig = cloneBackgroundConfig(backgroundConfig);
     const prevEffectStack = [...effectStack];
     const prevEffectParams = JSON.parse(JSON.stringify(effectParams || {}));
     const prevPostEffectStack = (postEffectStack || []).map(clonePostLayer);
@@ -556,12 +649,14 @@ GPF.loadPresets(destructivePresetsJson);
     activePostFilter = prevActivePostFilter;
     activePalette = prevPalette;
     visualStack = prevVisualStack;
+    backgroundConfig = prevBackgroundConfig;
     effectStack = prevEffectStack;
     effectParams = prevEffectParams;
     postEffectStack = prevPostEffectStack;
     postFilterStack = prevPostFilterStack;
     refreshVisualSelect();
     refreshPaletteSelect();
+    refreshBackgroundControls();
     renderVisualStackPills();
     refreshEffectSelect();
     renderEffectStackPills();
@@ -610,7 +705,7 @@ GPF.loadPresets(destructivePresetsJson);
       post: base.post ?? {},
       scenes: scenes.map((s, idx) => {
         const src = Array.isArray(base.scenes) ? base.scenes[idx] || {} : {};
-        return {
+        const outScene = {
           ...src,
           id: src.id ?? (idx + 1),
           start_sec: Number.isFinite(s.start_sec) ? s.start_sec : (src.start_sec ?? 0),
@@ -639,6 +734,9 @@ GPF.loadPresets(destructivePresetsJson);
             ]
           }
         };
+        const bg = backgroundForExport(s.background);
+        if (bg) outScene.video.visuals.background = bg;
+        return outScene;
       })
     };
     const txt = JSON.stringify(out, null, 2);
@@ -669,9 +767,11 @@ GPF.loadPresets(destructivePresetsJson);
       refreshStatus("Timeline import failed: no scenes[] found.");
       return;
     }
+    clearAllBackgroundPreviews();
     const imported = srcScenes.map((s, idx) => {
       const v = (s && typeof s.video === "object" && s.video) ? s.video : {};
       const visualsObj = (v.visuals && typeof v.visuals === "object") ? v.visuals : {};
+      const bgObj = (visualsObj.background && typeof visualsObj.background === "object") ? visualsObj.background : {};
       const vidVisuals = normalizeArray(visualsObj.effects);
       const mappedVisuals = vidVisuals.filter((id) => id in VISUALS);
       const visualIds = mappedVisuals.length ? mappedVisuals : [];
@@ -708,6 +808,7 @@ GPF.loadPresets(destructivePresetsJson);
         label: s && s.label != null ? String(s.label) : "",
         palette: PALETTE_IDS.includes(visualsObj.palette) ? visualsObj.palette : DEFAULT_PALETTE_ID,
         visualStack: visualIds,
+        background: cloneBackgroundConfig(bgObj),
         effectStack: effectIds,
         effectParams: effectParamsForScene,
         postEffectStack: glitchEntries.map((e) => {
@@ -760,6 +861,7 @@ GPF.loadPresets(destructivePresetsJson);
       try {
         const obj = JSON.parse(String(reader.result || "{}"));
         importedTimeline = obj;
+        importedTimelineSourceName = String(f.name || "scene-ui.timeline.json");
         importedTimelineName = String(f.name || "scene-ui.timeline.json").replace(/\.json$/i, "") + ".staged.json";
         importTimelineObject(obj);
       } catch (err) {
@@ -3178,6 +3280,50 @@ GPF.loadPresets(destructivePresetsJson);
     ctx.imageSmoothingEnabled = true;
   }
 
+  function anchorPoint(anchor, availW, availH) {
+    const parts = new Set(String(anchor || "center").split("-"));
+    const x = parts.has("left") ? 0 : (parts.has("right") ? availW : Math.floor(availW / 2));
+    const y = parts.has("top") ? 0 : (parts.has("bottom") ? availH : Math.floor(availH / 2));
+    return [x, y];
+  }
+  function fittedBackgroundSize(img, fit) {
+    const iw = img.naturalWidth || img.width;
+    const ih = img.naturalHeight || img.height;
+    if (!iw || !ih) return [LOW_W, LOW_H];
+    if (fit === "stretch") return [LOW_W, LOW_H];
+    let scale = 1;
+    if (fit === "native") scale = Math.min(1, LOW_W / iw, LOW_H / ih);
+    else if (fit === "contain") scale = Math.min(LOW_W / iw, LOW_H / ih);
+    else scale = Math.max(LOW_W / iw, LOW_H / ih);
+    return [Math.max(1, Math.round(iw * scale)), Math.max(1, Math.round(ih * scale))];
+  }
+  function drawBackgroundPreviewToLowBuf() {
+    const previewImage = currentBackgroundPreviewImage();
+    if (!previewImage) return;
+    bgCtx.clearRect(0, 0, LOW_W, LOW_H);
+    bgCtx.imageSmoothingEnabled = true;
+    if (backgroundConfig.tile) {
+      const [tw, th] = fittedBackgroundSize(previewImage, "native");
+      for (let y = 0; y < LOW_H; y += th) {
+        for (let x = 0; x < LOW_W; x += tw) {
+          bgCtx.drawImage(previewImage, x, y, tw, th);
+        }
+      }
+    } else {
+      const [dw, dh] = fittedBackgroundSize(previewImage, backgroundConfig.fit);
+      const [dx, dy] = anchorPoint(backgroundConfig.anchor, LOW_W - dw, LOW_H - dh);
+      bgCtx.drawImage(previewImage, dx, dy, dw, dh);
+    }
+    const data = bgCtx.getImageData(0, 0, LOW_W, LOW_H).data;
+    const opacity = Math.max(0, Math.min(1, Number(backgroundConfig.opacity ?? 1)));
+    for (let i = 0; i < lowBuf.length; i++) {
+      const o = i * 4;
+      const luma = Math.round(data[o] * 0.299 + data[o + 1] * 0.587 + data[o + 2] * 0.114);
+      if (opacity >= 1) lowBuf[i] = luma;
+      else if (opacity > 0) lowBuf[i] = Math.max(0, Math.min(255, Math.round(lowBuf[i] * (1 - opacity) + luma * opacity)));
+    }
+  }
+
   function drawSpiralFamily(seed) {
     // Base alignment to dazzle Spiral: Archimedean growth from center.
     ctx.fillStyle = "rgba(0,0,0,0.14)";
@@ -4914,6 +5060,72 @@ GPF.loadPresets(destructivePresetsJson);
       refreshStatus(`Palette set to ${activePalette}.`);
     });
   }
+  function syncBackgroundFromControls() {
+    backgroundConfig = makeBackgroundConfig({
+      image: backgroundImagePathInput ? backgroundImagePathInput.value.trim() : backgroundConfig.image,
+      fit: backgroundFitSelect ? backgroundFitSelect.value : backgroundConfig.fit,
+      anchor: backgroundAnchorSelect ? backgroundAnchorSelect.value : backgroundConfig.anchor,
+      opacity: backgroundOpacityInput ? backgroundOpacityInput.value : backgroundConfig.opacity,
+      tile: backgroundTileInput ? backgroundTileInput.checked : backgroundConfig.tile
+    });
+    syncSceneFromCurrentState();
+  }
+  if (backgroundImagePathInput) {
+    backgroundImagePathInput.addEventListener("input", () => {
+      syncBackgroundFromControls();
+      refreshStatus("Background render path updated.");
+    });
+  }
+  if (backgroundFitSelect) {
+    backgroundFitSelect.addEventListener("change", () => {
+      syncBackgroundFromControls();
+      refreshStatus("Background fit updated.");
+    });
+  }
+  if (backgroundAnchorSelect) {
+    backgroundAnchorSelect.addEventListener("change", () => {
+      syncBackgroundFromControls();
+      refreshStatus("Background anchor updated.");
+    });
+  }
+  if (backgroundOpacityInput) {
+    backgroundOpacityInput.addEventListener("input", () => {
+      syncBackgroundFromControls();
+      refreshStatus("Background opacity updated.");
+    });
+  }
+  if (backgroundTileInput) {
+    backgroundTileInput.addEventListener("change", () => {
+      syncBackgroundFromControls();
+      refreshStatus("Background tiling updated.");
+    });
+  }
+  if (backgroundPreviewFileInput) {
+    backgroundPreviewFileInput.addEventListener("change", () => {
+      const f = backgroundPreviewFileInput.files && backgroundPreviewFileInput.files[0];
+      if (!f) return;
+      clearBackgroundPreviewForActiveScene();
+      const url = URL.createObjectURL(f);
+      const img = new Image();
+      img.onload = () => {
+        const key = activeScenePreviewKey();
+        if (key) backgroundPreviewBySceneId.set(key, { image: img, url, name: f.name || "selected image" });
+        refreshBackgroundPreviewName();
+        refreshStatus("Background preview loaded.");
+      };
+      img.onerror = () => {
+        URL.revokeObjectURL(url);
+        refreshStatus("Background preview failed to load.");
+      };
+      img.src = url;
+    });
+  }
+  if (clearBackgroundPreviewBtn) {
+    clearBackgroundPreviewBtn.addEventListener("click", () => {
+      clearBackgroundPreviewForActiveScene();
+      refreshStatus("Background preview cleared.");
+    });
+  }
   if (replaceStackBtn) {
     replaceStackBtn.addEventListener("click", () => {
       visualStack = [active];
@@ -5104,6 +5316,7 @@ GPF.loadPresets(destructivePresetsJson);
         name,
         palette: PALETTE_IDS.includes(src.palette) ? src.palette : DEFAULT_PALETTE_ID,
         visualStack: [...(src.visualStack || [])],
+        background: cloneBackgroundConfig(src.background),
         effectStack: [...(src.effectStack || [])],
         effectParams: src.effectParams ? JSON.parse(JSON.stringify(src.effectParams)) : {},
         postEffectStack: (src.postEffectStack || []).map(clonePostLayer),
@@ -5122,6 +5335,10 @@ GPF.loadPresets(destructivePresetsJson);
         refreshStatus("At least one scene is required.");
         return;
       }
+      const removed = scenes[activeSceneIndex];
+      const ref = removed ? backgroundPreviewBySceneId.get(removed.id) : null;
+      if (ref && ref.url) URL.revokeObjectURL(ref.url);
+      if (removed) backgroundPreviewBySceneId.delete(removed.id);
       scenes.splice(activeSceneIndex, 1);
       activeSceneIndex = Math.max(0, Math.min(activeSceneIndex, scenes.length - 1));
       refreshSceneUi();
@@ -5174,6 +5391,7 @@ GPF.loadPresets(destructivePresetsJson);
       scenes,
       activeSceneIndex,
       activePalette,
+      importedTimelineSourceName,
       importedTimelineName
     });
   }
@@ -5200,6 +5418,7 @@ GPF.loadPresets(destructivePresetsJson);
     scenes = (obj.scenes || []).map((s) => ({
       ...s,
       visualStack: [...(s.visualStack || [])],
+      background: cloneBackgroundConfig(s.background),
       effectStack: [...(s.effectStack || [])],
       effectParams: s.effectParams ? JSON.parse(JSON.stringify(s.effectParams)) : {},
       postEffectStack: (s.postEffectStack || []).map((p) => ({
@@ -5211,6 +5430,7 @@ GPF.loadPresets(destructivePresetsJson);
       postFilterStack: (s.postFilterStack || []).map((f) => ({ ...f }))
     }));
     activeSceneIndex = Math.min(obj.activeSceneIndex || 0, scenes.length - 1);
+    if (obj.importedTimelineSourceName) importedTimelineSourceName = obj.importedTimelineSourceName;
     if (obj.importedTimelineName) importedTimelineName = obj.importedTimelineName;
     if (PALETTE_IDS.includes(obj.activePalette)) activePalette = obj.activePalette;
     refreshSceneUi();
@@ -5244,6 +5464,7 @@ GPF.loadPresets(destructivePresetsJson);
     return {
       palette: scene.palette,
       visualStack: [...(scene.visualStack || [])],
+      background: cloneBackgroundConfig(scene.background),
       effectStack: [...(scene.effectStack || [])],
       effectParams: scene.effectParams ? JSON.parse(JSON.stringify(scene.effectParams)) : {},
       postEffectStack: (scene.postEffectStack || []).map((p) => ({
@@ -5314,6 +5535,7 @@ GPF.loadPresets(destructivePresetsJson);
       frameN += 1;
     }
     if (!persist) lowBuf.fill(0);
+    drawBackgroundPreviewToLowBuf();
     const drawIds = getRenderableStack();
     for (let i = 0; i < drawIds.length; i++) drawVisualById(drawIds[i]);
     let postBuf = lowBuf;

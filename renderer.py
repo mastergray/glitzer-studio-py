@@ -26,7 +26,6 @@ def _render_dazzle(visuals: dict, scene_audio: str, out_path: str,
         'python3', os.path.join(tools['dazzle'], 'render.py'),
         scene_audio, out_path,
         '--mode', 'fixed',
-        '--effects', *visuals['effects'],
         '--scale', str(settings.get('scale', 6)),
         '--fps', str(settings.get('fps', 60)),
         '--crf', str(settings.get('crf', 23)),
@@ -34,9 +33,25 @@ def _render_dazzle(visuals: dict, scene_audio: str, out_path: str,
         '--ffprobe', tools['ffprobe'],
     ]
 
+    effects = visuals.get('effects', [])
+    if effects:
+        cmd.extend(['--effects', *effects])
+
     palette = visuals.get('palette')
     if palette:
         cmd.extend(['--palette', palette])
+
+    background = visuals.get('background')
+    if background and background.get('image'):
+        cmd.extend(['--background-image', background['image']])
+        if background.get('fit'):
+            cmd.extend(['--background-fit', background['fit']])
+        if background.get('anchor'):
+            cmd.extend(['--background-anchor', background['anchor']])
+        if background.get('opacity') is not None:
+            cmd.extend(['--background-opacity', str(background['opacity'])])
+        if background.get('tile'):
+            cmd.append('--background-tile')
 
     seed = settings.get('seed')
     if seed is not None:
